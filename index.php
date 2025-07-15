@@ -9,10 +9,143 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="img/icono.png" type="image/png">
     <style>
-        body { margin:0; font-family: Arial, sans-serif; background:#000; }
+        html { font-size: 15px; }
+
+
+    @font-face {
+        font-family: 'Montserrat';
+        src: url('fonts/Montserrat-Thin.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'Montserrat-ThinItalic';
+        src: url('fonts/Montserrat-ThinItalic.ttf') format('truetype');
+        font-weight: normal;
+        font-style: italic;
+    }
+    @font-face {
+        font-family: 'Montserrat-ExtraLight';
+        src: url('fonts/Montserrat-ExtraLight.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'Montserrat-ExtraLightItalic';
+        src: url('fonts/Montserrat-ExtraLightItalic.ttf') format('truetype');
+        font-weight: normal;
+        font-style: italic;
+    }
+    @font-face {
+        font-family: 'Montserrat-Light';
+        src: url('fonts/Montserrat-Light.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'Montserrat-LightItalic';
+        src: url('fonts/Montserrat-LightItalic.ttf') format('truetype');
+        font-weight: normal;
+        font-style: italic;
+    }
+    @font-face {
+        font-family: 'Montserrat-Regular';
+        src: url('fonts/Montserrat-Regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'Montserrat-Italic';
+        src: url('fonts/Montserrat-Italic.ttf') format('truetype');
+        font-weight: normal;
+        font-style: italic;
+    }
+    @font-face {
+        font-family: 'Montserrat';
+        src: url('fonts/Montserrat-Medium.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'Montserrat-MediumItalic';
+        src: url('fonts/Montserrat-MediumItalic.ttf') format('truetype');
+        font-weight: normal;
+        font-style: italic;
+    }
+    @font-face {
+        font-family: 'Montserrat-SemiBold';
+        src: url('fonts/Montserrat-SemiBold.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'Montserrat-SemiBoldItalic';
+        src: url('fonts/Montserrat-SemiBoldItalic.ttf') format('truetype');
+        font-weight: normal;
+        font-style: italic;
+    }
+    @font-face {
+        font-family: 'Montserrat-Bold';
+        src: url('fonts/Montserrat-Bold.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'Montserrat-BoldItalic';
+        src: url('fonts/Montserrat-BoldItalic.ttf') format('truetype');
+        font-weight: normal;
+        font-style: italic;
+    }
+    @font-face {
+        font-family: 'Montserrat-ExtraBold';
+        src: url('fonts/Montserrat-ExtraBold.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'Montserrat-ExtraBoldItalic';
+        src: url('fonts/Montserrat-ExtraBoldItalic.ttf') format('truetype');
+        font-weight: normal;
+        font-style: italic;
+    }
+    @font-face {
+        font-family: 'Montserrat-Black';
+        src: url('fonts/Montserrat-Black.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'Montserrat-BlackItalic';
+        src: url('fonts/Montserrat-BlackItalic.ttf') format('truetype');
+        font-weight: normal;
+        font-style: italic;
+    }
+
+        body { margin:0; font-family: 'Montserrat'; background:#000; }
         header { background: transparent; box-shadow: none; }
-        nav { display: flex; align-items: center; justify-content: center; gap: 2rem; padding: 2rem 0 1rem 0; }
-        .iconoimg { width: 70px; height: 48px; margin-right: 1.5rem; }
+        
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: clamp(1rem, 3vw, 2.5rem);
+            padding-top: clamp(0.5rem, 4vw, 3rem);
+            padding-bottom: clamp(0.5rem, 2vw, 0.2rem);
+            width: 85vw;
+            max-width: 85vw;
+            min-width: 18rem;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 0;
+            padding-right: 0;
+            font-family: 'Montserrat-ExtraBold';
+            
+        }
+        .iconoimg {
+            height: 3.5rem;
+            width: auto;
+            padding-bottom: 0.9rem;
+        }
         .nav-btns { display: flex; gap: 1.5rem; align-items: center; }
         .nav-btns a {
             text-decoration: none;
@@ -20,9 +153,9 @@
             color: #fff;
             font-weight: bold;
             font-size: 1.1rem;
-            border-radius: 20px;
+            border-radius: 1.25rem;
             padding: 0.5rem 1.5rem;
-            box-shadow: 0 2px 8px #0002;
+            box-shadow: 0 0.125rem 0.5rem #0002;
             transition: background 0.2s;
             display: flex;
             align-items: center;
@@ -30,23 +163,49 @@
         .nav-btns a:hover { background: #000080; }
         .nav-btns h3 { margin: 0; display: inline; }
         .nav-btns .circle {
-            width: 36px; height: 36px;
+            width: 2.25rem; height: 2.25rem;
             border-radius: 50%;
             background: #eee;
             display: flex; align-items: center; justify-content: center;
         }
-        .nav-btns img { width: 28px; height: 28px; border-radius: 50%; }
-        .paneles { display: flex; gap: 2rem; justify-content: center; margin: 2rem 0; }
+        .nav-btns img { width: 1.75rem; height: 1.75rem; border-radius: 50%; background: #000080}
+        .paneles {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+            width: 85vw;
+            max-width: 85vw;
+            min-width: 18rem;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: 'Montserrat';
+        }
         .panel {
-            flex:1; min-width: 300px; height: 180px; border-radius: 18px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            position: relative; color: #fff; font-weight: bold; font-size: 1.2rem;
+            flex:1;
+            min-width: 0;
+            height: 11.25rem;
+            border-radius: 0.4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2rem;
         }
         .panel1 { background: #001AAF; }
-        .panel2 { background: #000080; }
-        .panel img { max-width: 60px; max-height: 60px; margin-top: 1rem; }
-        .panel-text { text-align: center; font-size: 1.1rem; margin-bottom: 0.5rem; }
-        .carrusel-container { max-width: 1100px; margin: 2rem auto; }
+        .panel2 { background: #000080; display: flex; flex-direction: column; }
+        .panel img { max-width: 3.75rem; max-height: 3.75rem; margin-top: 1rem; }
+        .panel-text, .panel-text2 {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .panel-text2 { margin-right: 0; }
+        .carrusel-container { max-width: 68.75rem; margin: 2rem auto; }
         .carrusel-titulo {
             font-size: 1.2rem;
             color: #fff;
@@ -56,16 +215,51 @@
             letter-spacing: 1px;
             text-transform: uppercase;
         }
-        .carrusel { display: flex; overflow-x: auto; gap: 1.5rem; padding-bottom: 1rem; }
-        .libro { min-width: 140px; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px #0001; text-align: center; padding: 1rem 0.5rem; }
-        .libro img { width: 80px; height: 110px; object-fit: cover; border-radius: 6px; margin-bottom: 0.5rem; }
+        .carrusel {
+            display: flex;
+            overflow-x: auto;
+            gap: 1.5rem;
+            padding-bottom: 1rem;
+        }
+        .libro {
+            min-width: 8.75rem;
+            background: #fff;
+            border-radius: 0.625rem;
+            box-shadow: 0 0.125rem 0.5rem #0001;
+            text-align: center;
+            padding: 1rem 0.5rem;
+        }
+        .libro img {
+            width: 5rem;
+            height: 6.875rem;
+            object-fit: cover;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .panel1-img, .panel2-img {
+            width: rem;
+            height: auto;
+        }
+
         .libro-nombre { font-size: 1rem; color: #222; font-weight: bold; }
+        @media (max-width: 900px) {
+            .paneles {
+                flex-direction: column;
+                width: 90vw;
+                max-width: 90vw;
+            }
+            nav {
+                width: 90vw;
+                max-width: 90vw;
+            }
+            .panel { height: 10rem; }
+        }
         @media (max-width: 700px) {
-            .paneles { flex-direction: column; gap: 1rem; }
-            nav { flex-direction: column; gap: 1rem; }
+            nav { flex-direction: column; gap: 1rem; width: 98vw; max-width: 98vw; }
+            .paneles { width: 98vw; max-width: 98vw; }
         }
     </style>
-// ...existing code...
     <header>
         <nav>
             <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
@@ -84,11 +278,11 @@
         <div class="paneles">
             <div class="panel panel1">
                 <div class="panel-text">LIBROS AL ALCANCE DE TODOS</div>
-                <img src="img/panel1.png" alt="Panel 1">
+                <img src="img/panel1.png" alt="Panel 1" class="panel1-img">
             </div>
             <div class="panel panel2">
-                <img src="img/panel2.png" alt="Panel 2">
-                <div class="panel-text">PUBLICA O ADQUIERE TUS LIBROS HOY</div>
+                <img src="img/panel2.png" alt="Panel 2" class="panel2-img">
+                <div class="panel-text2">PUBLICA O ADQUIERE TUS LIBROS HOY</div>
             </div>
         </div>
 
@@ -117,5 +311,10 @@
             </div>
         </div>
     </main>
+
+    <footer>
+
+    </footer>
+
 </body>
 </html>
