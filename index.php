@@ -13,6 +13,19 @@
     <title>Leeya</title>
 </head>
 <body>
+
+    <header>
+
+        <nav>
+
+            <div class="icono">
+                <img src="img/icono.png" alt="Leeya icono">
+            </div>
+
+
+        </nav>
+
+    </header>
     
 </body>
 </html>
