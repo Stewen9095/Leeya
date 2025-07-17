@@ -11,19 +11,20 @@
     <style>
         html { font-size: 15px; }
 
-
     @font-face {
         font-family: 'Montserrat';
         src: url('fonts/Montserrat-Thin.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
+
     @font-face {
         font-family: 'Montserrat-ThinItalic';
         src: url('fonts/Montserrat-ThinItalic.ttf') format('truetype');
         font-weight: normal;
         font-style: italic;
     }
+
     @font-face {
         font-family: 'Montserrat-ExtraLight';
         src: url('fonts/Montserrat-ExtraLight.ttf') format('truetype');
@@ -36,84 +37,98 @@
         font-weight: normal;
         font-style: italic;
     }
+
     @font-face {
         font-family: 'Montserrat-Light';
         src: url('fonts/Montserrat-Light.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
+
     @font-face {
         font-family: 'Montserrat-LightItalic';
         src: url('fonts/Montserrat-LightItalic.ttf') format('truetype');
         font-weight: normal;
         font-style: italic;
     }
+
     @font-face {
         font-family: 'Montserrat-Regular';
         src: url('fonts/Montserrat-Regular.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
+
     @font-face {
         font-family: 'Montserrat-Italic';
         src: url('fonts/Montserrat-Italic.ttf') format('truetype');
         font-weight: normal;
         font-style: italic;
     }
+
     @font-face {
         font-family: 'Montserrat';
         src: url('fonts/Montserrat-Medium.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
+
     @font-face {
         font-family: 'Montserrat-MediumItalic';
         src: url('fonts/Montserrat-MediumItalic.ttf') format('truetype');
         font-weight: normal;
         font-style: italic;
     }
+
     @font-face {
         font-family: 'Montserrat-SemiBold';
         src: url('fonts/Montserrat-SemiBold.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
+    
     @font-face {
         font-family: 'Montserrat-SemiBoldItalic';
         src: url('fonts/Montserrat-SemiBoldItalic.ttf') format('truetype');
         font-weight: normal;
         font-style: italic;
     }
+
     @font-face {
         font-family: 'Montserrat-Bold';
         src: url('fonts/Montserrat-Bold.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
+
     @font-face {
         font-family: 'Montserrat-BoldItalic';
         src: url('fonts/Montserrat-BoldItalic.ttf') format('truetype');
         font-weight: normal;
         font-style: italic;
     }
+
     @font-face {
         font-family: 'Montserrat-ExtraBold';
         src: url('fonts/Montserrat-ExtraBold.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
+
     @font-face {
         font-family: 'Montserrat-ExtraBoldItalic';
         src: url('fonts/Montserrat-ExtraBoldItalic.ttf') format('truetype');
         font-weight: normal;
         font-style: italic;
     }
+
     @font-face {
         font-family: 'Montserrat-Black';
         src: url('fonts/Montserrat-Black.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
+
     @font-face {
         font-family: 'Montserrat-BlackItalic';
         src: url('fonts/Montserrat-BlackItalic.ttf') format('truetype');
@@ -138,7 +153,7 @@
             margin-right: auto;
             padding-left: 0;
             padding-right: 0;
-            font-family: 'Montserrat-ExtraBold';
+            font-family: 'Montserrat-Bold';
             
         }
         .iconoimg {
@@ -146,7 +161,7 @@
             width: auto;
             padding-bottom: 0.9rem;
         }
-        .nav-btns { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-btns { display: flex; gap: 0.8rem; align-items: center; }
         .nav-btns a {
             text-decoration: none;
             background: #001AAF;
@@ -154,7 +169,7 @@
             font-weight: bold;
             font-size: 1.1rem;
             border-radius: 1.25rem;
-            padding: 0.5rem 1.5rem;
+            padding: 0.2rem 1.2rem;
             box-shadow: 0 0.125rem 0.5rem #0002;
             transition: background 0.2s;
             display: flex;
@@ -238,7 +253,7 @@
         }
 
         .panel1-img, .panel2-img {
-            width: rem;
+            width: 1rem;
             height: auto;
         }
 
