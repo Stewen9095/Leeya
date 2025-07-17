@@ -11,157 +11,36 @@
     <style>
         html { font-size: 15px; }
 
-    @font-face {
-        font-family: 'Montserrat';
-        src: url('fonts/Montserrat-Thin.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-ThinItalic';
-        src: url('fonts/Montserrat-ThinItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-ExtraLight';
-        src: url('fonts/Montserrat-ExtraLight.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-    @font-face {
-        font-family: 'Montserrat-ExtraLightItalic';
-        src: url('fonts/Montserrat-ExtraLightItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-Light';
-        src: url('fonts/Montserrat-Light.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-LightItalic';
-        src: url('fonts/Montserrat-LightItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-Regular';
-        src: url('fonts/Montserrat-Regular.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-Italic';
-        src: url('fonts/Montserrat-Italic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat';
-        src: url('fonts/Montserrat-Medium.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-MediumItalic';
-        src: url('fonts/Montserrat-MediumItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-SemiBold';
-        src: url('fonts/Montserrat-SemiBold.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-    
-    @font-face {
-        font-family: 'Montserrat-SemiBoldItalic';
-        src: url('fonts/Montserrat-SemiBoldItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-Bold';
-        src: url('fonts/Montserrat-Bold.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-BoldItalic';
-        src: url('fonts/Montserrat-BoldItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-ExtraBold';
-        src: url('fonts/Montserrat-ExtraBold.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-ExtraBoldItalic';
-        src: url('fonts/Montserrat-ExtraBoldItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-Black';
-        src: url('fonts/Montserrat-Black.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-BlackItalic';
-        src: url('fonts/Montserrat-BlackItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
         body { margin:0; font-family: 'Montserrat'; background:#000; }
         header { background: transparent; box-shadow: none; }
         
         nav {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             gap: clamp(1rem, 3vw, 2.5rem);
-            padding-top: clamp(0.5rem, 4vw, 3rem);
-            padding-bottom: clamp(0.5rem, 2vw, 0.2rem);
-            width: 85vw;
-            max-width: 85vw;
+            width: 75vw;
+            max-width: 75vw;
             min-width: 18rem;
             margin-left: auto;
             margin-right: auto;
-            padding-left: 0;
-            padding-right: 0;
+            padding: 3.2rem 0rem 2.8rem 0rem;
             font-family: 'Montserrat-Bold';
-            
+            box-sizing: border-box;
         }
         .iconoimg {
             height: 3.5rem;
             width: auto;
             padding-bottom: 0.9rem;
         }
-        .nav-btns { display: flex; gap: 0.8rem; align-items: center; }
+        .nav-btns {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            background: #000080;
+            border-radius: 2rem;
+            padding: 0.3rem 0.5rem;
+        }
         .nav-btns a {
             text-decoration: none;
             background: #001AAF;
@@ -169,14 +48,14 @@
             font-weight: bold;
             font-size: 1.1rem;
             border-radius: 1.25rem;
-            padding: 0.2rem 1.2rem;
+            padding: 0.2rem 1rem;
             box-shadow: 0 0.125rem 0.5rem #0002;
             transition: background 0.2s;
             display: flex;
             align-items: center;
         }
         .nav-btns a:hover { background: #000080; }
-        .nav-btns h3 { margin: 0; display: inline; }
+        .nav-btns h3 { margin: 0; display: inline; font-size: 1.2rem;}
         .nav-btns .circle {
             width: 2.25rem; height: 2.25rem;
             border-radius: 50%;
@@ -184,42 +63,7 @@
             display: flex; align-items: center; justify-content: center;
         }
         .nav-btns img { width: 1.75rem; height: 1.75rem; border-radius: 50%; background: #000080}
-        .paneles {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            margin: 2rem 0;
-            width: 85vw;
-            max-width: 85vw;
-            min-width: 18rem;
-            margin-left: auto;
-            margin-right: auto;
-            font-family: 'Montserrat';
-        }
-        .panel {
-            flex:1;
-            min-width: 0;
-            height: 11.25rem;
-            border-radius: 0.4rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        .panel1 { background: #001AAF; }
-        .panel2 { background: #000080; display: flex; flex-direction: column; }
-        .panel img { max-width: 3.75rem; max-height: 3.75rem; margin-top: 1rem; }
-        .panel-text, .panel-text2 {
-            text-align: center;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-        .panel-text2 { margin-right: 0; }
+
         .carrusel-container { max-width: 68.75rem; margin: 2rem auto; }
         .carrusel-titulo {
             font-size: 1.2rem;
@@ -252,32 +96,22 @@
             margin-bottom: 0.5rem;
         }
 
-        .panel1-img, .panel2-img {
-            width: 1rem;
-            height: auto;
-        }
-
         .libro-nombre { font-size: 1rem; color: #222; font-weight: bold; }
         @media (max-width: 900px) {
-            .paneles {
-                flex-direction: column;
-                width: 90vw;
-                max-width: 90vw;
-            }
             nav {
                 width: 90vw;
                 max-width: 90vw;
             }
-            .panel { height: 10rem; }
         }
         @media (max-width: 700px) {
             nav { flex-direction: column; gap: 1rem; width: 98vw; max-width: 98vw; }
-            .paneles { width: 98vw; max-width: 98vw; }
         }
     </style>
     <header>
         <nav>
-            <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
+            <a href="index.php">
+                <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
+            </a>
             <div class="nav-btns">
                 <a href="#"><h3>EXPLORAR</h3></a>
                 <a href="#"><h3>+</h3></a>
@@ -290,15 +124,59 @@
     </header>
 
     <main>
-        <div class="paneles">
-            <div class="panel panel1">
-                <div class="panel-text">LIBROS AL ALCANCE DE TODOS</div>
-                <img src="img/panel1.png" alt="Panel 1" class="panel1-img">
+
+        <div class="panels">
+            <div class="panel1">
+                <p class="litle-text">LIBROS AL ALCANCE DE TODOS: PUBLICA O ADQUIERE TUS LIBROS FAVORITOS HOY DESDE LA COMODIDA DE TU HOGAR</p>
             </div>
-            <div class="panel panel2">
-                <img src="img/panel2.png" alt="Panel 2" class="panel2-img">
-                <div class="panel-text2">PUBLICA O ADQUIERE TUS LIBROS HOY</div>
+            <div class ="panel2">
+                <img src="img/libros.png" alt="Libros">
             </div>
+        </div>
+        
+        <style>
+            .panels{
+                display: flex;
+                align-items: center;
+                gap: 3rem;
+                width: 82vw;
+                min-width: 18rem;
+                max-width: 82vw;
+                margin: 0 auto;
+                height: auto;
+            }
+
+            .panel1 {
+                width: 58%;
+                display: 1;
+                color: #ffffffff;
+                text-align: justify;
+                font-size: 1.8rem;
+                font-family: 'Montserrat-Regular';
+            }
+
+            .panel2{
+                width: 42%;
+                display: 1;
+                text-align: center;
+                max-width: 50rem;
+            }
+
+            .panel2 img {
+                width: 88%;
+                height: auto;
+            }
+        </style>
+
+
+        <div class="panel-content">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Get any book with Leeya!</p>&mdash; readleeya (@readleeya) <a href="https://twitter.com/readleeya/status/1945965007847477482?ref_src=twsrc%5Etfw">July 17, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+            <video controls>
+                <source src="video/promo.mp4" type="video/mp4">
+                Tu navegador no soporta el elemento de video.
+            </video>
+
         </div>
 
         <div class="carrusel-container">
