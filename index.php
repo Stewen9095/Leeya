@@ -168,7 +168,26 @@
             }
         </style>
 
+        <img class="panel-separator" src="img/separador.png" alt="Separador">
 
+
+        <style>
+
+.panel-separator {
+    display: block;
+    width: 100vw;         /* Ocupa todo el ancho de la ventana */
+    max-width: 100vw;
+    min-width: 0;
+    height: 0.4rem;       /* Ajusta el alto a tu gusto */
+    margin: 1.5rem 0 1.5rem calc(50% - 50vw); /* Centra la imagen aunque el contenido esté centrado */
+    object-fit: cover;    /* Rellena el ancho sin deformar la imagen */
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+        </style>
+        
         <div class="panel-content">
             <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Get any book with Leeya!</p>&mdash; readleeya (@readleeya) <a href="https://twitter.com/readleeya/status/1945965007847477482?ref_src=twsrc%5Etfw">July 17, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
