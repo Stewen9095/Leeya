@@ -24,14 +24,14 @@
             min-width: 18rem;
             margin-left: auto;
             margin-right: auto;
-            padding: 3.2rem 0rem 2.8rem 0rem;
+            padding: 3rem 0rem 2.8rem 0rem;
             font-family: 'Montserrat-Bold';
             box-sizing: border-box;
         }
         .iconoimg {
             height: 3.5rem;
             width: auto;
-            padding-bottom: 0.9rem;
+            padding-bottom: 0.5rem;
         }
         .nav-btns {
             display: flex;
@@ -45,17 +45,16 @@
             text-decoration: none;
             background: #001AAF;
             color: #fff;
-            font-weight: bold;
             font-size: 1.1rem;
             border-radius: 1.25rem;
             padding: 0.2rem 1rem;
             box-shadow: 0 0.125rem 0.5rem #0002;
-            transition: background 0.2s;
+            transition: background 0.4s;
             display: flex;
             align-items: center;
         }
         .nav-btns a:hover { background: #000080; }
-        .nav-btns h3 { margin: 0; display: inline; font-size: 1.2rem;}
+        .nav-btns h3 { margin: 0; display: inline; font-size: 1rem;}
         .nav-btns .circle {
             width: 2.25rem; height: 2.25rem;
             border-radius: 50%;
@@ -127,7 +126,7 @@
 
         <div class="panels">
             <div class="panel1">
-                <p class="litle-text">LIBROS AL ALCANCE DE TODOS: PUBLICA O ADQUIERE TUS LIBROS FAVORITOS HOY DESDE LA COMODIDA DE TU HOGAR</p>
+                <p class="litle-text">LIBROS AL ALCANCE DE TODOS: PUBLICA O ADQUIERE TUS LIBROS FAVORITOS HOY DESDE LA COMODIDAD DE TU HOGAR</p>
             </div>
             <div class ="panel2">
                 <img src="img/libros.png" alt="Libros">
@@ -144,6 +143,7 @@
                 max-width: 82vw;
                 margin: 0 auto;
                 height: auto;
+                margin-top: -0.2rem;
             }
 
             .panel1 {
@@ -163,9 +163,15 @@
             }
 
             .panel2 img {
-                width: 88%;
+                width: 80%;
                 height: auto;
             }
+
+            .litle-text {
+                font-family: 'Montserrat-Regular';
+                margin: 0;
+            }
+
         </style>
 
         <img class="panel-separator" src="img/separador.png" alt="Separador">
@@ -173,18 +179,19 @@
 
         <style>
 
-.panel-separator {
-    display: block;
-    width: 100vw;         /* Ocupa todo el ancho de la ventana */
-    max-width: 100vw;
-    min-width: 0;
-    height: 0.4rem;       /* Ajusta el alto a tu gusto */
-    margin: 1.5rem 0 1.5rem calc(50% - 50vw); /* Centra la imagen aunque el contenido esté centrado */
-    object-fit: cover;    /* Rellena el ancho sin deformar la imagen */
-    background: none;
-    border: none;
-    padding: 0;
-}
+            .panel-separator {
+                padding-top: 1.6rem;
+                padding-bottom: 3rem;
+                display: block;
+                width: 100vw;
+                max-width: 100vw;
+                min-width: 0;
+                height: 1rem;
+                margin: 1.5rem 0 1.5rem calc(50% - 50vw);
+                object-fit: cover;
+                background: none;
+                border: none;
+            }
 
         </style>
         
@@ -197,6 +204,38 @@
             </video>
 
         </div>
+
+
+            <style>
+
+                .panel-content {
+                    display: flex;
+                    align-items: center;
+                    gap: 4.2rem;
+                    width: 80vw;
+                    max-width: 80vw;
+                    margin: 0 auto;
+                    overflow-x: auto;
+                    justify-content: center;
+                }
+
+                blockquote {
+                    font-size: 1.2rem;
+                    color: #fff;
+                    background-color: #000080;
+                    padding: 1rem;
+                    border-radius: 0.5rem;
+                    width: 10rem;
+                    max-width: 50rem;
+                }
+
+                video {
+                    width: 50rem;
+                    max-width: 50rem;
+                    border-radius: 0.5rem;
+                }
+
+            </style>        
 
         <div class="carrusel-container">
             <div class="carrusel-titulo">PUBLICACIONES RECIENTES</div>
