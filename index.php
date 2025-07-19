@@ -25,7 +25,7 @@
             margin-left: auto;
             margin-right: auto;
             padding: 2rem 0rem 2.8rem 0rem;
-            font-family: 'HovesMedium';
+            font-family: 'HovesExpandedBold';
             box-sizing: border-box;
         }
         .iconoimg {
@@ -54,7 +54,7 @@
             align-items: center;
         }
         .nav-btns a:hover { background: #000080; }
-        .nav-btns h3 { margin: 0; display: inline; font-size: 1rem;}
+        .nav-btns h3 { margin: 0; display: inline; font-size: 1.05rem;}
         .nav-btns .circle {
             width: 2.25rem; height: 2.25rem;
             border-radius: 50%;
@@ -63,15 +63,16 @@
         }
         .nav-btns img { width: 1.75rem; height: 1.75rem; border-radius: 50%; background: #000080}
 
-        .carrusel-container { max-width: 68.75rem; margin: 2rem auto; }
+        .carrusel-container { max-width: 68.75rem; margin: 2rem auto; padding-top: 5rem; padding-bottom: 5rem; }
         .carrusel-titulo {
-            font-size: 1.2rem;
+            font-size: 1.6rem;
             color: #fff;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
             text-align: center;
             font-weight: bold;
             letter-spacing: 1px;
             text-transform: uppercase;
+            font-family: 'HovesExpandedDemiBold';
         }
         .carrusel {
             display: flex;
@@ -165,30 +166,30 @@
             }
 
             .panel1 {
-                width: 35rem;
+                width: 28rem;
                 margin-right: -1rem;
                 margin-top: -0.5rem;
                 color: #ffffffff;
                 align-items: center;
                 text-align: justify;
-                font-size: 1.6rem;
+                font-size: 1.3rem;
             }
 
             .panel2{
                 align-items: center;
-                width: 40rem;
+                width: 30rem;
                 text-align: center;
                 max-width: 50rem;
                 margin: 0 auto;
             }
 
             .panel2 img {
-                width: 50%;
+                width: 60%;
                 height: auto;
             }
 
             .litle-text {
-                font-family: 'HovesBoldItalic';
+                font-family: 'HovesBold';
                 margin: 0;
             }
 
@@ -200,8 +201,7 @@
         <style>
 
             .panel-separator {
-                padding:0;
-                padding-bottom: 3rem;
+                padding-bottom: 4rem;
                 display: block;
                 width: 100vw;
                 max-width: 100vw;
@@ -240,12 +240,16 @@
 
                 blockquote {
                     font-size: 1.2rem;
-                    color: #fff;
-                    background-color: #000080;
                     padding: 1rem;
                     border-radius: 0.5rem;
                     width: 10rem;
                     max-width: 50rem;
+                }
+
+                .twitter-tweet{
+                    box-shadow: 0 5px 8px rgba(255, 255, 255, 0.11);
+                    width: 2rem;
+                    max-width: 50rem;                    
                 }
 
                 video {
@@ -255,11 +259,10 @@
                     height: auto;
                     width: 100%;
                     display: block;
+                    box-shadow: 0 5px 8px rgba(255, 255, 255, 0.11);
                 }
 
             </style>  
-            
-        <img class="panel-separator" src="img/separador.png" alt="Separador">
 
         <div class="carrusel-container">
             <div class="carrusel-titulo">PUBLICACIONES RECIENTES</div>
@@ -289,7 +292,27 @@
 
     <footer>
 
+        <p>&copy; 2025 Leeya. Todos los derechos reservados.</p>
+        <p>Desarrollado por Camilo</p>
+        <p><a href="">
+
+
     </footer>
+
+    <style>
+        footer {
+            background: #eeeeeeff;      
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            font-size: 1rem;
+            font-family: 'HovesExpandedBold';
+        }
+
+        footer p {
+            color: #000;
+        }
+    </style>
 
 </body>
 </html>
