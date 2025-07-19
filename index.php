@@ -24,8 +24,8 @@
             min-width: 18rem;
             margin-left: auto;
             margin-right: auto;
-            padding: 3rem 0rem 2.8rem 0rem;
-            font-family: 'Montserrat-Bold';
+            padding: 2rem 0rem 2.8rem 0rem;
+            font-family: 'HovesMedium';
             box-sizing: border-box;
         }
         .iconoimg {
@@ -125,11 +125,13 @@
     <main>
 
         <div class="panels">
-            <div class="panel1">
-                <p class="litle-text">LIBROS AL ALCANCE DE TODOS: PUBLICA O ADQUIERE TUS LIBROS FAVORITOS HOY DESDE LA COMODIDAD DE TU HOGAR</p>
-            </div>
-            <div class ="panel2">
-                <img src="img/libros.png" alt="Libros">
+            <div class="panel-interno">
+                <div class="panel1">
+                    <p class="litle-text">LIBROS AL ALCANCE DE TODOS: PUBLICA O ADQUIERE TUS LIBROS FAVORITOS HOY DESDE LA COMODIDAD DE TU HOGAR</p>
+                </div>
+                <div class ="panel2">
+                    <img src="img/libros.png" alt="Libros">
+                </div>
             </div>
         </div>
         
@@ -137,38 +139,56 @@
             .panels{
                 display: flex;
                 align-items: center;
-                gap: 3rem;
-                width: 82vw;
-                min-width: 18rem;
-                max-width: 82vw;
-                margin: 0 auto;
+                justify-content: center;
+                gap: 1rem;
+                width: 100vw;
+                max-width: 100vw;
                 height: auto;
-                margin-top: -0.2rem;
+                background: linear-gradient(to bottom,
+                #000000 0%,
+                #000000 45%,
+                #000080 90%,
+                #000080 100%);
+                padding-bottom: 3.5rem;
+                padding-top: 1rem;
+                margin: 0 auto;
+            }
+
+            .panel-interno{
+
+                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                max-width: 70vw;
+                height: auto;
             }
 
             .panel1 {
-                width: 58%;
-                display: 1;
+                width: 35rem;
+                margin-right: -1rem;
+                margin-top: -0.5rem;
                 color: #ffffffff;
+                align-items: center;
                 text-align: justify;
-                font-size: 1.8rem;
-                font-family: 'Montserrat-Regular';
+                font-size: 1.6rem;
             }
 
             .panel2{
-                width: 42%;
-                display: 1;
+                align-items: center;
+                width: 40rem;
                 text-align: center;
                 max-width: 50rem;
+                margin: 0 auto;
             }
 
             .panel2 img {
-                width: 80%;
+                width: 50%;
                 height: auto;
             }
 
             .litle-text {
-                font-family: 'Montserrat-Regular';
+                font-family: 'HovesBoldItalic';
                 margin: 0;
             }
 
@@ -180,14 +200,12 @@
         <style>
 
             .panel-separator {
-                padding-top: 1.6rem;
+                padding:0;
                 padding-bottom: 3rem;
                 display: block;
                 width: 100vw;
                 max-width: 100vw;
-                min-width: 0;
                 height: 1rem;
-                margin: 1.5rem 0 1.5rem calc(50% - 50vw);
                 object-fit: cover;
                 background: none;
                 border: none;
@@ -198,9 +216,9 @@
         <div class="panel-content">
             <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Get any book with Leeya!</p>&mdash; readleeya (@readleeya) <a href="https://twitter.com/readleeya/status/1945965007847477482?ref_src=twsrc%5Etfw">July 17, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-            <video controls>
-                <source src="video/promo.mp4" type="video/mp4">
-                Tu navegador no soporta el elemento de video.
+            <video autoplay muted loop playsinline preload="auto" poster="poster.jpg">
+                <source src="vid/udbiblio.mp4" type="video/mp4">
+                    Tu navegador no soporta el video HTML5.
             </video>
 
         </div>
@@ -211,12 +229,13 @@
                 .panel-content {
                     display: flex;
                     align-items: center;
-                    gap: 4.2rem;
+                    gap: 6rem;
                     width: 80vw;
                     max-width: 80vw;
                     margin: 0 auto;
                     overflow-x: auto;
                     justify-content: center;
+                    padding-bottom: 1rem;
                 }
 
                 blockquote {
@@ -230,12 +249,17 @@
                 }
 
                 video {
-                    width: 50rem;
-                    max-width: 50rem;
+                    width: 30rem;
+                    max-width: 30rem;
                     border-radius: 0.5rem;
+                    height: auto;
+                    width: 100%;
+                    display: block;
                 }
 
-            </style>        
+            </style>  
+            
+        <img class="panel-separator" src="img/separador.png" alt="Separador">
 
         <div class="carrusel-container">
             <div class="carrusel-titulo">PUBLICACIONES RECIENTES</div>

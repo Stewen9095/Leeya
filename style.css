@@ -2,129 +2,397 @@ html{
     font-size: 16px;
     line-height: 1.5;
     background-color: black;
+    font-family: 'HovesMedium';
 }
 
+/* Las fuentes utilizadas se pueden ver acá  https://www.dafont.com/es/tt-hoves-pro.font */
+
     @font-face {
-        font-family: 'Montserrat';
-        src: url('fonts/Montserrat-Thin.ttf') format('truetype');
+        font-family: 'Hoves Outline Trial Italic';
+        src: url('fonts/TT\ Hoves\ Pro\ Bold\ Outline\ Trial\ Italic.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
 
     @font-face {
-        font-family: 'Montserrat-ThinItalic';
-        src: url('fonts/Montserrat-ThinItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-ExtraLight';
-        src: url('fonts/Montserrat-ExtraLight.ttf') format('truetype');
+        font-family: 'HovesOutlineTrial';
+        src: url('fonts/TT\ Hoves\ Pro\ Bold\ Outline\ Trial.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
-    }
-    @font-face {
-        font-family: 'Montserrat-ExtraLightItalic';
-        src: url('fonts/Montserrat-ExtraLightItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
+    } 
 
     @font-face {
-        font-family: 'Montserrat-Light';
-        src: url('fonts/Montserrat-Light.ttf') format('truetype');
+        font-family: 'HovesBlackItalic';
+        src: url('fonts/TT\ Hoves\ Pro\ Trial\ Black\ Italic.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
 
     @font-face {
-        font-family: 'Montserrat-LightItalic';
-        src: url('fonts/Montserrat-LightItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-Regular';
-        src: url('fonts/Montserrat-Regular.ttf') format('truetype');
+        font-family: 'HovesBlack';
+        src: url('fonts/TT\ Hoves\ Pro\ Trial\ Black.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
 
     @font-face {
-        font-family: 'Montserrat-Italic';
-        src: url('fonts/Montserrat-Italic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat';
-        src: url('fonts/Montserrat-Medium.ttf') format('truetype');
+        font-family: 'HovesBoldItalic';
+        src: url('fonts/TT\ Hoves\ Pro\ Trial\ Bold\ Italic.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-MediumItalic';
-        src: url('fonts/Montserrat-MediumItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-SemiBold';
-        src: url('fonts/Montserrat-SemiBold.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
+    }  
     
     @font-face {
-        font-family: 'Montserrat-SemiBoldItalic';
-        src: url('fonts/Montserrat-SemiBoldItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-Bold';
-        src: url('fonts/Montserrat-Bold.ttf') format('truetype');
+        font-family: 'HovesBold';
+        src: url('fonts/TT\ Hoves\ Pro\ Trial\ Bold.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
 
     @font-face {
-        font-family: 'Montserrat-BoldItalic';
-        src: url('fonts/Montserrat-BoldItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
-
-    @font-face {
-        font-family: 'Montserrat-ExtraBold';
-        src: url('fonts/Montserrat-ExtraBold.ttf') format('truetype');
+        font-family: 'HovesCondensedBlackItalic';
+        src: url('fonts/TT\ Hoves\ Pro\ Trial\ Bold.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
     }
 
     @font-face {
-        font-family: 'Montserrat-ExtraBoldItalic';
-        src: url('fonts/Montserrat-ExtraBoldItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
+    font-family: 'HovesCondensedBlack';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Black.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedBoldItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Bold\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedBold';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedDemiBoldItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ DemiBold\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedDemiBold';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ DemiBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedExtraBoldItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ ExtraBold\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedExtraBold';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ ExtraBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedExtraLightItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ ExtraLight\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedExtraLight';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ ExtraLight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedHairlineItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Hairline\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedHairline';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Hairline.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedLightItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Light\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedLight';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedMediumItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Medium\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedMedium';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedRegular';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedThinItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Thin\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesCondensedThin';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Condensed\ Thin.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
-    @font-face {
-        font-family: 'Montserrat-Black';
-        src: url('fonts/Montserrat-Black.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
+@font-face {
+    font-family: 'HovesDemiBoldItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ DemiBold\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
-    @font-face {
-        font-family: 'Montserrat-BlackItalic';
-        src: url('fonts/Montserrat-BlackItalic.ttf') format('truetype');
-        font-weight: normal;
-        font-style: italic;
-    }
+@font-face {
+    font-family: 'HovesDemiBoldItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ DemiBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'HovesExpandedBlackItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Black\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedBlack';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Black.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedBoldItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Bold\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedBold';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedDemiBoldItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ DemiBold\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedDemiBold';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ DemiBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedExtraBoldItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ ExtraBold\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedExtraBold';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ ExtraBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedExtraLightItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ ExtraLight\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedExtraLight';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ ExtraLight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedHairlineItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Hairline\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedHairline';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Hairline.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedLightItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Light\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedLight';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedMediumItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Medium\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedMedium';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedRegular';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedThinItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Thin\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExpandedThin';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Expanded\ Thin.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'HovesExtraBoldItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ ExtraBold\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExtraBold';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ ExtraBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExtraLightItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ ExtraLight\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesExtraLight';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ ExtraLight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesHairlineItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Hairline\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesHairline';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Hairline.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesLightItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Light\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesLight';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesMediumItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Medium\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesMedium';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesRegular';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesThinItalic';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Thin\ Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesThin';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Thin.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HovesVariable';
+    src: url('fonts/TT\ Hoves\ Pro\ Trial\ Variable.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
