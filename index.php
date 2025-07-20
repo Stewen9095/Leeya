@@ -214,7 +214,9 @@
         </style>
         
         <div class="panel-content">
-            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Get any book with Leeya!</p>&mdash; readleeya (@readleeya) <a href="https://twitter.com/readleeya/status/1945965007847477482?ref_src=twsrc%5Etfw">July 17, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <div class="tweet-wrapper">
+                <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Get any book with Leeya!</p>&mdash; readleeya (@readleeya) <a href="https://twitter.com/readleeya/status/1945965007847477482?ref_src=twsrc%5Etfw">July 17, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
 
             <video autoplay muted loop playsinline preload="auto" poster="poster.jpg">
                 <source src="vid/udbiblio.mp4" type="video/mp4">
@@ -238,20 +240,20 @@
                     padding-bottom: 1rem;
                 }
 
-                blockquote {
-                    font-size: 1.2rem;
-                    padding: 1rem;
-                    border-radius: 0.5rem;
-                    width: 10rem;
-                    max-width: 50rem;
-                }
-
-                .twitter-tweet{
+                .tweet-wrapper {
+                    width: 30rem;
+                    height: auto;
                     box-shadow: 0 5px 8px rgba(255, 255, 255, 0.11);
-                    width: 2rem;
-                    max-width: 50rem;                    
+                    border-radius: 0.5rem;
+                    overflow: hidden;
+                    display: inline-block;
+                    vertical-align: top;
                 }
 
+                .twitter-tweet {
+                    margin: 0 !important;
+                }
+                
                 video {
                     width: 30rem;
                     max-width: 30rem;
