@@ -63,7 +63,7 @@
         }
         .nav-btns img { width: 1.75rem; height: 1.75rem; border-radius: 50%; background: #000080}
 
-        .carrusel-container { max-width: 68.75rem; margin: 2rem auto; padding-top: 5rem; padding-bottom: 5rem; }
+        .carrusel-container { max-width: 68.75rem; margin: 2rem auto; padding-top: 3.5rem; padding-bottom: 5rem; }
         .carrusel-titulo {
             font-size: 1.6rem;
             color: #fff;
