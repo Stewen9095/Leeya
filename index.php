@@ -253,7 +253,7 @@
                 .twitter-tweet {
                     margin: 0 !important;
                 }
-                
+
                 video {
                     width: 30rem;
                     max-width: 30rem;
@@ -295,7 +295,7 @@
     <footer>
 
         <p>&copy; 2025 Leeya. Todos los derechos reservados.</p>
-        <p>Desarrollado por Camilo</p>
+        <p>Un proyecto de la Universidad Distrital Francisco José de Caldas</p>
         <p><a href="">
 
 
