@@ -43,13 +43,13 @@
         }
         .nav-btns a {
             text-decoration: none;
-            background: #001AAF;
+            background: #001aafff;
             color: #fff;
             font-size: 1.1rem;
             border-radius: 1.25rem;
             padding: 0.2rem 1rem;
             box-shadow: 0 0.125rem 0.5rem #0002;
-            transition: background 0.4s;
+            transition: background 0.5s;
             display: flex;
             align-items: center;
         }
@@ -314,6 +314,101 @@
                 <?php endforeach; ?>
             </div>
         </div>
+
+        <div class="bookbox-container">
+
+            <div class="bookbox">
+
+                <div class="functionsbook">
+                    <button><img src="img/like.png" alt="Agrega este libro a tus favoritos"></button>
+                    <h3 class="statusbook">Estado</h3>
+                </div>
+
+                <div class="imagenbox">
+                    <img src="img/libropic.png" alt="Libro de la publicación reciente">
+                </div>
+
+                <div class="infolibro">    
+                    <h3 class="TituloLibro">Título del Libro</h3>
+                    <h4 class="PrecioLibro">$ Precio</h4>
+                    <button class="AdquirirLibro"><a href="#">Adquirir</a></button>
+                </div>    
+
+            </div>
+
+        </div>
+
+        <style> /* Estilo de los últimos libros publicados */
+            .bookbox-container {
+                display: flex;
+                justify-content: center;
+                padding: 2rem 0;
+            }
+
+            .bookbox {
+                background: #fff;
+                border-radius: 0.625rem;
+                box-shadow: 0 0.125rem 0.5rem #0001;
+                width: 20rem;
+                text-align: center;
+                padding: 1rem;
+            }
+
+            .functionsbook {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .functionsbook button {
+                background: none;
+                border: none;
+            }
+
+            .functionsbook img {
+                width: 1.5rem;
+            }
+
+            .statusbook {
+                font-size: 1rem;
+                color: #555;
+            }
+
+            .imagenbox img {
+                width: 100%;
+                height: auto;
+                border-radius: 0.375rem;
+            }
+
+            .infolibro {
+                margin-top: 1rem;
+            }
+
+            .TituloLibro {
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+
+            .PrecioLibro {
+                font-size: 1.1rem;
+                color: #888;
+            }
+
+            .AdquirirLibro a {
+                text-decoration: none;
+                color: #fff;
+                background-color: #000080;
+                padding: 0.5rem 1rem;
+                border-radius: 0.375rem;
+                transition: background 0.5s;
+            }
+
+            .AdquirirLibro a:hover {
+                background-color: #001aafff;
+            }
+
+        </style>
+
     </main>
 
     <footer>
