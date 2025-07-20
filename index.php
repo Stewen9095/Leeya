@@ -142,7 +142,7 @@
                 align-items: center;
                 justify-content: center;
                 gap: 1rem;
-                width: 100vw;
+                width: 100%;
                 max-width: 100vw;
                 height: auto;
                 background: linear-gradient(to bottom,
@@ -203,7 +203,7 @@
             .panel-separator {
                 padding-bottom: 4rem;
                 display: block;
-                width: 100vw;
+                width: 100%;
                 max-width: 100vw;
                 height: 1rem;
                 object-fit: cover;
@@ -264,6 +264,30 @@
                     box-shadow: 0 5px 8px rgba(255, 255, 255, 0.11);
                 }
 
+                .panel1footer {
+                    padding-top:2rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap:4em;
+                }
+
+                .panel1footer img{
+                    width: 7rem;
+                    height: auto;
+                }
+
+                .shortfooter {
+                    font-size: 1.2rem;
+                    font-family: 'HovesRegular';
+                }
+
+                .panelfooter2{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
             </style>  
 
         <div class="carrusel-container">
@@ -294,10 +318,26 @@
 
     <footer>
 
-        <p>&copy; 2025 Leeya. Todos los derechos reservados.</p>
-        <p>Un proyecto de la Universidad Distrital Francisco José de Caldas</p>
-        <p><a href="">
+        <div class="panel1footer">
 
+            <img src="img/icon.png" class="iconoimg" alt="Leeya icono">
+
+            <div class="panel1footertext">
+                <p class="shortfooter">Leeya: un espacio de acceso a la literatura y contenido bibliográfico dedicado a los estudiantes de la Universidad Distrital Francisco José de Caldas.</p>                
+            </div>
+
+        </div>
+
+        <div class="panel2footer">
+
+            <p>&copy; 2025 Leeya. Todos los derechos reservados.</p>
+            <p>Un proyecto de la Universidad Distrital Francisco José de Caldas</p>
+
+        </div>        
+
+
+
+                  
 
     </footer>
 
@@ -306,14 +346,20 @@
             background: #eeeeeeff;      
             color: #fff;
             text-align: center;
-            padding: 1rem 0;
+            padding: 1rem;
             font-size: 1rem;
             font-family: 'HovesExpandedBold';
+            padding-bottom: 3.5rem;
         }
 
         footer p {
             color: #000;
         }
+
+        .panel1footertext{
+            width: 50%;
+        }
+
     </style>
 
 </body>
