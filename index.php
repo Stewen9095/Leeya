@@ -359,7 +359,6 @@
                 color: #fff;
                 font-family: 'HovesExpandedDemiBold';
             }
-
         </style>
 
         <h2 class="carrusel-titulo">Últimos libros publicados</h2> <!-- Título del carrusel de libros recientes -->
@@ -384,12 +383,88 @@
                 </div>
 
                 <div class="infolibro"> <!-- Apartado de información del libro y acceder al mismo -->
-                    <h3 class="TituloLibro">Título del Libro</h3>
+                    <h3 class="TituloLibro">Libro hola 123asdf</h3>
                     <h4 class="PrecioLibro">$ Precio</h4>
                     <a class="AdquirirLibro"><a href="#">Adquirir</a>
                 </div>
 
             </div>
+
+            <div class="fullbook"> <!-- Apartado de libro completo -->
+
+                <div class="bookbox"> <!-- Apartado de imagen y de funciones (Like y estado) -->
+
+                    <div class="functionsbook"> <!-- Contenedor de like y estado del libro -->
+                        <button class="likebutton"><img src="img/like.png" class="likepic"
+                                alt="Agrega este libro a tus favoritos"></button>
+                        <h3 class="statusbook">Estado</h3>
+                        <!-- Estado: Referencia a Venta, Donación, Subasta o intercambio -->
+                    </div>
+
+                    <div class="imagenbox"> <!-- Imagen que cubre el libro -->
+                        <img src="img/like.png" alt="Libro de la publicación reciente">
+                    </div>
+
+                </div>
+
+                <div class="infolibro"> <!-- Apartado de información del libro y acceder al mismo -->
+                    <h3 class="TituloLibro">Libro hola 123asdf</h3>
+                    <h4 class="PrecioLibro">$ Precio</h4>
+                    <a class="AdquirirLibro"><a href="#">Adquirir</a>
+                </div>
+
+            </div>
+
+            <div class="fullbook"> <!-- Apartado de libro completo -->
+
+                <div class="bookbox"> <!-- Apartado de imagen y de funciones (Like y estado) -->
+
+                    <div class="functionsbook"> <!-- Contenedor de like y estado del libro -->
+                        <button class="likebutton"><img src="img/like.png" class="likepic"
+                                alt="Agrega este libro a tus favoritos"></button>
+                        <h3 class="statusbook">Estado</h3>
+                        <!-- Estado: Referencia a Venta, Donación, Subasta o intercambio -->
+                    </div>
+
+                    <div class="imagenbox"> <!-- Imagen que cubre el libro -->
+                        <img src="img/like.png" alt="Libro de la publicación reciente">
+                    </div>
+
+                </div>
+
+                <div class="infolibro"> <!-- Apartado de información del libro y acceder al mismo -->
+                    <h3 class="TituloLibro">Libro hola 123asdf</h3>
+                    <h4 class="PrecioLibro">$ Precio</h4>
+                    <a class="AdquirirLibro"><a href="#">Adquirir</a>
+                </div>
+
+            </div>
+
+            <div class="fullbook"> <!-- Apartado de libro completo -->
+
+                <div class="bookbox"> <!-- Apartado de imagen y de funciones (Like y estado) -->
+
+                    <div class="functionsbook"> <!-- Contenedor de like y estado del libro -->
+                        <button class="likebutton"><img src="img/like.png" class="likepic"
+                                alt="Agrega este libro a tus favoritos"></button>
+                        <h3 class="statusbook">Estado</h3>
+                        <!-- Estado: Referencia a Venta, Donación, Subasta o intercambio -->
+                    </div>
+
+                    <div class="imagenbox"> <!-- Imagen que cubre el libro -->
+                        <img src="img/like.png" alt="Libro de la publicación reciente">
+                    </div>
+
+                </div>
+
+                <div class="infolibro"> <!-- Apartado de información del libro y acceder al mismo -->
+                    <h3 class="TituloLibro">Libro hola 123asdf</h3>
+                    <h4 class="PrecioLibro">$ Precio</h4>
+                    <a class="AdquirirLibro"><a href="#">Adquirir</a>
+                </div>
+
+            </div>
+            
 
         </div>
 
@@ -400,23 +475,25 @@
                 justify-content: center;
                 gap: 3rem;
                 align-items: center;
-                padding-top: 3rem;
+                padding-top: 1.5rem;
                 padding-bottom: 6rem;
                 width: 100%;
                 max-width: 100vw;
+                flex-wrap: wrap;
+            }
 
+            .PrecioLibro {
+                text-align: start;
+                align-self: start;
             }
 
             .fullbook {
+                align-items: stretch;
+                flex-direction: column;
                 border-radius: 0.625rem;
+                flex: 1 1 24%;
                 box-shadow: 0 4px 8px rgba(255, 255, 255, 0.25);
-                max-width: 80vw;
-                min-width: 25vw;
-                width: 25vw;
-                height: 20vw;
-                max-height: 20vw;
-                min-height: 20vw;
-                gap: 5%;
+                max-width: 24%;
                 text-align: center;
                 overflow: hidden;
                 display: flex;
@@ -424,7 +501,8 @@
             }
 
             .bookbox {
-                height: 70%;
+                aspect-ratio: 1 / 1;
+                /* cuadrado */
                 width: 100%;
                 border-radius: 0.625rem;
                 max-width: 100%;
@@ -442,21 +520,24 @@
                 height: 100%;
                 width: 100%;
                 object-fit: cover;
-                display: block;
             }
 
-
-
-
-
-
-
-
+            .infolibro {
+                text-align: left;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
 
             .functionsbook {
+                position: absolute;
+                top: 0.5rem;
+                left: 0.5rem;
                 display: flex;
-                justify-content: space-between;
+                flex-direction: row;
                 align-items: center;
+                justify-content: space-between;
+                width: 90%;
             }
 
             .functionsbook button {
@@ -473,25 +554,24 @@
                 color: #555;
             }
 
-            .imagenbox img {
-                width: 100%;
-                height: auto;
-                border-radius: 0.375rem;
-            }
-
-            .infolibro {
-                margin-top: 1rem;
+            .PrecioLibro {
+                margin: 0;
+                padding: 0;
             }
 
             .TituloLibro {
+                align-self: flex-start;
+                text-align: left;
                 font-size: 1.2rem;
                 font-weight: bold;
+                margin: 0;
+                padding: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
             }
 
-            .PrecioLibro {
-                font-size: 1.1rem;
-                color: #888;
-            }
 
             .AdquirirLibro a {
                 text-decoration: none;
