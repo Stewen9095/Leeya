@@ -480,7 +480,7 @@
                 width: 100%;
                 max-width: 100vw;
                 flex-wrap: wrap;
-            }
+            } /* Editar el porcentaje de uso de la pantalla, no està manejado de manera responsiva al 100%*/
 
             .PrecioLibro {
                 text-align: start;
@@ -491,9 +491,9 @@
                 align-items: stretch;
                 flex-direction: column;
                 border-radius: 0.625rem;
-                flex: 1 1 24%;
+                flex: 1 1 20%;
                 box-shadow: 0 4px 8px rgba(255, 255, 255, 0.25);
-                max-width: 24%;
+                max-width: 20%;
                 text-align: center;
                 overflow: hidden;
                 display: flex;
