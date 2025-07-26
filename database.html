@@ -1,0 +1,65 @@
+<!--create database leeya 
+    use leeya 
+    CREATE TABLE Usuarios (
+    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100),
+    correo VARCHAR(100) UNIQUE,
+    contraseña VARCHAR(255),
+    direccion TEXT,
+    telefono VARCHAR(20),
+    tipo_usuario ENUM('comprador', 'vendedor', 'administrador') DEFAULT 'comprador',
+    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+sql
+CREATE TABLE Libros (
+    id_libro INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(255),
+    autor VARCHAR(255),
+    editorial VARCHAR(255),
+    anio_publicacion INT,
+    isbn VARCHAR(20),
+    descripcion TEXT,
+    estado ENUM('nuevo', 'usado', 'muy usado') DEFAULT 'usado',
+    id_usuario INT,
+    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
+);
+ALTER TABLE Libros ADD COLUMN disponibilidad ENUM('venta', 'subasta', 'donacion', 'no_disponible') DEFAULT 'no_disponible';
+CREATE TABLE Ventas (
+    id_venta INT PRIMARY KEY AUTO_INCREMENT,
+    id_libro INT,
+    id_comprador INT,
+    precio DECIMAL(10,2),
+    fecha_venta DATETIME DEFAULT CURRENT_TIMESTAMP,
+    estado ENUM('pendiente', 'pagado', 'cancelado') DEFAULT 'pendiente',
+    FOREIGN KEY (id_libro) REFERENCES Libros(id_libro),
+    FOREIGN KEY (id_comprador) REFERENCES Usuarios(id_usuario)
+);
+CREATE TABLE Subastas (
+    id_subasta INT PRIMARY KEY AUTO_INCREMENT,
+    id_libro INT,
+    precio_inicial DECIMAL(10,2),
+    fecha_inicio DATETIME,
+    fecha_fin DATETIME,
+    estado ENUM('activa', 'finalizada', 'cancelada') DEFAULT 'activa',
+    FOREIGN KEY (id_libro) REFERENCES Libros(id_libro)
+);
+CREATE TABLE Ofertas (
+    id_oferta INT PRIMARY KEY AUTO_INCREMENT,
+    id_subasta INT,
+    id_usuario INT,
+    monto DECIMAL(10,2),
+    fecha_oferta DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_subasta) REFERENCES Subastas(id_subasta),
+    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
+);
+CREATE TABLE Donaciones (
+    id_donacion INT PRIMARY KEY AUTO_INCREMENT,
+    id_libro INT,
+    id_donador INT,
+    id_receptor INT,
+    fecha_donacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    estado ENUM('pendiente', 'aceptada', 'rechazada') DEFAULT 'pendiente',
+    FOREIGN KEY (id_libro) REFERENCES Libros(id_libro),
+    FOREIGN KEY (id_donador) REFERENCES Usuarios(id_usuario),
+    FOREIGN KEY (id_receptor) REFERENCES Usuarios(id_usuario)
+);
