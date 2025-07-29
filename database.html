@@ -1,65 +1,115 @@
-<!--create database leeya 
-    use leeya 
-    CREATE TABLE Usuarios (
-    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100),
-    correo VARCHAR(100) UNIQUE,
-    contraseña VARCHAR(255),
-    direccion TEXT,
-    telefono VARCHAR(20),
-    tipo_usuario ENUM('comprador', 'vendedor', 'administrador') DEFAULT 'comprador',
-    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+<!---- 
+CREATE DATABASE IF NOT EXISTS Leeya;
+USE Leeya;
+
+
+CREATE TABLE user (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    passwd VARCHAR(255),
+    signdate DATE,
+    location VARCHAR(255)
 );
-sql
-CREATE TABLE Libros (
-    id_libro INT PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(255),
-    autor VARCHAR(255),
+
+
+CREATE TABLE book (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    ownerid INT,
+    name VARCHAR(255),
+    author VARCHAR(255),
+    genre VARCHAR(100),
+    available VARCHAR(50),
+    price NUMERIC(10,2),
     editorial VARCHAR(255),
-    anio_publicacion INT,
-    isbn VARCHAR(20),
-    descripcion TEXT,
-    estado ENUM('nuevo', 'usado', 'muy usado') DEFAULT 'usado',
-    id_usuario INT,
-    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
+    description VARCHAR(500),
+    qstatus NUMERIC,
+    FOREIGN KEY (ownerid) REFERENCES user(id)
 );
-ALTER TABLE Libros ADD COLUMN disponibilidad ENUM('venta', 'subasta', 'donacion', 'no_disponible') DEFAULT 'no_disponible';
-CREATE TABLE Ventas (
-    id_venta INT PRIMARY KEY AUTO_INCREMENT,
-    id_libro INT,
-    id_comprador INT,
-    precio DECIMAL(10,2),
-    fecha_venta DATETIME DEFAULT CURRENT_TIMESTAMP,
-    estado ENUM('pendiente', 'pagado', 'cancelado') DEFAULT 'pendiente',
-    FOREIGN KEY (id_libro) REFERENCES Libros(id_libro),
-    FOREIGN KEY (id_comprador) REFERENCES Usuarios(id_usuario)
+
+
+CREATE TABLE proposal (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    interested INT,
+    targetbookid INT,
+    money NUMERIC(10,2),
+    status VARCHAR(50),
+    proposaldate DATE,
+    FOREIGN KEY (interested) REFERENCES user(id),
+    FOREIGN KEY (targetbookid) REFERENCES book(id)
 );
-CREATE TABLE Subastas (
-    id_subasta INT PRIMARY KEY AUTO_INCREMENT,
-    id_libro INT,
-    precio_inicial DECIMAL(10,2),
-    fecha_inicio DATETIME,
-    fecha_fin DATETIME,
-    estado ENUM('activa', 'finalizada', 'cancelada') DEFAULT 'activa',
-    FOREIGN KEY (id_libro) REFERENCES Libros(id_libro)
+
+
+CREATE TABLE proposal_book (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    bookid INT,
+    proposalid INT,
+    FOREIGN KEY (bookid) REFERENCES book(id),
+    FOREIGN KEY (proposalid) REFERENCES proposal(id)
 );
-CREATE TABLE Ofertas (
-    id_oferta INT PRIMARY KEY AUTO_INCREMENT,
-    id_subasta INT,
-    id_usuario INT,
-    monto DECIMAL(10,2),
-    fecha_oferta DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_subasta) REFERENCES Subastas(id_subasta),
-    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
+
+
+CREATE TABLE transaction (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    trxstatus VARCHAR(50),
+    trxdate DATE,
+    proposalid INT,
+    FOREIGN KEY (proposalid) REFERENCES proposal(id)
 );
-CREATE TABLE Donaciones (
-    id_donacion INT PRIMARY KEY AUTO_INCREMENT,
-    id_libro INT,
-    id_donador INT,
-    id_receptor INT,
-    fecha_donacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    estado ENUM('pendiente', 'aceptada', 'rechazada') DEFAULT 'pendiente',
-    FOREIGN KEY (id_libro) REFERENCES Libros(id_libro),
-    FOREIGN KEY (id_donador) REFERENCES Usuarios(id_usuario),
-    FOREIGN KEY (id_receptor) REFERENCES Usuarios(id_usuario)
+
+
+CREATE TABLE rate (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    transaction INT UNIQUE,
+    rater INT,
+    ratee INT,
+    rating INT,
+    commentary VARCHAR(500),
+    ratedate DATE,
+    FOREIGN KEY (transaction) REFERENCES transaction(id),
+    FOREIGN KEY (rater) REFERENCES user(id),
+    FOREIGN KEY (ratee) REFERENCES user(id),
+    UNIQUE (rater, transaction),
+    UNIQUE (ratee, transaction)
+);
+
+
+CREATE TABLE chat (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    proposalid INT UNIQUE,
+    status VARCHAR(50),
+    FOREIGN KEY (proposalid) REFERENCES proposal(id)
+);
+
+
+CREATE TABLE message (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    chatid INT,
+    messengerid INT,
+    content VARCHAR(1000),
+    senddate DATE,
+    rereaded BOOLEAN,
+    FOREIGN KEY (chatid) REFERENCES chat(id),
+    FOREIGN KEY (messengerid) REFERENCES user(id)
+);
+
+
+CREATE TABLE notifications (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    idproposal INT,
+    readead BOOLEAN,
+    datenotification DATE,
+    FOREIGN KEY (idproposal) REFERENCES proposal(id)
+);
+
+
+CREATE TABLE reports (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    idreporter INT,
+    idreported INT,
+    motive VARCHAR(255),
+    description VARCHAR(500),
+    datereport DATE,
+    FOREIGN KEY (idreporter) REFERENCES user(id),
+    FOREIGN KEY (idreported) REFERENCES user(id)
 );
