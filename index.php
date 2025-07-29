@@ -179,6 +179,23 @@
                 <a href="#">
                     <h3>MIS LIBROS</h3>
                 </a>
+
+                <span class="circle">
+                    <img src="img/noti.png" alt="Notificación" class="noti-icon">
+                </span>
+             
+                <style>
+
+                    .nav-btns .noti-icon {
+                        width: 1.72rem !important;
+                        height: auto !important;
+                        object-fit: contain;
+                        display: block;
+                        margin: auto;
+                    }
+
+                </style>
+
                 <span class="circle">
                     <img src="img/user.png" alt="Usuario">
                 </span>
