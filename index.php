@@ -35,7 +35,7 @@
             min-width: 18rem;
             margin-left: auto;
             margin-right: auto;
-            padding: 2rem 0rem 2.8rem 0rem;
+            padding: 2.8rem 0rem 2.8rem 0rem;
             font-family: 'HovesExpandedBold';
             box-sizing: border-box;
         }
@@ -43,12 +43,13 @@
         .iconoimg {
             height: 3.5rem;
             width: auto;
+            margin-right: -1.5rem;
             padding-bottom: 0.5rem;
         }
 
         .nav-btns {
             display: flex;
-            gap: 0.8rem;
+            gap: 0.5rem;
             align-items: center;
             background: #000080;
             border-radius: 2rem;
@@ -82,17 +83,19 @@
             width: 2.25rem;
             height: 2.25rem;
             border-radius: 50%;
-            background: #eee;
+            background: #001aafff;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-sizing: border-box;
+            transition: background 0.8s;
+            cursor: pointer;
         }
 
         .nav-btns img {
             width: 1.75rem;
             height: 1.75rem;
             border-radius: 50%;
-            background: #000080
         }
 
         .carrusel-container {
@@ -180,25 +183,54 @@
                     <h3>MIS LIBROS</h3>
                 </a>
 
-                <span class="circle">
+                <a class="circle">
                     <img src="img/noti.png" alt="Notificación" class="noti-icon">
-                </span>
+                </a>
              
                 <style>
 
                     .nav-btns .noti-icon {
-                        width: 1.72rem !important;
+                        width: 1.73rem !important;
                         height: auto !important;
                         object-fit: contain;
                         display: block;
-                        margin: auto;
                     }
+
+                    .nav-btns .user {
+                        width: 1.73rem !important;
+                        height: auto !important;
+                        object-fit: contain;
+                        display: block;
+                    }     
+                    
+                    .nav-btns .circle {
+                        width: 2.25rem;
+                        height: 2.25rem;
+                        border-radius: 50%;
+                        background: #001aafff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-sizing: border-box;
+                    }
+                    
+                   .nav-btns .circle img {
+                        width: 1.3rem;
+                        height: 1.3rem;
+                        object-fit: contain;
+                        display: block;
+                        margin: -0.1rem;
+                    } 
+
+                .nav-btns .circle:hover {
+                    background: #000080;
+                }                    
 
                 </style>
 
-                <span class="circle">
-                    <img src="img/user.png" alt="Usuario">
-                </span>
+                <a class="circle">
+                    <img src="img/user.png" alt="Usuario" class="user">
+                </a>
             </div>
         </nav>
     </header>
