@@ -35,7 +35,7 @@
             min-width: 18rem;
             margin-left: auto;
             margin-right: auto;
-            padding: 2.8rem 0rem 2.8rem 0rem;
+            padding: 3.2rem 0rem 2.8rem 0rem;
             font-family: 'HovesExpandedBold';
             box-sizing: border-box;
         }
