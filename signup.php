@@ -115,7 +115,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="form-group full-width">
                     <label for="location">Localidad de residencia</label>
-                    <input type="text" id="location" name="location" class="form-control" required>
+                    <select id="location" name="location" class="form-control" required>
+                        <option value="" disabled selected>Selecciona tu localidad</option>
+                        <option value="Usaquén">Usaquén</option>
+                        <option value="Chapinero">Chapinero</option>
+                        <option value="Santa Fe">Santa Fe</option>
+                        <option value="San Cristóbal">San Cristóbal</option>
+                        <option value="Usme">Usme</option>
+                        <option value="Tunjuelito">Tunjuelito</option>
+                        <option value="Bosa">Bosa</option>
+                        <option value="Kennedy">Kennedy</option>
+                        <option value="Fontibón">Fontibón</option>
+                        <option value="Engativá">Engativá</option>
+                        <option value="Suba">Suba</option>
+                        <option value="Barrios Unidos">Barrios Unidos</option>
+                        <option value="Teusaquillo">Teusaquillo</option>
+                        <option value="Los Mártires">Los Mártires</option>
+                        <option value="Antonio Nariño">Antonio Nariño</option>
+                        <option value="Puente Aranda">Puente Aranda</option>
+                        <option value="La Candelaria">La Candelaria</option>
+                        <option value="Rafael Uribe Uribe">Rafael Uribe Uribe</option>
+                        <option value="Ciudad Bolívar">Ciudad Bolívar</option>
+                        <option value="Sumapaz">Sumapaz</option>
+                    </select>
                 </div>
 
                 <button type="submit" class="auth-button full-width" href="index.php">Crear cuenta</button>
