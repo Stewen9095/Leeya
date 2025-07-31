@@ -23,20 +23,21 @@ function getDBConnection()
     }
 }
 
-/*
-CREATE DATABASE IF NOT EXISTS Leeya;
-USE Leeya;
 
+/*
+CREATE DATABASE Leeya;
+USE Leeya;
 
 CREATE TABLE user (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255),
-    email VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
     passwd VARCHAR(255),
     signdate DATE,
-    location VARCHAR(255)
+    location VARCHAR(255),
+    confirmation BOOLEAN,
+    userrole VARCHAR(100)
 );
-
 
 CREATE TABLE book (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -45,26 +46,25 @@ CREATE TABLE book (
     author VARCHAR(255),
     genre VARCHAR(100),
     available VARCHAR(50),
-    price NUMERIC(10,2),
+    price NUMERIC(10, 2),
     editorial VARCHAR(255),
-    description VARCHAR(500),
+    description TEXT,
     qstatus NUMERIC,
     FOREIGN KEY (ownerid) REFERENCES user(id)
 );
-
 
 CREATE TABLE proposal (
     id INT PRIMARY KEY AUTO_INCREMENT,
     interested INT,
     targetbookid INT,
-    money NUMERIC(10,2),
+    money NUMERIC(10, 2),
     status VARCHAR(50),
     proposaldate DATE,
     FOREIGN KEY (interested) REFERENCES user(id),
     FOREIGN KEY (targetbookid) REFERENCES book(id)
 );
 
-
+-- Libros ofrecidos en una propuesta
 CREATE TABLE proposal_book (
     id INT PRIMARY KEY AUTO_INCREMENT,
     bookid INT,
@@ -73,7 +73,6 @@ CREATE TABLE proposal_book (
     FOREIGN KEY (proposalid) REFERENCES proposal(id)
 );
 
-
 CREATE TABLE transaction (
     id INT PRIMARY KEY AUTO_INCREMENT,
     trxstatus VARCHAR(50),
@@ -81,7 +80,6 @@ CREATE TABLE transaction (
     proposalid INT,
     FOREIGN KEY (proposalid) REFERENCES proposal(id)
 );
-
 
 CREATE TABLE rate (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -93,19 +91,34 @@ CREATE TABLE rate (
     ratedate DATE,
     FOREIGN KEY (transaction) REFERENCES transaction(id),
     FOREIGN KEY (rater) REFERENCES user(id),
-    FOREIGN KEY (ratee) REFERENCES user(id),
-    UNIQUE (rater, transaction),
-    UNIQUE (ratee, transaction)
+    FOREIGN KEY (ratee) REFERENCES user(id)
 );
 
+CREATE TABLE reports (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    idreporter INT,
+    idreported INT,
+    motive VARCHAR(255),
+    description TEXT,
+    datereport DATE,
+    FOREIGN KEY (idreporter) REFERENCES user(id),
+    FOREIGN KEY (idreported) REFERENCES user(id)
+);
+
+CREATE TABLE notifications (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    idproposal INT,
+    readed BOOLEAN,
+    datenotification DATE,
+    FOREIGN KEY (idproposal) REFERENCES proposal(id)
+);
 
 CREATE TABLE chat (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    proposalid INT UNIQUE,
+    proposalid INT,
     status VARCHAR(50),
     FOREIGN KEY (proposalid) REFERENCES proposal(id)
 );
-
 
 CREATE TABLE message (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -113,28 +126,12 @@ CREATE TABLE message (
     messengerid INT,
     content VARCHAR(1000),
     senddate DATE,
-    rereaded BOOLEAN,
+    readed BOOLEAN,
     FOREIGN KEY (chatid) REFERENCES chat(id),
     FOREIGN KEY (messengerid) REFERENCES user(id)
 );
 
+*/
 
-CREATE TABLE notifications (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    idproposal INT,
-    readead BOOLEAN,
-    datenotification DATE,
-    FOREIGN KEY (idproposal) REFERENCES proposal(id)
-);
+?>
 
-
-CREATE TABLE reports (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    idreporter INT,
-    idreported INT,
-    motive VARCHAR(255),
-    description VARCHAR(500),
-    datereport DATE,
-    FOREIGN KEY (idreporter) REFERENCES user(id),
-    FOREIGN KEY (idreported) REFERENCES user(id)
-);

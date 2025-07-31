@@ -106,9 +106,9 @@
         }
 
         .carrusel-titulo {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             color: #fff;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             text-align: center;
             font-weight: bold;
             letter-spacing: 1px;
@@ -302,7 +302,7 @@
             }
 
             .litle-text {
-                font-family: 'HovesBold';
+                font-family: 'HovesDemiBoldItalic';
                 margin: 0;
             }
         </style>
