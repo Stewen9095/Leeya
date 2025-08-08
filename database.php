@@ -2,7 +2,7 @@
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'Leeya');
+define('DB_NAME', 'leeya');
 
 function getDBConnection()
 {
@@ -25,18 +25,19 @@ function getDBConnection()
 
 
 /*
-CREATE DATABASE Leeya;
+
+CREATE DATABASE leeya;
 USE Leeya;
 
 CREATE TABLE user (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255),
-    email VARCHAR(255) UNIQUE,
-    passwd VARCHAR(255),
-    signdate DATE,
-    location VARCHAR(255),
-    confirmation BOOLEAN,
-    userrole VARCHAR(100)
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    passwd VARCHAR(255) NOT NULL,
+    signdate DATE DEFAULT CURRENT_TIMESTAMP,
+    location VARCHAR(255) NOT NULL,
+    confirmation BOOLEAN DEFAULT TRUE,
+    userrole VARCHAR(100) DEFAULT 'user'
 );
 
 CREATE TABLE book (
@@ -130,6 +131,7 @@ CREATE TABLE message (
     FOREIGN KEY (chatid) REFERENCES chat(id),
     FOREIGN KEY (messengerid) REFERENCES user(id)
 );
+
 
 */
 

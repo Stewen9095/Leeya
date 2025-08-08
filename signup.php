@@ -1,53 +1,41 @@
 <?php
 
-session_start(); // Inicia la sesión al principio de tu script
+session_start();
 
-require_once 'auth_functions.php'; // Asegúrate de que isLoggedIn() y registerUser() estén aquí.
+require_once 'auth_functions.php';
 
-// --- Redirección si el usuario ya está logueado ---
-// Si un usuario ya tiene una sesión activa (sea de usuario normal o de organizador/admin),
-// lo redirigimos para evitar que intente registrarse de nuevo.
-if (isset($_SESSION['user_id']) || isset($_SESSION['org_id'])) {
-    header('Location: index.php'); // Redirige a la página principal
-    exit(); // Crucial para detener la ejecución del script después de la redirección.
-}
+$error = '';
+$success = '';
 
-$error = '';    // Para mensajes de error
-$success = '';  // Para mensajes de éxito
-
-// --- Procesamiento del Formulario de Registro ---
-// Solo procesa el formulario si la solicitud es de tipo POST.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recopila y sanitiza los datos del formulario.
-    // Usamos el operador de fusión de null (??) para evitar errores si la clave POST no existe.
+
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
-    $confirm_password = $_POST['confirm_password'] ?? '';
+    $cpassword = $_POST['cpassword'] ?? '';
+    $location = $_POST['location'] ?? '';
 
-    // --- Validaciones de Entrada ---
-    if (empty($name) || empty($email) || empty($password) || empty($confirm_password)) {
+    // Validaciones
+    if (empty($name) || empty($email) || empty($password) || empty($cpassword) || empty($location)){
         $error = 'Por favor, completa todos los campos.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'El formato del correo electrónico no es válido.';
     } elseif (strlen($password) < 6) {
         $error = 'La contraseña debe tener al menos 6 caracteres.';
-    } elseif ($password !== $confirm_password) {
+    } elseif ($password !== $cpassword) {
         $error = 'Las contraseñas no coinciden.';
     } else {
-        // --- Intentar Registrar al Usuario ---
-        // Llama a la función 'registerUser()' que debe estar definida en 'auth_functions.php'.
-        // Se espera que esta función devuelva un array con 'success' (booleano) y 'message' (string).
-        $result = registerUser($name, $email, $password);
+        // Intentar registrar al usuario
+        // Llama a la función 'signUp()'
+        // Retorna un array con 'success' (booleano) y 'message' (string).
+        $result = signUp($name, $email, $password, $location);
 
         if ($result['success']) {
-            // Si el registro fue exitoso, muestra un mensaje de éxito.
-            // Considera usar mensajes flash de sesión aquí si rediriges inmediatamente.
-            $_SESSION['message'] = '¡Cuenta creada exitosamente! Ahora puedes iniciar sesión.';
+            $success = $result['message'];
+            $_SESSION['message'] = $success;
             header('Location: login.php'); // Redirige al usuario directamente a la página de login.
             exit();
         } else {
-            // Si el registro falló (ej. email ya existe), muestra el mensaje de error.
             $error = $result['message'];
         }
     }
@@ -57,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Volver al inicio
     </a>
 
-    <div class="auth-container <?php if ($error) echo 'has-error'; ?>">
+    <div class="auth-container <?php echo $error ? 'has-error' : ($success ? 'has-success' : ''); ?>">
         <div class="auth-card">
             <div class="auth-header">
                 <h1>Crea tu cuenta</h1>
@@ -88,6 +76,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php echo htmlspecialchars($error); ?>
                 </div>
             <?php endif; ?>
+
+            <?php if ($success): ?>
+                <div class="success-message">
+                    <?php echo $success; ?>                                      
+                </div>
+            <?php endif; ?>
+
 
             <form method="POST" action="">
 
@@ -136,10 +131,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <option value="Rafael Uribe Uribe">Rafael Uribe Uribe</option>
                         <option value="Ciudad Bolívar">Ciudad Bolívar</option>
                         <option value="Sumapaz">Sumapaz</option>
+                        <option value="Sumapaz">Fuera de Bogotá</option>
                     </select>
                 </div>
 
                 <button type="submit" class="auth-button full-width" href="index.php">Crear cuenta</button>
+
             </form>
 
             <div class="auth-links">
@@ -262,6 +259,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 0.9rem;
             border: 1px solid #fed7d7;
         }
+        
+        .success-message {
+            background: #f0fff4;
+            color: #38a169;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            border: 1px solid #c6f6d5;
+        }      
 
         .auth-button.full-width {
             width: 100%;

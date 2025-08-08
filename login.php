@@ -109,12 +109,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Volver al inicio
     </a>
 
-    <div class="auth-container">
+    <div class="auth-container">  
+
         <div class="auth-card">
             <div class="auth-header">
                 <h1>Inicio de sesión</h1>
                 <p>Accede a tu cuenta de Leeya</p>
             </div>
+
+            <?php if (!empty($_SESSION['message'])): ?>
+                <div class="success-message">
+                    <?php echo htmlspecialchars($_SESSION['message']); ?>
+                </div>
+                <?php unset($_SESSION['message']);?>
+            <?php endif; ?>  
+
             <?php if ($error): ?>
                 <div class="error-message">
                     <?php echo htmlspecialchars($error); ?>
@@ -238,6 +247,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 0.9rem;
             border: 1px solid #fed7d7;
         }
+
+        .success-message {
+            background: #f0fff4;
+            color: #38a169;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            border: 1px solid #c6f6d5;
+        }            
 
         .auth-button {
             width: 100%;

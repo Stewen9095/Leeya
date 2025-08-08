@@ -1,15 +1,15 @@
 <?php
-// Asegúrate de que este path sea correcto para tu archivo database.php
+
 require_once 'database.php'; // Este archivo debe contener la función getDBConnection()
 
 // Función para registrar un nuevo usuario
-function registerUser($name, $email, $password)
-{
+function signUp($name, $email, $password, $location){
+
     try {
         $pdo = getDBConnection();
 
         // Verificar si el email ya existe
-        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT id FROM user WHERE email = ?");
         $stmt->execute([$email]);
 
         if ($stmt->rowCount() > 0) {
@@ -20,12 +20,11 @@ function registerUser($name, $email, $password)
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Insertar el nuevo usuario
-        // Asegúrate de que la columna 'role' exista en tu tabla 'users' y tenga un valor por defecto 'user'
-        $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
-        $result = $stmt->execute([$name, $email, $hashedPassword]);
+        $stmt = $pdo->prepare("INSERT INTO user (name, email, passwd, location) VALUES (?, ?, ?, ?)");
+        $result = $stmt->execute([$name, $email, $hashedPassword, $location]);
 
         if ($result) {
-            return ['success' => true, 'message' => 'Usuario registrado exitosamente'];
+            return ['success' => true, 'message' => 'Usuario registrado exitosamente, ahora puedes iniciar sesion'];
         } else {
             return ['success' => false, 'message' => 'Error al registrar el usuario'];
         }
@@ -35,36 +34,8 @@ function registerUser($name, $email, $password)
     }
 }
 
-function registerOrg($email, $name, $password)
-{
-    try {
-        $pdo = getDBConnection();
 
-        // Verificar si el email ya existe en organizaciones
-        $stmt = $pdo->prepare("SELECT id FROM org WHERE email = ?");
-        $stmt->execute([$email]);
 
-        if ($stmt->rowCount() > 0) {
-            return ['success' => false, 'message' => 'Este email ya esta registrado para una organizacion'];
-        }
-
-        // Encriptar la contraseña
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        // Insertar la nueva organizacion
-        $stmt = $pdo->prepare("INSERT INTO org (name, email, password) VALUES (?, ?, ?)");
-        $result = $stmt->execute([$name, $email, $hashedPassword]);
-
-        if ($result) {
-            return ['success' => true, 'message' => 'Organizacion registrada exitosamente'];
-        } else {
-            return ['success' => false, 'message' => 'Error al registrar la organizacion'];
-        }
-
-    } catch (PDOException $e) {
-        return ['success' => false, 'message' => 'Error de base de datos: ' . $e->getMessage()];
-    }
-}
 
 function getTicketsByUserId($user_id)
 {
