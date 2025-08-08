@@ -64,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Crear cuenta</title>
     <link rel="icon" href="img/icon.png"></link>
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
