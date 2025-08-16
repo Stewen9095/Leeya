@@ -15,8 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cpassword = $_POST['cpassword'] ?? '';
     $location = $_POST['location'] ?? '';
 
-    // Validaciones
-    if (empty($name) || empty($email) || empty($password) || empty($cpassword) || empty($location)){
+    if (empty($name) || empty($email) || empty($password) || empty($cpassword) || empty($location)) {
         $error = 'Por favor, completa todos los campos.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'El formato del correo electrónico no es válido.';
@@ -24,20 +23,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'La contraseña debe tener al menos 6 caracteres.';
     } elseif ($password !== $cpassword) {
         $error = 'Las contraseñas no coinciden.';
+    } elseif (userExists($email)) { 
+        $error = 'Ya existe una cuenta registrada con este correo electrónico.';
     } else {
         // Intentar registrar al usuario
-        // Llama a la función 'signUp()'
-        // Retorna un array con 'success' (booleano) y 'message' (string).
         $result = signUp($name, $email, $password, $location);
 
         if ($result['success']) {
             $success = $result['message'];
             $_SESSION['message'] = $success;
-            header('Location: login.php'); // Redirige al usuario directamente a la página de login.
+            header('Location: login.php');
             exit();
         } else {
             $error = $result['message'];
         }
+    }
+}
+
+// Si ya hay sesión activa, redirigir según rol
+if (isset($_SESSION['user_id'])) {
+    if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+        header('Location: adminpanel.php');
+        exit();
+    } else {
+        header('Location: index.php');
+        exit();
     }
 }
 
@@ -46,11 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear cuenta</title>
-    <link rel="icon" href="img/icon.png"></link>
+    <link rel="icon" href="img/icon.png">
+    </link>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -79,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <?php if ($success): ?>
                 <div class="success-message">
-                    <?php echo $success; ?>                                      
+                    <?php echo $success; ?>
                 </div>
             <?php endif; ?>
 
@@ -89,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="name">¿Cuál es tu nombre?</label>
                     <input type="text" id="name" name="name" class="form-control" required>
-                </div>                
+                </div>
 
                 <div class="form-group">
                     <label for="email">Correo institucional</label>
@@ -155,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             overflow: auto;
         }
 
-        .background{
+        .background {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -186,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .auth-container.has-error {
             padding-top: 3rem;
             padding-bottom: 2rem;
-        }        
+        }
 
         .auth-card {
             background: rgba(255, 255, 255, 1);
@@ -213,11 +225,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         form {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        }        
-        
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
         .form-group {
             text-align: left;
             margin-bottom: 0;
@@ -259,7 +271,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 0.9rem;
             border: 1px solid #fed7d7;
         }
-        
+
         .success-message {
             background: #f0fff4;
             color: #38a169;
@@ -268,7 +280,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 1rem;
             font-size: 0.9rem;
             border: 1px solid #c6f6d5;
-        }      
+        }
 
         .auth-button.full-width {
             width: 100%;

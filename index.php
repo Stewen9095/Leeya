@@ -1,5 +1,33 @@
 <?php
+
+session_start();
+
+require_once 'auth_functions.php';
+require_once 'database.php';
+
+/* Modificar para redirigir a la página de panel de administrador si el usuario es un administrador
+ if (isset($_SESSION['user_id']) && ($_SESSION['user_role'] ?? '') === 'admin') {
+    header('Location: admin-dashboard.php'); // Redirige al panel de administrador
+    exit(); // Detiene la ejecución del script para asegurar la redirección
+}*/
+
+$is_logged_in = false;
+$user_role = '';
+
+refreshSessionUser();
+
+if (isLoggedIn()) {
+
+    if (isset($_SESSION['user_id'])) {
+        $is_logged_in = true;
+        $user_name = htmlspecialchars($_SESSION['user_name'] ?? '');
+        $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
+    }
+
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -173,22 +201,42 @@
                 <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
             </a>
             <div class="nav-btns">
+
                 <a href="#">
                     <h3>EXPLORAR</h3>
                 </a>
-                <a href="#">
-                    <h3>+</h3>
-                </a>
-                <a href="#">
-                    <h3>MIS LIBROS</h3>
-                </a>
 
-                <a class="circle">
-                    <img src="img/noti.png" alt="Notificación" class="noti-icon">
-                </a>
-             
+                <?php if ($is_logged_in): ?>
+                    <a href="#">
+                        <h3>+</h3>
+                    </a>
+
+                    <a href="#">
+                        <h3>MIS LIBROS</h3>
+                    </a>
+
+
+                <?php elseif (!$is_logged_in): ?>
+
+                    <a href="login.php">
+                        <h3>INICIAR SESIÓN</h3>
+                    </a>
+
+                <?php endif; ?>
+
+                <?php if ($is_logged_in): ?>
+
+                    <a class="circle" href="#">
+                        <img src="img/noti.png" alt="Notificación" class="noti-icon">
+                    </a>
+
+                    <a class="circle" href="#">
+                        <img src="img/user.png" alt="Usuario" class="user">
+                    </a>
+
+                <?php endif; ?>
+
                 <style>
-
                     .nav-btns .noti-icon {
                         width: 1.73rem !important;
                         height: auto !important;
@@ -201,8 +249,8 @@
                         height: auto !important;
                         object-fit: contain;
                         display: block;
-                    }     
-                    
+                    }
+
                     .nav-btns .circle {
                         width: 2.25rem;
                         height: 2.25rem;
@@ -213,24 +261,20 @@
                         justify-content: center;
                         box-sizing: border-box;
                     }
-                    
-                   .nav-btns .circle img {
+
+                    .nav-btns .circle img {
                         width: 1.3rem;
                         height: 1.3rem;
                         object-fit: contain;
                         display: block;
                         margin: -0.1rem;
-                    } 
+                    }
 
-                .nav-btns .circle:hover {
-                    background: #000080;
-                }                    
-
+                    .nav-btns .circle:hover {
+                        background: #000080;
+                    }
                 </style>
 
-                <a class="circle">
-                    <img src="img/user.png" alt="Usuario" class="user">
-                </a>
             </div>
         </nav>
     </header>
@@ -410,7 +454,7 @@
             }
         </style>
 
-        <h2 class="carrusel-titulo">Últimos libros publicados</h2> <!-- Título del carrusel de libros recientes -->
+        <h2 class="carrusel-titulo">Últimos libros publicados</h2>
 
         <div class="bookbox-container"> <!-- Apartado de los últimos 6 libros publicados -->
 
@@ -513,7 +557,7 @@
                 </div>
 
             </div>
-            
+
 
         </div>
 
@@ -529,7 +573,9 @@
                 width: 100%;
                 max-width: 100vw;
                 flex-wrap: wrap;
-            } /* Editar el porcentaje de uso de la pantalla, no està manejado de manera responsiva al 100%*/
+            }
+
+            /* Editar el porcentaje de uso de la pantalla, no està manejado de manera responsiva al 100%*/
 
             .PrecioLibro {
                 text-align: start;

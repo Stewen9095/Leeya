@@ -2,6 +2,9 @@
 session_start();
 
 require_once 'auth_functions.php';
+require_once 'database.php';
+
+$error = '';
 
 if (!isset($_SESSION['login_attempts'])) {
     $_SESSION['login_attempts'] = 0;
@@ -9,91 +12,85 @@ if (!isset($_SESSION['login_attempts'])) {
 }
 
 $bloqueado = false;
-$tiempo_bloqueo = 60;
-$max_intentos = 5;
+$tiempo_bloqueo = 60; // 1 minuto
+$max_intentos = 10;
 
 if ($_SESSION['login_attempts'] >= $max_intentos) {
     $elapsed = time() - $_SESSION['last_attempt_time'];
     if ($elapsed < $tiempo_bloqueo) {
         $bloqueado = true;
         $tiempo_restante = $tiempo_bloqueo - $elapsed;
-        $error = 'Demasiados intentos fallidos. Por favor, espera ' . $tiempo_restante . ' segundos antes de intentar de nuevo.';
+        $error = 'Demasiados intentos fallidos. Por favor, espera ' . $tiempo_restante . ' segundos.';
     } else {
         $_SESSION['login_attempts'] = 0;
         $_SESSION['last_attempt_time'] = time();
     }
 }
 
-if (isset($_SESSION['user_id'])) {
-    if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
-        header('Location: admin-dashboard.php');
-    } else {
-        header('Location: index.php'); // O a dashboard.php si tienes uno para usuarios normales
-    }
-    exit();
-}
-
-$error = '';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
     if ($bloqueado) {
+        $error = 'Demasiados intentos fallidos. Intenta de nuevo en ' . ($tiempo_bloqueo - (time() - $_SESSION['last_attempt_time'])) . ' segundos.';
     } elseif (empty($email) || empty($password)) {
         $error = 'Por favor completa todos los campos.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'El formato del email no es válido.';
+    } elseif (!userExists($email)) {
+        $error = 'No existe una cuenta con este email.';
     } else {
-        // Intenta loguear al usuario
-        // Asegúrate de que loginUser() devuelva un array con 'success', 'message', y 'user'/'organizer' data
         $result = loginUser($email, $password);
 
         if ($result['success']) {
-            // Reinicia los intentos de login al éxito
             $_SESSION['login_attempts'] = 0;
             $_SESSION['last_attempt_time'] = time();
 
-            // Guarda los datos en sesión de forma granular
-            if (isset($result['user'])) { // Esto sería para usuarios normales y administradores
-                $_SESSION['user_id'] = $result['user']['id'];
-                $_SESSION['user_name'] = $result['user']['name'];
+            if (isset($result['user'])) {
+                $_SESSION['user_id']    = $result['user']['id'];
+                $_SESSION['user_name']  = $result['user']['name'];
                 $_SESSION['user_email'] = $result['user']['email'];
-                $_SESSION['user_role'] = $result['user']['role'];
+                $_SESSION['user_role']  = $result['user']['role'];
 
-                // Redirigir según el rol
                 if ($result['user']['role'] === 'admin') {
-                    header('Location: admin-dashboard.php');
+                    header('Location: adminpanel.php');
+                    exit();
                 } else {
                     header('Location: index.php');
+                    exit();
                 }
-            } elseif (isset($result['organizer'])) { // Esto sería para organizadores
-                $_SESSION['org_id'] = $result['organizer']['id'];
-                $_SESSION['org_name'] = $result['organizer']['name'];
-                $_SESSION['org_email'] = $result['organizer']['email'];
-                $_SESSION['user_role'] = 'organizer'; // Define explícitamente el rol de organizador
-
-                header('Location: organizer-dashboard.php');
             }
-            exit();
         } else {
-            // El login falló, incrementa el contador de intentos
             $_SESSION['login_attempts']++;
             $_SESSION['last_attempt_time'] = time();
-            $error = $result['message'] ?? 'Credenciales incorrectas.'; // Mensaje de error general para seguridad
+            $error = $result['message'] ?? 'Credenciales incorrectas.';
         }
     }
 }
+
+// Si ya hay sesión activa, redirigir según rol
+if (isset($_SESSION['user_id'])) {
+    if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+        header('Location: adminpanel.php');
+        exit();
+    } else {
+        header('Location: index.php');
+        exit();
+    }
+}
+
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de sesión</title>
-    <link rel="icon" href="img/icon.png"></link>
+    <link rel="icon" href="img/icon.png">
+    </link>
     <link rel="stylesheet" href="style.css">
 
 </head>
@@ -109,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Volver al inicio
     </a>
 
-    <div class="auth-container">  
+    <div class="auth-container">
 
         <div class="auth-card">
             <div class="auth-header">
@@ -121,8 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="success-message">
                     <?php echo htmlspecialchars($_SESSION['message']); ?>
                 </div>
-                <?php unset($_SESSION['message']);?>
-            <?php endif; ?>  
+                <?php unset($_SESSION['message']); ?>
+            <?php endif; ?>
 
             <?php if ($error): ?>
                 <div class="error-message">
@@ -133,8 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="POST" action="">
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-control"
-                        value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" required>
+                    <input type="email" id="email" name="email" class="form-control" required>
                 </div>
 
                 <div class="form-group">
@@ -161,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             overflow: auto;
         }
 
-        .background{
+        .background {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -256,7 +252,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 1rem;
             font-size: 0.9rem;
             border: 1px solid #c6f6d5;
-        }            
+        }
 
         .auth-button {
             width: 100%;
