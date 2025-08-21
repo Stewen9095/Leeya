@@ -44,7 +44,7 @@ if (isLoggedIn()) {
 
         body {
             margin: 0;
-            font-family: 'Montserrat';
+            font-family: 'HovesDemiBoldItalic';
             background: #000;
         }
 
