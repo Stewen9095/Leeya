@@ -47,10 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['last_attempt_time'] = time();
 
             if (isset($result['user'])) {
-                $_SESSION['user_id']    = $result['user']['id'];
-                $_SESSION['user_name']  = $result['user']['name'];
+                $_SESSION['user_id'] = $result['user']['id'];
+                $_SESSION['user_name'] = $result['user']['name'];
                 $_SESSION['user_email'] = $result['user']['email'];
-                $_SESSION['user_role']  = $result['user']['role'];
+                $_SESSION['user_role'] = $result['user']['role'];
 
                 if ($result['user']['role'] === 'admin') {
                     header('Location: adminpanel.php');

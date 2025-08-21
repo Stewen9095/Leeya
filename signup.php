@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'La contraseña debe tener al menos 6 caracteres.';
     } elseif ($password !== $cpassword) {
         $error = 'Las contraseñas no coinciden.';
-    } elseif (userExists($email)) { 
+    } elseif (userExists($email)) {
         $error = 'Ya existe una cuenta registrada con este correo electrónico.';
     } else {
         // Intentar registrar al usuario

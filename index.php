@@ -68,64 +68,6 @@ if (isLoggedIn()) {
             box-sizing: border-box;
         }
 
-        .iconoimg {
-            height: 3.5rem;
-            width: auto;
-            margin-right: -1.5rem;
-            padding-bottom: 0.5rem;
-        }
-
-        .nav-btns {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-            background: #000080;
-            border-radius: 2rem;
-            padding: 0.3rem 0.5rem;
-        }
-
-        .nav-btns a {
-            text-decoration: none;
-            background: #001aafff;
-            color: #fff;
-            font-size: 1.1rem;
-            border-radius: 1.25rem;
-            padding: 0.2rem 1rem;
-            box-shadow: 0 0.125rem 0.5rem #0002;
-            transition: background 0.5s;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-btns a:hover {
-            background: #000080;
-        }
-
-        .nav-btns h3 {
-            margin: 0;
-            display: inline;
-            font-size: 1.05rem;
-        }
-
-        .nav-btns .circle {
-            width: 2.25rem;
-            height: 2.25rem;
-            border-radius: 50%;
-            background: #001aafff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
-            transition: background 0.8s;
-            cursor: pointer;
-        }
-
-        .nav-btns img {
-            width: 1.75rem;
-            height: 1.75rem;
-            border-radius: 50%;
-        }
-
         .carrusel-container {
             max-width: 68.75rem;
             margin: 2rem auto;
@@ -230,13 +172,71 @@ if (isLoggedIn()) {
                         <img src="img/noti.png" alt="Notificación" class="noti-icon">
                     </a>
 
-                    <a class="circle" href="#">
+                    <a class="circle" href="user.php">
                         <img src="img/user.png" alt="Usuario" class="user">
                     </a>
 
                 <?php endif; ?>
 
                 <style>
+                    .iconoimg {
+                        height: 3.5rem;
+                        width: auto;
+                        margin-right: -1.5rem;
+                        padding-bottom: 0.5rem;
+                    }
+
+                    .nav-btns {
+                        display: flex;
+                        gap: 0.5rem;
+                        align-items: center;
+                        background: #000080;
+                        border-radius: 2rem;
+                        padding: 0.3rem 0.5rem;
+                    }
+
+                    .nav-btns a {
+                        text-decoration: none;
+                        background: #001aafff;
+                        color: #fff;
+                        font-size: 1.1rem;
+                        border-radius: 1.25rem;
+                        padding: 0.2rem 1rem;
+                        box-shadow: 0 0.125rem 0.5rem #0002;
+                        transition: background 0.5s;
+                        display: flex;
+                        align-items: center;
+                    }
+
+                    .nav-btns a:hover {
+                        background: #000080;
+                    }
+
+                    .nav-btns h3 {
+                        margin: 0;
+                        display: inline;
+                        font-size: 1.05rem;
+                    }
+
+                    .nav-btns .circle {
+                        width: 2.25rem;
+                        height: 2.25rem;
+                        border-radius: 50%;
+                        background: #001aafff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-sizing: border-box;
+                        transition: background 0.8s;
+                        cursor: pointer;
+                    }
+
+                    .nav-btns img {
+                        width: 1.75rem;
+                        height: 1.75rem;
+                        border-radius: 50%;
+                    }
+
                     .nav-btns .noti-icon {
                         width: 1.73rem !important;
                         height: auto !important;

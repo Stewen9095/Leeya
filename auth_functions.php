@@ -50,7 +50,7 @@ function loginUser($email, $password)
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['name'];
             $_SESSION['user_email'] = $user['email'];
-            $_SESSION['user_role'] = $user['userrole'];         
+            $_SESSION['user_role'] = $user['userrole'];
 
             return [
                 'success' => true,
@@ -99,7 +99,8 @@ function refreshSessionUser()
     }
 }
 
-function userExists($email) {
+function userExists($email)
+{
     $pdo = getDBConnection();
 
     $stmt = $pdo->prepare("SELECT id FROM user WHERE email = :email LIMIT 1");
