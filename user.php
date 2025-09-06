@@ -39,73 +39,24 @@ if (isLoggedIn()) {
             margin: 0;
         }
 
+        html {
+            font-size: 15px;
+        }
+
         .profile-container {
             max-width: 80rem;
-            margin: 0.1rem auto 2.9rem auto;
-            background: #0a0a23;
+            margin: -1rem auto 2.9rem auto;
+            background: linear-gradient(to bottom,
+                        #000080 0%,
+                        #000000 60%);
             border-radius: 2rem;
-            box-shadow: 0 0 32px #0008;
+            box-shadow: 0 0 0.5rem rgba(240, 240, 240, 0.05);
             padding: 2.5rem 2rem 2rem 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #001aaf;
-            background: #222;
-            margin-bottom: 1.2rem;
-        }
-
-        .profile-name {
-            font-size: 2rem;
-            font-family: 'HovesBold', Arial, sans-serif;
-            margin-bottom: 0.3rem;
-        }
-
-        .profile-email {
-            font-size: 1.1rem;
-            color: #b0b0ff;
-            margin-bottom: 1.2rem;
-        }
-
-        .profile-info {
-            width: 100%;
-            margin-top: 1.2rem;
-        }
-
-        .profile-info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid #222a;
-            font-size: 1.05rem;
-        }
-
-        .profile-actions {
-            margin-top: 2rem;
-            display: flex;
-            gap: 1rem;
-        }
-
-        .profile-btn {
-            background: #001aaf;
-            color: #fff;
-            border: none;
-            border-radius: 1.2rem;
-            padding: 0.6rem 1.5rem;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .profile-btn:hover {
-            background: #000080;
-        }
     </style>
 </head>
 
@@ -192,21 +143,6 @@ if (isLoggedIn()) {
                         font-size: 1.05rem;
                     }
 
-                    html {
-                        font-size: 15px;
-                    }
-
-                    body {
-                        margin: 0;
-                        font-family: 'HovesDemiBoldItalic';
-                        background: #000;
-                    }
-
-                    header {
-                        background: transparent;
-                        box-shadow: none;
-                    }
-
                     nav {
                         display: flex;
                         align-items: center;
@@ -221,55 +157,6 @@ if (isLoggedIn()) {
                         font-family: 'HovesExpandedBold';
                         box-sizing: border-box;
                     }
-
-                    .carrusel-container {
-                        max-width: 68.75rem;
-                        margin: 2rem auto;
-                        padding-top: 3.5rem;
-                        padding-bottom: 5rem;
-                    }
-
-                    .carrusel-titulo {
-                        font-size: 1.4rem;
-                        color: #fff;
-                        margin-bottom: 1.5rem;
-                        text-align: center;
-                        font-weight: bold;
-                        letter-spacing: 1px;
-                        text-transform: uppercase;
-                        font-family: 'HovesExpandedDemiBold';
-                    }
-
-                    .carrusel {
-                        display: flex;
-                        overflow-x: auto;
-                        gap: 1.5rem;
-                        padding-bottom: 1rem;
-                    }
-
-                    .libro {
-                        min-width: 8.75rem;
-                        background: #fff;
-                        border-radius: 0.625rem;
-                        box-shadow: 0 0.125rem 0.5rem #0001;
-                        text-align: center;
-                        padding: 1rem 0.5rem;
-                    }
-
-                    .libro img {
-                        width: 5rem;
-                        height: 6.875rem;
-                        object-fit: cover;
-                        border-radius: 0.375rem;
-                        margin-bottom: 0.5rem;
-                    }
-
-                    .libro-nombre {
-                        font-size: 1rem;
-                        color: #222;
-                        font-weight: bold;
-                    }
-
 
                     .nav-btns .circle {
                         width: 2.25rem;
@@ -333,16 +220,16 @@ if (isLoggedIn()) {
     </header>
 
     <div class="profile-container">
-        <img src="img/user.png" alt="Foto de perfil" class="profile-avatar">
-        <div class="profile-name"><?php echo htmlspecialchars($user['name']); ?></div>
-        <div class="profile-email"><?php echo htmlspecialchars($user['email']); ?></div>
-        <div class="profile-info">
-            <div class="profile-info-item"><span>Rol:</span> <span><?php echo htmlspecialchars($user['role']); ?></span>
-            </div>
+    
+        <div class="dataUser">
+            
+            <p>Bienvenido <?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?></p>
+            <p>Correo electrónico de contacto: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_email'])[0]); ?></p>
+            <p>Ubicación: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_location'])[0]); ?></p>
+                        
+            
         </div>
-        <div class="profile-actions">
-            <a href="logout.php" class="profile-btn">Cerrar sesión</a>
-        </div>
+
     </div>
 </body>
 

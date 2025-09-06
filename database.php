@@ -36,7 +36,7 @@ CREATE TABLE user (
     passwd VARCHAR(255) NOT NULL,
     signdate DATE DEFAULT CURRENT_TIMESTAMP,
     location VARCHAR(255) NOT NULL,
-    confirmation BOOLEAN DEFAULT TRUE,
+    lildescription VARCHAR(255) DEFAULT '',
     userrole VARCHAR(100) DEFAULT 'user'
 );
 

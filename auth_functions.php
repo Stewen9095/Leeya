@@ -41,29 +41,37 @@ function loginUser($email, $password)
     try {
         $pdo = getDBConnection();
 
-        $stmt = $pdo->prepare("SELECT id, name, email, passwd, userrole FROM user WHERE email = ?");
+        $stmt = $pdo->prepare("
+            SELECT id, name, email, passwd, signdate, location, lildescription, userrole
+            FROM user
+            WHERE email = ?
+        ");
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['passwd'])) {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
 
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['name'];
             $_SESSION['user_email'] = $user['email'];
+            $_SESSION['user_signdate'] = $user['signdate'];
+            $_SESSION['user_location'] = $user['location'];
+            $_SESSION['user_description'] = $user['lildescription'];
             $_SESSION['user_role'] = $user['userrole'];
 
             return [
                 'success' => true,
                 'message' => 'Inicio de sesión exitoso'
             ];
-
         } else {
             return [
                 'success' => false,
                 'message' => 'Credenciales incorrectas.'
             ];
         }
-
     } catch (PDOException $e) {
         error_log("Error de base de datos en loginUser: " . $e->getMessage());
         return [
@@ -72,6 +80,7 @@ function loginUser($email, $password)
         ];
     }
 }
+
 
 // Función para verificar si el usuario esta logueado
 function isLoggedIn()
@@ -107,6 +116,10 @@ function userExists($email)
     $stmt->execute(['email' => $email]);
     return $stmt->fetch() !== false;
 }
+
+
+
+
 
 
 
