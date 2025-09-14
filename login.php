@@ -151,7 +151,7 @@ if (isset($_SESSION['user_id'])) {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: 'HovesDemiBoldItalic';
+            font-family: 'HovesDemiBold';
             overflow: auto;
         }
 
@@ -201,7 +201,7 @@ if (isset($_SESSION['user_id'])) {
 
         .auth-header p {
             font-size: 1rem;
-            font-family: 'HovesDemiBoldItalic';
+            font-family: 'HovesDemiBold';
             color: #000000ff
         }
 
@@ -211,7 +211,7 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .form-group label {
-            font-family: 'HovesDemiBoldItalic';
+            font-family: 'HovesDemiBold';
             font-size: 1rem;
             color: #000000ff;
             margin-bottom: 0.5rem;
@@ -274,7 +274,7 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .auth-links p {
-            font-family: 'HovesDemiBoldItalic';
+            font-family: 'HovesDemiBold';
             font-size: 1rem;
             margin-bottom: 1.5rem;
         }

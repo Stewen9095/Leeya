@@ -2,7 +2,7 @@ html{
     font-size: 16px;
     line-height: 1.5;
     background-color: black;
-    font-family: 'HovesMedium';
+    font-family: 'HovesDemiBold';
 }
 
 /* Las fuentes utilizadas se pueden ver acá  https://www.dafont.com/es/tt-hoves-pro.font */
@@ -179,7 +179,7 @@ html{
 }
 
 @font-face {
-    font-family: 'HovesDemiBoldItalic';
+    font-family: 'HovesDemiBold';
     src: url('fonts/TT\ Hoves\ Pro\ Trial\ DemiBold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;

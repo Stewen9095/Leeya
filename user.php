@@ -20,6 +20,16 @@ if (isLoggedIn()) {
 
 }
 
+if (isset($_SESSION['user_id'])) {
+    if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+        header('Location: adminpanel.php');
+        exit();
+    }
+}else{
+    header('Location: index.php');
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +45,7 @@ if (isLoggedIn()) {
         body {
             background: #000;
             color: #fff;
-            font-family: 'HovesDemiBoldItalic';
+            font-family: 'HovesDemiBold';
             margin: 0;
         }
 
@@ -45,16 +55,19 @@ if (isLoggedIn()) {
 
         .profile-container {
             max-width: 80rem;
-            margin: -1rem auto 2.9rem auto;
+            margin: 1.5rem auto;
+            height: 16rem;
+            margin-top:-1.2rem;
             background: linear-gradient(to bottom,
                         #000080 0%,
-                        #000000 60%);
+                        #00005fff 75%);
             border-radius: 2rem;
             box-shadow: 0 0 0.5rem rgba(240, 240, 240, 0.05);
-            padding: 2.5rem 2rem 2rem 2rem;
+            padding: 1rem 1rem 1rem 1rem;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
+            gap: 1rem;
         }
 
     </style>
@@ -221,16 +234,109 @@ if (isLoggedIn()) {
 
     <div class="profile-container">
     
+        <style>      
+            
+            .welcome{
+                font-family: 'HovesBold';
+                font-size: 3rem;
+                margin-bottom: -1.8rem;
+                margin-top: 0.5rem;
+            }
+
+            .since{
+            }
+
+            .infotext{
+                margin-bottom: 0rem;
+                margin-top: 0rem;
+            }
+
+            .infotextfinal{
+                margin-top:0;
+                margin-bottom: 5rem;
+            }
+
+            .dataUser{
+                text-align: center;
+                width: 50%;
+                height: 80%;
+                /*background-color: #fff;*/
+                border-radius: 1.25rem;
+            }
+
+            .userChanges{
+                text-align: center;
+                width: 50%;
+                height: 80%;
+                /*background-color: #fff;*/
+                border-radius: 1.25rem;
+            }            
+        
+
+        </style>         
+
         <div class="dataUser">
             
-            <p>Bienvenido <?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?></p>
-            <p>Correo electrónico de contacto: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_email'])[0]); ?></p>
-            <p>Ubicación: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_location'])[0]); ?></p>
+            <h1 class="welcome">Bienvenido, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?></h1>
+            <p class="since">Usuario activo desde: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_signdate'])[0]); ?></p>            
+            <p class="infotext">Correo electrónico de contacto: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_email'])[0]); ?></p>
+            <p class="infotext">Ubicación: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_location'])[0]); ?></p>
+            <?php $descriptionuser = '';
+                if($_SESSION['user_description'] == ''){
+            ?>
+            <p class="infotextfinal">Aún no cuentas con una descripción</p>
+            <?php
+
+                }else{
+            ?>
+
+            <p class="infotextfinal">Tu descripción: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_description'])[0]); ?></p>
+
+            <?php
+                }
+            ?>
                         
-            
+        </div>
+
+        <!-- Diff divs -->
+
+        <div class="userChanges">
+            <h1>Hola</h1>
         </div>
 
     </div>
+
+    <br>
+
+    <div class="profile-catalog">
+        
+        <h1 class="catalog">Mi catálogo</h1>
+
+        <style>
+
+            .catalog{
+                font-family: 'HovesBold';
+                font-size: 2.5rem;
+            }
+
+            .profile-catalog {
+                max-width: 80rem;
+                margin: 1.5rem auto;
+                margin-top:-1.8rem;
+                background: linear-gradient(to bottom,
+                            #000080 0%,
+                            #00005fff 75%);
+                border-radius: 2rem;
+                box-shadow: 0 0 0.5rem rgba(240, 240, 240, 0.05);
+                padding: 1rem 1rem 1rem 1rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }        
+
+        </style>
+    </div>
+
 </body>
 
 </html>
