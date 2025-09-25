@@ -59,8 +59,8 @@ if (isset($_SESSION['user_id'])) {
             height: 16rem;
             margin-top:-1.2rem;
             background: linear-gradient(to bottom,
-                        #000080 0%,
-                        #00005fff 75%);
+                        #001aafff 0%,
+                        #000080 55%);
             border-radius: 2rem;
             box-shadow: 0 0 0.5rem rgba(240, 240, 240, 0.05);
             padding: 1rem 1rem 1rem 1rem;
@@ -236,6 +236,11 @@ if (isset($_SESSION['user_id'])) {
     
         <style>      
             
+            .profile-container{
+                padding-bottom: 2rem;
+                border-radius: 1.25rem;
+            }
+
             .welcome{
                 font-family: 'HovesBold';
                 font-size: 3rem;
@@ -244,16 +249,17 @@ if (isset($_SESSION['user_id'])) {
             }
 
             .since{
+                padding-bottom: 1rem;
             }
 
             .infotext{
                 margin-bottom: 0rem;
                 margin-top: 0rem;
+                text-align: center;
             }
 
             .infotextfinal{
                 margin-top:0;
-                margin-bottom: 5rem;
             }
 
             .dataUser{
@@ -261,16 +267,56 @@ if (isset($_SESSION['user_id'])) {
                 width: 50%;
                 height: 80%;
                 /*background-color: #fff;*/
-                border-radius: 1.25rem;
+                border-radius: 2rem;
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+                margin-left: 2rem;
             }
 
-            .userChanges{
+            .userChanges {
+                
+                margin-left: -5rem;
+                display: flex;          
+                flex-direction: column; 
+                justify-content: center;                
+                align-items: center; 
                 text-align: center;
                 width: 50%;
-                height: 80%;
+                height: 92%;
                 /*background-color: #fff;*/
                 border-radius: 1.25rem;
-            }            
+                gap: 0.8rem;
+                padding-top: 1.2rem;
+
+            }
+
+            
+            .profile-container{
+                padding-left: -2rem;
+                padding-right: -2rem;
+            }
+
+            .functions {
+                text-decoration: none;
+                background: #001aafff 0%;
+                color: #fff;
+                text-align: center;
+                font-size: 1.2rem;
+                border-radius: 2rem;
+                padding: 0.5rem 1rem;
+                box-shadow: 0 0.125rem 0.5rem rgba(8, 4, 253, 0.13);
+                transition: background 0.5s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 80%;        
+                max-width: 25rem;  
+            }
+
+
+            .functions:hover{
+                background:#000080 95%;
+            }
         
 
         </style>         
@@ -301,7 +347,10 @@ if (isset($_SESSION['user_id'])) {
         <!-- Diff divs -->
 
         <div class="userChanges">
-            <h1>Hola</h1>
+            <a class="functions" href="#">Cambiar contraseña</a>
+            <a class="functions" href="#">Cambiar localidad</a>
+            <a class="functions" href="#">Cambiar descripción</a>
+            <a class="functions" href="#">Cerrar sesión</a>
         </div>
 
     </div>
@@ -317,6 +366,7 @@ if (isset($_SESSION['user_id'])) {
             .catalog{
                 font-family: 'HovesBold';
                 font-size: 2.5rem;
+                
             }
 
             .profile-catalog {
@@ -324,8 +374,8 @@ if (isset($_SESSION['user_id'])) {
                 margin: 1.5rem auto;
                 margin-top:-1.8rem;
                 background: linear-gradient(to bottom,
-                            #000080 0%,
-                            #00005fff 75%);
+                        #000080 0%,
+                        #001aafff 55%);
                 border-radius: 2rem;
                 box-shadow: 0 0 0.5rem rgba(240, 240, 240, 0.05);
                 padding: 1rem 1rem 1rem 1rem;
