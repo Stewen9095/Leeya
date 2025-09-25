@@ -350,7 +350,7 @@ if (isset($_SESSION['user_id'])) {
             <a class="functions" href="#">Cambiar contraseña</a>
             <a class="functions" href="#">Cambiar localidad</a>
             <a class="functions" href="#">Cambiar descripción</a>
-            <a class="functions" href="#">Cerrar sesión</a>
+            <a class="functions" href="logout.php">Cerrar sesión</a>
         </div>
 
     </div>

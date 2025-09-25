@@ -190,7 +190,12 @@ function changeUserPassword($user_id, $new_password)
     }
 }
 
-
+// Función para cerrar sesion
+function logoutUser()
+{
+    session_unset();
+    session_destroy();
+}
 
 
 
@@ -267,13 +272,6 @@ function getCurrentUser()
         ];
     }
     return null;
-}
-
-// Función para cerrar sesion
-function logoutUser()
-{
-    session_unset();
-    session_destroy();
 }
 
 ### **Funciones para la gestión de Eventos y Aprobación**
