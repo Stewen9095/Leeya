@@ -81,7 +81,6 @@ function loginUser($email, $password)
     }
 }
 
-
 // Función para verificar si el usuario esta logueado
 function isLoggedIn()
 {
@@ -115,6 +114,31 @@ function userExists($email)
     $stmt = $pdo->prepare("SELECT id FROM user WHERE email = :email LIMIT 1");
     $stmt->execute(['email' => $email]);
     return $stmt->fetch() !== false;
+}
+
+// Función para cerrar sesion
+function logoutUser()
+{
+    session_unset();
+    session_destroy();
+}
+
+function changeUserPassword($user_id, $new_password)
+{
+    try {
+        $pdo = getDBConnection();
+        $hashed = password_hash($new_password, PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare("UPDATE user SET passwd = ? WHERE id = ?");
+        $result = $stmt->execute([$hashed, $user_id]);
+        if ($result) {
+            return ['success' => true, 'message' => 'Contraseña actualizada correctamente.'];
+        } else {
+            return ['success' => false, 'message' => 'No se pudo actualizar la contraseña.'];
+        }
+    } catch (PDOException $e) {
+        error_log("Error al cambiar contraseña: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Error de base de datos al cambiar contraseña.'];
+    }
 }
 
 
@@ -172,30 +196,8 @@ function getTicketsByUserId($user_id)
     }
 }
 
-function changeUserPassword($user_id, $new_password)
-{
-    try {
-        $pdo = getDBConnection();
-        $hashed = password_hash($new_password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
-        $result = $stmt->execute([$hashed, $user_id]);
-        if ($result) {
-            return ['success' => true, 'message' => 'Contraseña actualizada correctamente.'];
-        } else {
-            return ['success' => false, 'message' => 'No se pudo actualizar la contraseña.'];
-        }
-    } catch (PDOException $e) {
-        error_log("Error al cambiar contraseña: " . $e->getMessage());
-        return ['success' => false, 'message' => 'Error de base de datos al cambiar contraseña.'];
-    }
-}
 
-// Función para cerrar sesion
-function logoutUser()
-{
-    session_unset();
-    session_destroy();
-}
+
 
 
 

@@ -347,7 +347,7 @@ if (isset($_SESSION['user_id'])) {
         <!-- Diff divs -->
 
         <div class="userChanges">
-            <a class="functions" href="#">Cambiar contraseña</a>
+            <a class="functions" href="changePassword.php">Cambiar contraseña</a>
             <a class="functions" href="#">Cambiar localidad</a>
             <a class="functions" href="#">Cambiar descripción</a>
             <a class="functions" href="logout.php">Cerrar sesión</a>
