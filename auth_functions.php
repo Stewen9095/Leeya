@@ -204,7 +204,135 @@ function changeUserLocation($user_id, $new_location)
 
 
 
-function getTicketsByUserId($user_id)
+
+
+
+
+
+function createBook($name, $description, $date, $time, $venue, $price, $available_tickets, $image_url)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare(
+            "INSERT INTO events (name, description, date, time, venue, price, available_tickets, image_url, status)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')" // Por defecto, 'pending'
+        );
+        $result = $stmt->execute([$name, $description, $date, $time, $venue, $price, $available_tickets, $image_url]);
+
+        if ($result) {
+            return ['success' => true, 'message' => 'Evento creado exitosamente y pendiente de aprobación.'];
+        } else {
+            return ['success' => false, 'message' => 'Error al crear el evento.'];
+        }
+    } catch (PDOException $e) {
+        error_log("Error al crear evento: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Error de base de datos al crear evento: ' . $e->getMessage()];
+    }
+}
+
+
+function getUserBooks($org_id)
+{
+    try {
+        $pdo = getDBConnection();
+
+        // Consulta optimizada para eventos futuros
+        $stmt = $pdo->prepare("
+                SELECT id, name, date, time, venue, price, image_url, description 
+                FROM events 
+                WHERE org_id = :org_id 
+                AND status = 'approved'
+                AND date >= CURDATE()
+                ORDER BY date ASC, time ASC
+            ");
+        $stmt->bindParam(':org_id', $org_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $future_events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Consulta optimizada para eventos pasados 3 meses
+        $stmt = $pdo->prepare("
+                SELECT id, name, date, time, venue, price, image_url, description 
+                FROM events 
+                WHERE org_id = :org_id 
+                AND status = 'approved'
+                AND date < CURDATE() 
+                AND date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+                ORDER BY date DESC, time DESC
+            ");
+        $stmt->bindParam(':org_id', $org_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $past_events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return [
+            'future' => $future_events,
+            'past' => $past_events
+        ];
+
+    } catch (PDOException $e) {
+        error_log("Error al obtener eventos del organizador: " . $e->getMessage());
+        return ['future' => [], 'past' => []];
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function getTicketsByUserId($user_id) // Se puede usar para libros x user
 {
     try {
         $pdo = getDBConnection();
@@ -229,6 +357,30 @@ function getTicketsByUserId($user_id)
         return [];
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

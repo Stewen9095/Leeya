@@ -82,16 +82,16 @@ if (isset($_SESSION['user_id'])) {
             </a>
             <div class="nav-btns">
 
-                <a href="#">
+                <a href="explore.php">
                     <h3>EXPLORAR</h3>
                 </a>
 
                 <?php if ($is_logged_in): ?>
-                    <a href="#">
+                    <a href="newbook.php">
                         <h3>+</h3>
                     </a>
 
-                    <a href="#">
+                    <a href="mybooks.php">
                         <h3>MIS LIBROS</h3>
                     </a>
 
