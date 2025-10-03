@@ -326,7 +326,7 @@ if (isset($_SESSION['user_id'])) {
             <h1 class="welcome">Bienvenido, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?></h1>
             <p class="since">Usuario activo desde: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_signdate'])[0]); ?></p>            
             <p class="infotext">Correo electrónico de contacto: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_email'])[0]); ?></p>
-            <p class="infotext">Ubicación: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_location'])[0]); ?></p>
+            <p class="infotext">Ubicación: <?php echo htmlspecialchars($_SESSION['user_location']); ?></p>
             <?php
                 $user_description = htmlspecialchars($_SESSION['user_description']);
                 if($_SESSION['user_description'] == ''){
@@ -347,7 +347,7 @@ if (isset($_SESSION['user_id'])) {
 
         <div class="userChanges">
             <a class="functions" href="changePassword.php">Cambiar contraseña</a>
-            <a class="functions" href="changeLocal.php">Cambiar localidad</a>
+            <a class="functions" href="changeLocation.php">Cambiar localidad</a>
             <a class="functions" href="changeDescription.php">Cambiar descripción</a>
             <a class="functions" href="logout.php">Cerrar sesión</a>
         </div>

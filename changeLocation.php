@@ -38,33 +38,20 @@ if (isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
-    $current = $_POST['current_password'] ?? '';
-    $new = $_POST['new_password'] ?? '';
-    $confirm = $_POST['confirm_password'] ?? '';
+    $new_location = $_POST['location'] ?? '';
 
-    if (empty($current) || empty($new) || empty($confirm)) {
-        $error = 'Completa todos los campos.';
-    } elseif ($new !== $confirm) {
-        $error = 'Las contraseñas nuevas no coinciden.';
-    } else {
-        // Verifica la contraseña actual
-        $pdo = getDBConnection();
-        $stmt = $pdo->prepare("SELECT passwd FROM user WHERE id = ?");
-        $stmt->execute([$_SESSION['user_id']]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$user || !password_verify($current, $user['passwd'])) {
-            $error = 'La contraseña actual es incorrecta.';
+    if(empty($new_location)){
+        $error = 'Selecciona un valor.';
+    }else {
+        $result = changeUserLocation($_SESSION['user_id'], $new_location);
+        if ($result['success']) {
+            $message = $result['message'];
+            $_SESSION['user_location'] = $new_location;
         } else {
-            $result = changeUserPassword($_SESSION['user_id'], $new);
-            if ($result['success']) {
-                $message = $result['message'];
-            } else {
-                $error = $result['message'];
-            }
-        }
+            $error = $result['message'];
+        }        
     }
-}
+}   
 
 ?>
 
@@ -73,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cambiar Contraseña</title>
+    <title>Cambiar ubicacion</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
@@ -175,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
         .form-control {
             width: 100%;
             padding: 0.7rem;
-            border: 2px solid #e4e5e6b0;
+            border: 2px solid #a1a1a1b0;
             border-radius: var(--radius, 8px);
             font-size: 1rem;
             box-sizing: border-box;
@@ -253,6 +240,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             margin-top: 0rem;
         }
 
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
     </style>
 </head>
 
@@ -270,8 +261,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <h1 class="titulo">Cambiar contraseña</h1>
-                <p>Actualiza la contraseña de tu cuenta Leeya</p>
+                <h1 class="titulo">Cambia tu ubicacion</h1>
+                <p>¿Donde te ubicas?</p>
             </div>
                 <?php if ($message): ?>
                     <div class="success-message"><?= htmlspecialchars($message) ?></div>
@@ -281,22 +272,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 <?php endif; ?>
                 <form method="post" autocomplete="off">
                     <div class="form-group">
-                        <label for="current_password">Contraseña actual</label>
-                        <input type="password" id="current_password" name="current_password" class="form-control" required>
+                        <label for="current_password">Localidad / Ubicacion actual:</label>
+                        <div class="current_password"><?php echo htmlspecialchars($_SESSION['user_location']); ?></div>
                     </div>
                     <br>
-                    <div class="form-group">
-                        <label for="new_password">Nueva contraseña</label>
-                        <input type="password" id="new_password" name="new_password" class="form-control" required>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="confirm_password">Confirmar nueva contraseña</label>
-                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
-                    </div>
+                <div class="form-group full-width">
+                    <label for="location">Localidad de residencia</label>
+                    <select id="location" name="location" class="form-control" required>
+                        <option value="" disabled selected>Selecciona una nueva localidad</option>
+                        <option value="Usaquén">Usaquén</option>
+                        <option value="Chapinero">Chapinero</option>
+                        <option value="Santa Fe">Santa Fe</option>
+                        <option value="San Cristóbal">San Cristóbal</option>
+                        <option value="Usme">Usme</option>
+                        <option value="Tunjuelito">Tunjuelito</option>
+                        <option value="Bosa">Bosa</option>
+                        <option value="Kennedy">Kennedy</option>
+                        <option value="Fontibón">Fontibón</option>
+                        <option value="Engativá">Engativá</option>
+                        <option value="Suba">Suba</option>
+                        <option value="Barrios Unidos">Barrios Unidos</option>
+                        <option value="Teusaquillo">Teusaquillo</option>
+                        <option value="Los Mártires">Los Mártires</option>
+                        <option value="Antonio Nariño">Antonio Nariño</option>
+                        <option value="Puente Aranda">Puente Aranda</option>
+                        <option value="La Candelaria">La Candelaria</option>
+                        <option value="Rafael Uribe Uribe">Rafael Uribe Uribe</option>
+                        <option value="Ciudad Bolívar">Ciudad Bolívar</option>
+                        <option value="Sumapaz">Sumapaz</option>
+                        <option value="Sumapaz">Fuera de Bogotá</option>
+                    </select>
+                </div>
                     
                     <br>
-                        <button type="submit" class="auth-button">Cambiar contraseña</button>
+                        <button type="submit" class="auth-button">Cambiar localidad</button>
                     <br>
                 </form>
                 <a href="user.php"><button class="auth-button2">Volver</button></a>

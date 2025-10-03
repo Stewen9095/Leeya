@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cambiar Contraseña</title>
+    <title>Cambiar descripcion</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
@@ -159,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
         .form-control {
             width: 100%;
             padding: 0.7rem;
-            border: 2px solid #e4e5e6b0;
+            border: 2px solid #a1a1a1b0;
             border-radius: var(--radius, 8px);
             font-size: 1rem;
             box-sizing: border-box;

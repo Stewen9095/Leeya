@@ -175,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
         .form-control {
             width: 100%;
             padding: 0.7rem;
-            border: 2px solid #e4e5e6b0;
+            border: 2px solid #a1a1a1b0;
             border-radius: var(--radius, 8px);
             font-size: 1rem;
             box-sizing: border-box;
