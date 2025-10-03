@@ -327,16 +327,15 @@ if (isset($_SESSION['user_id'])) {
             <p class="since">Usuario activo desde: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_signdate'])[0]); ?></p>            
             <p class="infotext">Correo electrónico de contacto: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_email'])[0]); ?></p>
             <p class="infotext">Ubicación: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_location'])[0]); ?></p>
-            <?php $descriptionuser = '';
+            <?php
+                $user_description = htmlspecialchars($_SESSION['user_description']);
                 if($_SESSION['user_description'] == ''){
             ?>
             <p class="infotextfinal">Aún no cuentas con una descripción</p>
             <?php
-
                 }else{
             ?>
-
-            <p class="infotextfinal">Tu descripción: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_description'])[0]); ?></p>
+            <p class="infotextfinal">Tu descripción: <?php echo htmlspecialchars($user_description); ?>
 
             <?php
                 }
@@ -348,8 +347,8 @@ if (isset($_SESSION['user_id'])) {
 
         <div class="userChanges">
             <a class="functions" href="changePassword.php">Cambiar contraseña</a>
-            <a class="functions" href="#">Cambiar localidad</a>
-            <a class="functions" href="#">Cambiar descripción</a>
+            <a class="functions" href="changeLocal.php">Cambiar localidad</a>
+            <a class="functions" href="changeDescription.php">Cambiar descripción</a>
             <a class="functions" href="logout.php">Cerrar sesión</a>
         </div>
 

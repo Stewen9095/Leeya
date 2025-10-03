@@ -141,6 +141,40 @@ function changeUserPassword($user_id, $new_password)
     }
 }
 
+function changeUserDescription($user_id, $new_description)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("UPDATE user SET lildescription = ? WHERE id = ?");
+        $result = $stmt->execute([$new_description, $user_id]);
+        if ($result) {
+            return ['success' => true, 'message' => 'Descripcion actualizada correctamente.'];
+        } else {
+            return ['success' => false, 'message' => 'No se pudo actualizar la descripcion.'];
+        }
+    } catch (PDOException $e) {
+        error_log("Error al cambiar la descripcion: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Error de base de datos al cambiar la descripcion.'];
+    }
+}
+
+function changeUserLocation($user_id, $new_location)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("UPDATE user SET location = ? WHERE id = ?");
+        $result = $stmt->execute([$new_location, $user_id]);
+        if ($result) {
+            return ['success' => true, 'message' => 'Ubicacion actualizada correctamente.'];
+        } else {
+            return ['success' => false, 'message' => 'No se pudo actualizar la ubicacion.'];
+        }
+    } catch (PDOException $e) {
+        error_log("Error al cambiar la ubicacion: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Error de base de datos al cambiar la ubicacion.'];
+    }
+}
+
 
 
 

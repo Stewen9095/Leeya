@@ -46,7 +46,8 @@ CREATE TABLE book (
     name VARCHAR(255),
     author VARCHAR(255),
     genre VARCHAR(100),
-    available VARCHAR(50),
+    typeof VARCHAR(50), -- Si es una venta, donacion, intercambio o subasta
+    status BOOLEAN, -- Si esta disponible o no
     price NUMERIC(10, 2),
     editorial VARCHAR(255),
     description TEXT,

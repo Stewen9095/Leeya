@@ -5,15 +5,18 @@ session_start();
 require_once 'auth_functions.php';
 require_once 'database.php';
 
-$is_logged_in = isset($_SESSION['user_id']);
-$user_email = $is_logged_in ? htmlspecialchars($_SESSION['user_email']) : '';
-$user_first_name = $is_logged_in && isset($_SESSION['user_name']) ? htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]) : '';
+if (isset($_SESSION['user_id'])) {
+    if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+        header('Location: adminpanel.php');
+        exit();
+    }
+}else{
+    header('Location: index.php');
+    exit();
+}
 
 $is_logged_in = false;
 $user_role = '';
-
-$message = '';
-$error = '';
 
 refreshSessionUser();
 
@@ -27,44 +30,25 @@ if (isLoggedIn()) {
 
 }
 
-if (isset($_SESSION['user_id'])) {
-    if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
-        header('Location: adminpanel.php');
-        exit();
-    }
-}else{
-    header('Location: index.php');
-    exit();
-}
+$message = '';
+$error = '';
+$current_description = htmlspecialchars(explode(' ', $_SESSION['user_description'])[0]);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
-    $current = $_POST['current_password'] ?? '';
-    $new = $_POST['new_password'] ?? '';
-    $confirm = $_POST['confirm_password'] ?? '';
+    $new_description = $_POST['new_description'] ?? '';
 
-    if (empty($current) || empty($new) || empty($confirm)) {
+    if(empty($new_description)){
         $error = 'Completa todos los campos.';
-    } elseif ($new !== $confirm) {
-        $error = 'Las contraseñas nuevas no coinciden.';
-    } else {
-        // Verifica la contraseña actual
-        $pdo = getDBConnection();
-        $stmt = $pdo->prepare("SELECT passwd FROM user WHERE id = ?");
-        $stmt->execute([$_SESSION['user_id']]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$user || !password_verify($current, $user['passwd'])) {
-            $error = 'La contraseña actual es incorrecta.';
+    }else {
+        $result = changeUserDescription($_SESSION['user_id'], $new_description);
+        if ($result['success']) {
+            $message = $result['message'];
+            $_SESSION['user_description'] = $new_description;
         } else {
-            $result = changeUserPassword($_SESSION['user_id'], $new);
-            if ($result['success']) {
-                $message = $result['message'];
-            } else {
-                $error = $result['message'];
-            }
-        }
+            $error = $result['message'];
+        }        
     }
-}
+}   
 
 ?>
 
@@ -270,8 +254,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <h1 class="titulo">Cambiar contraseña</h1>
-                <p>Actualiza la contraseña de tu cuenta Leeya</p>
+                <h1 class="titulo">Modifica tu descripcion</h1>
+                <p>Cuéntanos más de ti</p>
             </div>
                 <?php if ($message): ?>
                     <div class="success-message"><?= htmlspecialchars($message) ?></div>
@@ -281,22 +265,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 <?php endif; ?>
                 <form method="post" autocomplete="off">
                     <div class="form-group">
-                        <label for="current_password">Contraseña actual</label>
-                        <input type="password" id="current_password" name="current_password" class="form-control" required>
+                        <label>Tu descripcion actual es: </label>
+                        <?php
+                            if($current_description == ''){
+                        ?>                        
+                            <p>Aun no cuentas con una descripcion</p>
+                        <?php
+                            }else{
+                        ?>
+                            <?php echo htmlspecialchars($_SESSION['user_description']); ?>
+                        <?php
+                            }
+                        ?>
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="new_password">Nueva contraseña</label>
-                        <input type="password" id="new_password" name="new_password" class="form-control" required>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="confirm_password">Confirmar nueva contraseña</label>
-                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+                        <label for="new_password">Nueva descripcion</label>
+                        <input type="text" id="new_description" name="new_description" class="form-control" required>
                     </div>
                     
                     <br>
-                        <button type="submit" class="auth-button">Cambiar contraseña</button>
+                        <button type="submit" class="auth-button">Cambiar descripcion</button>
                     <br>
                 </form>
                 <a href="user.php"><button class="auth-button2">Volver</button></a>
