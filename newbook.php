@@ -213,7 +213,7 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .form-whole {
-            max-width: 82%;
+            max-width: 88%;
             margin: 1.5rem auto;
             height: 27.8rem;
             max-height: 27.8rem;
@@ -232,20 +232,31 @@ if (isset($_SESSION['user_id'])) {
 
         .bookinfo {
             text-align: center;
-            width: 65%;
+            width: 61%;
             height: 96%;
-            /*background-color: #fff;*/
             border-radius: 2rem;
-            align-items: center;
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .bookinfo h2 {
+            font-family: "HovesExpandedBold";
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.05rem;
+            margin-top: 0rem;
+            margin-bottom: 0rem;
         }
 
         .book-form {
-            width: 90%;
+            width: 82%;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.2rem 0.8rem;
+            grid-template-columns: 2fr 1fr;
+            gap: 0.2rem 1rem;
         }
 
         .form-group {
@@ -256,14 +267,14 @@ if (isset($_SESSION['user_id'])) {
 
         .form-group label {
             font-weight: 600;
-            font-family: "HovesExpandedBoldItalic";
-            color: #000080;
+            font-family: "HovesExpandedBold";
+            color: white;
             font-size: clamp(0.75rem, 1.5vw, 0.95rem);
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.15rem;
         }
 
         .form-group input {
-            padding: 0.6rem 0.8rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 1rem;
             border: 1.8px solid #001aaf;
             font-size: clamp(0.8rem, 1.6vw, 1rem);
@@ -278,11 +289,10 @@ if (isset($_SESSION['user_id'])) {
 
         .form-buttons {
             grid-column: span 2;
-            /* ocupa todo el ancho */
             display: flex;
             justify-content: center;
-            gap: 1.2rem;
-            margin-top: 0.8rem;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
         }
 
         .form-buttons button {
@@ -315,8 +325,8 @@ if (isset($_SESSION['user_id'])) {
 
         .bookpic {
             text-align: center;
-            width: 35%;
-            height: 96%;
+            width: 30%;
+            height: 62%;
             background-color: #fff;
             border-radius: 2rem;
             display: flex;
@@ -327,7 +337,7 @@ if (isset($_SESSION['user_id'])) {
 
         .preview {
             width: 100%;
-            height: 28%;
+            height: 25%;
             margin-top: 0%;
             background: linear-gradient(to bottom,
                     #000080 0%,
@@ -335,6 +345,7 @@ if (isset($_SESSION['user_id'])) {
             border-radius: 1rem;
             align-items: center;
             position: absolute;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);            
         }
 
         .preview-text {
@@ -347,6 +358,8 @@ if (isset($_SESSION['user_id'])) {
             justify-content: center;
             gap: 0.01rem;
             align-items: center;
+            line-height: 1.5;
+            overflow: hidden;
         }
 
         .preview-text p {
@@ -355,19 +368,19 @@ if (isset($_SESSION['user_id'])) {
             max-height: 95%;
             margin: -0.2rem;
             padding: 0;
-            font-size: clamp(0.2rem, 2vw, 0.92rem);
+            font-size: clamp(0.2rem, 2vw, 0.78rem);
             color: white;
             align-items: center;
         }
 
         .realpic {
             width: 100%;
-            height: 100%;
+            height: 88%;
             margin-top: 0%;
-            background: yellow;
-            border-radius: 1.2rem;
+            background: white;
             align-items: center;
             overflow: hidden;
+            border-radius: 1.5rem 1.5rem 0 0;
         }
 
         .realpic img {
@@ -375,7 +388,7 @@ if (isset($_SESSION['user_id'])) {
             height: 100%;
             object-fit: cover;
             object-position: center;
-            border-radius: inherit;
+            border-radius: 1.5rem 1.5rem 0 0;
             max-width: 100%;
             max-height: 100%;
             image-rendering: auto;
@@ -383,22 +396,38 @@ if (isset($_SESSION['user_id'])) {
 
         .buttons-back {
             width: 100%;
-            height: 22%;
-            margin-top: 0%;
+            height: 15%;
+            margin-top: 0rem;
             background: linear-gradient(to bottom,
                     #000080 0%,
                     #001aafff 55%);
-            border-radius: 1.2rem;
+            border-radius: 0 0 1rem 1rem;
             align-items: center;
             position: absolute;
             bottom: 0;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group select {
+            padding: 0.4rem 0.4rem;
+            border-radius: 1rem;
+            border: 1.8px solid #001aaf;
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
+            outline: none;
+            transition: all 0.25s ease;
+            background-color: #fff;
+            color: #000;
+            cursor: pointer;
         }
     </style>
 
     <div class="form-whole">
 
         <div class="bookinfo"> <!-- Caja izquierda -->
-            <form class="book-form">
+
+            <h2>Publica tu libro</h2>
+
+            <form class="book-form" method="POST" action="">
                 <div class="form-group">
                     <label for="name">Título del libro</label>
                     <input type="text" id="name" name="name" placeholder="Ej: Cien años de soledad" required>
@@ -410,13 +439,53 @@ if (isset($_SESSION['user_id'])) {
                 </div>
 
                 <div class="form-group">
-                    <label for="genre">Género</label>
-                    <input type="text" id="genre" name="genre" placeholder="Ej: Realismo mágico" required>
+                    <label for="genre">Descripcion</label>
+                    <input type="text" id="description" name="description" placeholder="Describe tu publicacion"
+                        required>
                 </div>
 
                 <div class="form-group">
                     <label for="editorial">Editorial</label>
-                    <input type="text" id="editorial" name="editorial" placeholder="Ej: Sudamericana" required>
+                    <input type="text" id="editorial" name="editorial" placeholder="Ej: Panamericana" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editorial">Imagen del libro</label>
+                    <input type="text" id="imagen" name="imagen" placeholder="Ingresa el link de tu imagen" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editorial">Genero</label>
+                    <input type="text" id="genero" name="genero" placeholder="Ej: Realismo magico" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Estado del libro</label>
+                    <select id="status" name="status" required>
+                        <option value="">Selecciona un estado</option>
+                        <option value="0">0 - Muy deteriorado</option>
+                        <option value="1">1 - Dañado</option>
+                        <option value="2">2 - Regular</option>
+                        <option value="3">3 - Bueno</option>
+                        <option value="4">4 - Muy bueno</option>
+                        <option value="5">5 - Como nuevo</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="trx">Tipo de transaccion</label>
+                    <select id="trx" name="trx" required>
+                        <option value="">¿Que deseas realizar?</option>
+                        <option value="Donacion">Donacion</option>
+                        <option value="Venta">Venta</option>
+                        <option value="Intercambio">Intercambio</option>
+                        <option value="Subasta">Subasta</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="monto-group" style="display: none;">
+                    <label for="monto">Monto</label>
+                    <input type="number" id="monto" name="monto" placeholder="Ingresa el monto del libro">
                 </div>
 
                 <div class="form-buttons">
@@ -431,16 +500,15 @@ if (isset($_SESSION['user_id'])) {
             <div class="preview"> <!-- Caja azul -->
 
                 <div class="preview-text"> <!-- Reservada para el texto de preview -->
-                    <p>Titulo: 100 anos de sobriedad</p>
-                    <p>Autor: Gabriel garcia marquez </p>
-                    <p>Estado: 5</p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
                 </div>
 
             </div>
 
             <div class="realpic"> <!-- Reservada para la imagen del libro -->
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgVfHORQFLyUf_rNove-xUmxIskDeMJ63REz_YIMQ6S0vCyQdkBvJos4igKspvCgpqnpy8h0xM--1uckzZIxDgyoHy37-MowkF-YzvVx8"
-                    alt="Imagen del libro">
+                <img src="" alt="Imagen del libro">
             </div>
 
             <div class="buttons-back">
@@ -450,6 +518,73 @@ if (isset($_SESSION['user_id'])) {
         </div>
 
     </div>
+
+    <script>
+        // --- Mostrar campo de monto según tipo de transacción ---
+        const trxSelect = document.getElementById("trx");
+        const montoGroup = document.getElementById("monto-group");
+        const montoInput = document.getElementById("monto");
+
+        trxSelect.addEventListener("change", () => {
+            const valor = trxSelect.value;
+            if (valor === "Venta" || valor === "Subasta") {
+                montoGroup.style.display = "flex";
+                montoInput.required = true;
+            } else {
+                montoGroup.style.display = "none";
+                montoInput.required = false;
+                montoInput.value = "";
+            }
+        });
+
+        // --- Actualizar vista previa en tiempo real ---
+        const titleInput = document.getElementById("name");
+        const authorInput = document.getElementById("author");
+        const statusSelect = document.getElementById("status");
+        const imageInput = document.getElementById("imagen");
+
+        const previewTitle = document.querySelector(".preview-text p:nth-child(1)");
+        const previewAuthor = document.querySelector(".preview-text p:nth-child(2)");
+        const previewStatus = document.querySelector(".preview-text p:nth-child(3)");
+        const previewImage = document.querySelector(".realpic img");
+
+        // Función para convertir número en estrellas
+        function getStars(num) {
+            if (!num) return "—";
+            num = parseInt(num);
+            let stars = "";
+            for (let i = 0; i < 5; i++) {
+                stars += i < num ? "⭐" : " ☆ ";
+            }
+            return stars;
+        }
+
+        // Función general para actualizar preview
+        function updatePreview() {
+            previewTitle.textContent = `Título: ${titleInput.value.trim() || "—"}`;
+            previewAuthor.textContent = `Autor: ${authorInput.value.trim() || "—"}`;
+
+            const stars = getStars(statusSelect.value);
+            previewStatus.textContent = `Estado: ${stars}`;
+
+            const link = imageInput.value.trim();
+            previewImage.src = link
+                ? link
+                : "https://laud.udistrital.edu.co/sites/default/files/imagen-noticia/2022-09/laud-edificio-lectus-facultad-tecnologica-davidmoraconstructor%20%285%29.jpeg";
+        }
+
+        // Actualizar en cada cambio
+        titleInput.addEventListener("input", updatePreview);
+        authorInput.addEventListener("input", updatePreview);
+        statusSelect.addEventListener("change", updatePreview);
+        imageInput.addEventListener("input", updatePreview);
+
+        // Inicializar al cargar la página
+        updatePreview();
+    </script>
+
+
+
 
 </body>
 

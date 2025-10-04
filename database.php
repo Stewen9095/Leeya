@@ -45,13 +45,13 @@ CREATE TABLE user (
 CREATE TABLE book (
     id INT PRIMARY KEY AUTO_INCREMENT,
     ownerid INT, -- Quien es el dueno del libro
-    name VARCHAR(255),
-    author VARCHAR(255),
-    genre VARCHAR(100),
-    editorial VARCHAR(255),
-    description TEXT,
+    name VARCHAR(255), -- ☻
+    author VARCHAR(255), -- ☻
+    genre VARCHAR(100), -- ☻
+    editorial VARCHAR(255), -- ☻
+    description TEXT, -- ☻
     qstatus NUMERIC, -- De 0 a 5 estrellas como se encuentra el libro
-    bookpic VARCHAR(500),
+    bookpic VARCHAR(500), ☻
 
     typeof VARCHAR(50), -- Si es una venta, donacion, intercambio o subasta
     status BOOLEAN, -- Si esta disponible o no
