@@ -32,7 +32,7 @@ if (isset($_SESSION['user_id'])) {
         header('Location: adminpanel.php');
         exit();
     }
-}else{
+} else {
     header('Location: index.php');
     exit();
 }
@@ -40,23 +40,24 @@ if (isset($_SESSION['user_id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
     $new_location = $_POST['location'] ?? '';
 
-    if(empty($new_location)){
+    if (empty($new_location)) {
         $error = 'Selecciona un valor.';
-    }else {
+    } else {
         $result = changeUserLocation($_SESSION['user_id'], $new_location);
         if ($result['success']) {
             $message = $result['message'];
             $_SESSION['user_location'] = $new_location;
         } else {
             $error = $result['message'];
-        }        
+        }
     }
-}   
+}
 
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -88,8 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             transform: translate(-50%, -50%);
             z-index: -1;
 
-        }       
-        
+        }
+
         .back-home {
             position: absolute;
             top: 2rem;
@@ -108,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
         .back-home:hover {
             color: var(--color-text-muted, #ccc);
         }
-        
+
         @media (max-width: 480px) {
             .auth-card {
                 padding: 2rem 1.5rem;
@@ -122,8 +123,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 margin-bottom: 1rem;
                 justify-content: center;
             }
-        }    
-        
+        }
+
         .auth-container {
             min-height: 100vh;
             display: flex;
@@ -157,8 +158,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             font-size: 1rem;
             font-family: 'HovesDemiBold';
             color: #000000ff
-        }      
-        
+        }
+
         .form-control {
             width: 100%;
             padding: 0.7rem;
@@ -172,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             outline: none;
             border-color: var(--color-primary, #333);
         }
-        
+
         .error-message {
             background: #fee;
             color: #c53030;
@@ -212,8 +213,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             color: #000000ff;
             transform: translateY(-0.1px);
             box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.22);
-        }  
-        
+        }
+
         .auth-button2 {
             margin-top: 0.6rem;
             width: 65%;
@@ -234,16 +235,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             color: #000000ff;
             transform: translateY(-0.1px);
             box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.22);
-        }          
-        
-        .titulo{
+        }
+
+        .titulo {
             margin-top: 0rem;
         }
 
         .form-group.full-width {
             grid-column: 1 / -1;
         }
-
     </style>
 </head>
 
@@ -256,7 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
         Volver al inicio
-    </a>    
+    </a>
 
     <div class="auth-container">
         <div class="auth-card">
@@ -264,18 +264,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 <h1 class="titulo">Cambia tu ubicacion</h1>
                 <p>¿Donde te ubicas?</p>
             </div>
-                <?php if ($message): ?>
-                    <div class="success-message"><?= htmlspecialchars($message) ?></div>
-                <?php endif; ?>
-                <?php if ($error): ?>
-                    <div class="error-message"><?= htmlspecialchars($error) ?></div>
-                <?php endif; ?>
-                <form method="post" autocomplete="off">
-                    <div class="form-group">
-                        <label for="current_password">Localidad / Ubicacion actual:</label>
-                        <div class="current_password"><?php echo htmlspecialchars($_SESSION['user_location']); ?></div>
-                    </div>
-                    <br>
+            <?php if ($message): ?>
+                <div class="success-message"><?= htmlspecialchars($message) ?></div>
+            <?php endif; ?>
+            <?php if ($error): ?>
+                <div class="error-message"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
+            <form method="post" autocomplete="off">
+                <div class="form-group">
+                    <label for="current_password">Localidad / Ubicacion actual:</label>
+                    <div class="current_password"><?php echo htmlspecialchars($_SESSION['user_location']); ?></div>
+                </div>
+                <br>
                 <div class="form-group full-width">
                     <label for="location">Localidad de residencia</label>
                     <select id="location" name="location" class="form-control" required>
@@ -303,15 +303,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                         <option value="Sumapaz">Fuera de Bogotá</option>
                     </select>
                 </div>
-                    
-                    <br>
-                        <button type="submit" class="auth-button">Cambiar localidad</button>
-                    <br>
-                </form>
-                <a href="user.php"><button class="auth-button2">Volver</button></a>
+
+                <br>
+                <button type="submit" class="auth-button">Cambiar localidad</button>
+                <br>
+            </form>
+            <a href="user.php"><button class="auth-button2">Volver</button></a>
         </div>
     </div>
 
 
 </body>
+
 </html>

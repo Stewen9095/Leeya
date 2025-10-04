@@ -32,7 +32,7 @@ if (isset($_SESSION['user_id'])) {
         header('Location: adminpanel.php');
         exit();
     }
-}else{
+} else {
     header('Location: index.php');
     exit();
 }
@@ -70,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -101,8 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             transform: translate(-50%, -50%);
             z-index: -1;
 
-        }       
-        
+        }
+
         .back-home {
             position: absolute;
             top: 2rem;
@@ -121,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
         .back-home:hover {
             color: var(--color-text-muted, #ccc);
         }
-        
+
         @media (max-width: 480px) {
             .auth-card {
                 padding: 2rem 1.5rem;
@@ -135,8 +136,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 margin-bottom: 1rem;
                 justify-content: center;
             }
-        }    
-        
+        }
+
         .auth-container {
             min-height: 100vh;
             display: flex;
@@ -170,8 +171,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             font-size: 1rem;
             font-family: 'HovesDemiBold';
             color: #000000ff
-        }      
-        
+        }
+
         .form-control {
             width: 100%;
             padding: 0.7rem;
@@ -185,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             outline: none;
             border-color: var(--color-primary, #333);
         }
-        
+
         .error-message {
             background: #fee;
             color: #c53030;
@@ -225,8 +226,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             color: #000000ff;
             transform: translateY(-0.1px);
             box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.22);
-        }  
-        
+        }
+
         .auth-button2 {
             margin-top: 0.6rem;
             width: 65%;
@@ -247,12 +248,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             color: #000000ff;
             transform: translateY(-0.1px);
             box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.22);
-        }          
-        
-        .titulo{
-            margin-top: 0rem;
         }
 
+        .titulo {
+            margin-top: 0rem;
+        }
     </style>
 </head>
 
@@ -265,7 +265,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
         Volver al inicio
-    </a>    
+    </a>
 
     <div class="auth-container">
         <div class="auth-card">
@@ -273,36 +273,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 <h1 class="titulo">Cambiar contraseña</h1>
                 <p>Actualiza la contraseña de tu cuenta Leeya</p>
             </div>
-                <?php if ($message): ?>
-                    <div class="success-message"><?= htmlspecialchars($message) ?></div>
-                <?php endif; ?>
-                <?php if ($error): ?>
-                    <div class="error-message"><?= htmlspecialchars($error) ?></div>
-                <?php endif; ?>
-                <form method="post" autocomplete="off">
-                    <div class="form-group">
-                        <label for="current_password">Contraseña actual</label>
-                        <input type="password" id="current_password" name="current_password" class="form-control" required>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="new_password">Nueva contraseña</label>
-                        <input type="password" id="new_password" name="new_password" class="form-control" required>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="confirm_password">Confirmar nueva contraseña</label>
-                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
-                    </div>
-                    
-                    <br>
-                        <button type="submit" class="auth-button">Cambiar contraseña</button>
-                    <br>
-                </form>
-                <a href="user.php"><button class="auth-button2">Volver</button></a>
+            <?php if ($message): ?>
+                <div class="success-message"><?= htmlspecialchars($message) ?></div>
+            <?php endif; ?>
+            <?php if ($error): ?>
+                <div class="error-message"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
+            <form method="post" autocomplete="off">
+                <div class="form-group">
+                    <label for="current_password">Contraseña actual</label>
+                    <input type="password" id="current_password" name="current_password" class="form-control" required>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="new_password">Nueva contraseña</label>
+                    <input type="password" id="new_password" name="new_password" class="form-control" required>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="confirm_password">Confirmar nueva contraseña</label>
+                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+                </div>
+
+                <br>
+                <button type="submit" class="auth-button">Cambiar contraseña</button>
+                <br>
+            </form>
+            <a href="user.php"><button class="auth-button2">Volver</button></a>
         </div>
     </div>
 
 
 </body>
+
 </html>

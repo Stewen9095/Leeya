@@ -25,7 +25,7 @@ if (isset($_SESSION['user_id'])) {
         header('Location: adminpanel.php');
         exit();
     }
-}else{
+} else {
     header('Location: index.php');
     exit();
 }
@@ -57,10 +57,10 @@ if (isset($_SESSION['user_id'])) {
             max-width: 80rem;
             margin: 1.5rem auto;
             height: 16rem;
-            margin-top:-1.2rem;
+            margin-top: -1.2rem;
             background: linear-gradient(to bottom,
-                        #001aafff 0%,
-                        #000080 55%);
+                    #001aafff 0%,
+                    #000080 55%);
             border-radius: 2rem;
             box-shadow: 0 0 0.5rem rgba(240, 240, 240, 0.05);
             padding: 1rem 1rem 1rem 1rem;
@@ -69,7 +69,6 @@ if (isset($_SESSION['user_id'])) {
             align-items: center;
             gap: 1rem;
         }
-
     </style>
 </head>
 
@@ -233,36 +232,35 @@ if (isset($_SESSION['user_id'])) {
     </header>
 
     <div class="profile-container">
-    
-        <style>      
-            
-            .profile-container{
+
+        <style>
+            .profile-container {
                 padding-bottom: 2rem;
                 border-radius: 1.25rem;
             }
 
-            .welcome{
+            .welcome {
                 font-family: 'HovesBold';
                 font-size: 3rem;
                 margin-bottom: -1.8rem;
                 margin-top: 0.5rem;
             }
 
-            .since{
+            .since {
                 padding-bottom: 1rem;
             }
 
-            .infotext{
+            .infotext {
                 margin-bottom: 0rem;
                 margin-top: 0rem;
                 text-align: center;
             }
 
-            .infotextfinal{
-                margin-top:0;
+            .infotextfinal {
+                margin-top: 0;
             }
 
-            .dataUser{
+            .dataUser {
                 text-align: center;
                 width: 50%;
                 height: 80%;
@@ -274,12 +272,12 @@ if (isset($_SESSION['user_id'])) {
             }
 
             .userChanges {
-                
+
                 margin-left: -5rem;
-                display: flex;          
-                flex-direction: column; 
-                justify-content: center;                
-                align-items: center; 
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
                 text-align: center;
                 width: 50%;
                 height: 92%;
@@ -290,8 +288,8 @@ if (isset($_SESSION['user_id'])) {
 
             }
 
-            
-            .profile-container{
+
+            .profile-container {
                 padding-left: -2rem;
                 padding-right: -2rem;
             }
@@ -309,38 +307,39 @@ if (isset($_SESSION['user_id'])) {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 80%;        
-                max-width: 25rem;  
+                width: 80%;
+                max-width: 25rem;
             }
 
 
-            .functions:hover{
-                background:#000080 95%;
+            .functions:hover {
+                background: #000080 95%;
             }
-        
-
-        </style>         
+        </style>
 
         <div class="dataUser">
-            
-            <h1 class="welcome">Bienvenido, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?></h1>
-            <p class="since">Usuario activo desde: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_signdate'])[0]); ?></p>            
-            <p class="infotext">Correo electrónico de contacto: <?php echo htmlspecialchars(explode(' ', $_SESSION['user_email'])[0]); ?></p>
+
+            <h1 class="welcome">Bienvenido, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?>
+            </h1>
+            <p class="since">Usuario activo desde:
+                <?php echo htmlspecialchars(explode(' ', $_SESSION['user_signdate'])[0]); ?></p>
+            <p class="infotext">Correo electrónico de contacto:
+                <?php echo htmlspecialchars(explode(' ', $_SESSION['user_email'])[0]); ?></p>
             <p class="infotext">Ubicación: <?php echo htmlspecialchars($_SESSION['user_location']); ?></p>
             <?php
-                $user_description = htmlspecialchars($_SESSION['user_description']);
-                if($_SESSION['user_description'] == ''){
-            ?>
-            <p class="infotextfinal">Aún no cuentas con una descripción</p>
-            <?php
-                }else{
-            ?>
-            <p class="infotextfinal">Tu descripción: <?php echo htmlspecialchars($user_description); ?>
+            $user_description = htmlspecialchars($_SESSION['user_description']);
+            if ($_SESSION['user_description'] == '') {
+                ?>
+                <p class="infotextfinal">Aún no cuentas con una descripción</p>
+                <?php
+            } else {
+                ?>
+                <p class="infotextfinal">Tu descripción: <?php echo htmlspecialchars($user_description); ?>
 
-            <?php
-                }
+                    <?php
+            }
             ?>
-                        
+
         </div>
 
         <!-- Diff divs -->
@@ -357,21 +356,20 @@ if (isset($_SESSION['user_id'])) {
     <br>
 
     <div class="profile-catalog">
-        
+
         <h1 class="catalog">Mi catálogo</h1>
 
         <style>
-
-            .catalog{
+            .catalog {
                 font-family: 'HovesBold';
                 font-size: 2.5rem;
-                
+
             }
 
             .profile-catalog {
                 max-width: 80rem;
                 margin: 1.5rem auto;
-                margin-top:-1.8rem;
+                margin-top: -1.8rem;
                 background: linear-gradient(to bottom,
                         #000080 0%,
                         #001aafff 55%);
@@ -381,8 +379,7 @@ if (isset($_SESSION['user_id'])) {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-            }        
-
+            }
         </style>
     </div>
 

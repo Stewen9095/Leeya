@@ -25,7 +25,7 @@ if (isset($_SESSION['user_id'])) {
         header('Location: adminpanel.php');
         exit();
     }
-}else{
+} else {
     header('Location: index.php');
     exit();
 }
@@ -34,13 +34,16 @@ if (isset($_SESSION['user_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publicar libro</title>
-    <link rel="icon" href="img/icon.png"></link>
+    <link rel="icon" href="img/icon.png">
+    </link>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <header>
@@ -195,10 +198,9 @@ if (isset($_SESSION['user_id'])) {
 
             </div>
         </nav>
-    </header>        
+    </header>
 
     <style>
-
         body {
             background: #000;
             color: #fff;
@@ -210,34 +212,108 @@ if (isset($_SESSION['user_id'])) {
             font-size: 15px;
         }
 
-        .form-whole{           
+        .form-whole {
             max-width: 82%;
             margin: 1.5rem auto;
             height: 27.8rem;
             max-height: 27.8rem;
-            margin-top:-1.2rem;
+            margin-top: -1.2rem;
             background: linear-gradient(to bottom,
-                        #001aafff 0%,
-                        #000080 55%);
+                    #001aafff 0%,
+                    #000080 55%);
             border-radius: 2rem;
             box-shadow: 0 0 0.5rem rgba(240, 240, 240, 0.05);
             padding: 1.5rem 1.8rem 1.5rem 1.8rem;
             display: flex;
             flex-direction: row;
             align-items: center;
-            gap: 1.8rem;        
+            gap: 1.8rem;
         }
 
-        .bookinfo{
+        .bookinfo {
             text-align: center;
             width: 65%;
             height: 96%;
-            background-color: #fff;
+            /*background-color: #fff;*/
             border-radius: 2rem;
             align-items: center;
+            display: flex;
+            justify-content: center;
         }
 
-        .bookpic{
+        .book-form {
+            width: 90%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.2rem 0.8rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-family: "HovesExpandedBoldItalic";
+            color: #000080;
+            font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+            margin-bottom: 0.3rem;
+        }
+
+        .form-group input {
+            padding: 0.6rem 0.8rem;
+            border-radius: 1rem;
+            border: 1.8px solid #001aaf;
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #0000ff;
+            box-shadow: 0 0 0.3rem rgba(0, 0, 255, 0.3);
+        }
+
+        .form-buttons {
+            grid-column: span 2;
+            /* ocupa todo el ancho */
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+        }
+
+        .form-buttons button {
+            padding: 0.6rem 1.4rem;
+            border-radius: 1rem;
+            font-family: "HovesExpandedBoldItalic";
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save {
+            background: linear-gradient(to bottom, #001aafff 0%, #000080 95%);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #ddd;
+            color: #000;
+        }
+
+        .btn-save:hover {
+            background: linear-gradient(to bottom, #000080 0%, #001aafff 95%);
+        }
+
+        .btn-cancel:hover {
+            background: #ccc;
+        }
+
+        .bookpic {
             text-align: center;
             width: 35%;
             height: 96%;
@@ -245,54 +321,116 @@ if (isset($_SESSION['user_id'])) {
             border-radius: 2rem;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;            
+            align-items: flex-start;
+            position: relative;
         }
 
-        .preview{
-            width:100%;
-            height: 25%;
+        .preview {
+            width: 100%;
+            height: 28%;
             margin-top: 0%;
             background: linear-gradient(to bottom,
-                        #000080 0%,
-                        #001aafff 55%);
-            border-radius: 1.6rem;
+                    #000080 0%,
+                    #001aafff 55%);
+            border-radius: 1rem;
             align-items: center;
+            position: absolute;
         }
 
-        .preview-text{
+        .preview-text {
             width: 100%;
             height: 100%;
             /*background-color: blue;*/
             border-radius: 3rem;
-            display: flex; 
+            display: flex;
             flex-direction: column;
-            justify-content: center;   
-            gap: 0.01rem;        
-            align-items: center; 
+            justify-content: center;
+            gap: 0.01rem;
+            align-items: center;
         }
 
-        .preview-text p{
+        .preview-text p {
+            font-family: "HovesExpandedBoldItalic";
             max-width: 95%;
             max-height: 95%;
-            margin:-0.2rem;
+            margin: -0.2rem;
             padding: 0;
-            font-size: clamp(0.2rem, 2vw, 1rem); 
+            font-size: clamp(0.2rem, 2vw, 0.92rem);
             color: white;
             align-items: center;
         }
 
+        .realpic {
+            width: 100%;
+            height: 100%;
+            margin-top: 0%;
+            background: yellow;
+            border-radius: 1.2rem;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .realpic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: inherit;
+            max-width: 100%;
+            max-height: 100%;
+            image-rendering: auto;
+        }
+
+        .buttons-back {
+            width: 100%;
+            height: 22%;
+            margin-top: 0%;
+            background: linear-gradient(to bottom,
+                    #000080 0%,
+                    #001aafff 55%);
+            border-radius: 1.2rem;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+        }
     </style>
 
     <div class="form-whole">
 
-        <div class="bookinfo">
+        <div class="bookinfo"> <!-- Caja izquierda -->
+            <form class="book-form">
+                <div class="form-group">
+                    <label for="name">Título del libro</label>
+                    <input type="text" id="name" name="name" placeholder="Ej: Cien años de soledad" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="author">Autor</label>
+                    <input type="text" id="author" name="author" placeholder="Ej: Gabriel García Márquez" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="genre">Género</label>
+                    <input type="text" id="genre" name="genre" placeholder="Ej: Realismo mágico" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editorial">Editorial</label>
+                    <input type="text" id="editorial" name="editorial" placeholder="Ej: Sudamericana" required>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn-save">Guardar</button>
+                    <button type="reset" class="btn-cancel">Cancelar</button>
+                </div>
+            </form>
         </div>
 
-        <div class="bookpic">
+        <div class="bookpic"> <!-- Caja derecha -->
 
-            <div class="preview">
+            <div class="preview"> <!-- Caja azul -->
 
-                <div class="preview-text">
+                <div class="preview-text"> <!-- Reservada para el texto de preview -->
                     <p>Titulo: 100 anos de sobriedad</p>
                     <p>Autor: Gabriel garcia marquez </p>
                     <p>Estado: 5</p>
@@ -300,13 +438,19 @@ if (isset($_SESSION['user_id'])) {
 
             </div>
 
-            <div>
+            <div class="realpic"> <!-- Reservada para la imagen del libro -->
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgVfHORQFLyUf_rNove-xUmxIskDeMJ63REz_YIMQ6S0vCyQdkBvJos4igKspvCgpqnpy8h0xM--1uckzZIxDgyoHy37-MowkF-YzvVx8"
+                    alt="Imagen del libro">
+            </div>
+
+            <div class="buttons-back">
 
             </div>
-            
+
         </div>
 
     </div>
 
 </body>
+
 </html>
