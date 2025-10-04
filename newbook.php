@@ -253,7 +253,7 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .book-form {
-            width: 82%;
+            width: 85%;
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 0.2rem 1rem;
@@ -291,7 +291,7 @@ if (isset($_SESSION['user_id'])) {
             grid-column: span 2;
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 1.6rem;
             margin-top: 1.2rem;
         }
 
@@ -358,7 +358,7 @@ if (isset($_SESSION['user_id'])) {
             justify-content: center;
             gap: 0.01rem;
             align-items: center;
-            line-height: 1.5;
+            line-height: 1.7;
             overflow: hidden;
         }
 
@@ -527,10 +527,16 @@ if (isset($_SESSION['user_id'])) {
 
         trxSelect.addEventListener("change", () => {
             const valor = trxSelect.value;
-            if (valor === "Venta" || valor === "Subasta") {
+            if (valor === "Venta") {
                 montoGroup.style.display = "flex";
                 montoInput.required = true;
-            } else {
+                montoInput.placeholder = "Ingresa el monto";
+            } else if(valor === "Subasta"){
+                montoGroup.style.display = "flex";
+                montoInput.required = true;
+                montoInput.placeholder = "Ingresa el monto base";
+            }
+            else {
                 montoGroup.style.display = "none";
                 montoInput.required = false;
                 montoInput.value = "";
