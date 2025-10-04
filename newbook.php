@@ -211,49 +211,93 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .form-whole{           
-            max-width: 80rem;
+            max-width: 82rem;
             margin: 1.5rem auto;
-            height: 16rem;
+            height: 27.8rem;
+            max-height: 27.8rem;
             margin-top:-1.2rem;
             background: linear-gradient(to bottom,
                         #001aafff 0%,
                         #000080 55%);
             border-radius: 2rem;
             box-shadow: 0 0 0.5rem rgba(240, 240, 240, 0.05);
-            padding: 1rem 1rem 1rem 1rem;
+            padding: 1.5rem 1.8rem 1.5rem 1.8rem;
             display: flex;
             flex-direction: row;
             align-items: center;
-            gap: 1rem;           
+            gap: 1.8rem;        
         }
 
-        .dataUser{
+        .bookinfo{
             text-align: center;
-            width: 50%;
-            height: 80%;
+            width: 65%;
+            height: 96%;
             background-color: #fff;
             border-radius: 2rem;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+            align-items: center;
         }
 
-        .userChanges {
+        .bookpic{
             text-align: center;
-            width: 50%;
-            height: 80%;
+            width: 35%;
+            height: 96%;
             background-color: #fff;
             border-radius: 2rem;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-            }        
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;            
+        }
+
+        .preview{
+            width:100%;
+            height: 22%;
+            margin-top: 0%;
+            background-color: black;
+            border-radius: 1.6rem;
+        }
+
+        .preview-text{
+            width: 100%;
+            height: 100%;
+            background-color: blue;
+            border-radius: 3rem;
+            display: flex; 
+            flex-direction: column;
+            justify-content: flex-start;   
+            gap: 0.05rem;         
+        }
+
+        .preview-text p{
+            max-width: 100%;
+            max-height: 100%;
+            margin:0%;
+            padding: 0;
+            font-size: clamp(0.2rem, 2vw, 1.1rem); 
+            color: red;
+        }
+
+        .preview-text p.top-preview-text{
+            margin-top:0.48rem;
+        }
+        
     </style>
 
     <div class="form-whole">
 
-        <div class="dataUser">
+        <div class="bookinfo">
         </div>
 
-        <div class="userChanges">
+        <div class="bookpic">
+
+            <div class="preview">
+
+                <div class="preview-text">
+                    <p class="top-preview-text">Titulo</p>
+                    <p>Autor</p>
+                </div>
+
+            </div>
+            
         </div>
 
     </div>
