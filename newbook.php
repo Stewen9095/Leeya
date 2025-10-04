@@ -250,9 +250,11 @@ if (isset($_SESSION['user_id'])) {
 
         .preview{
             width:100%;
-            height: 22%;
+            height: 25%;
             margin-top: 0%;
-            background-color: black;
+            background: linear-gradient(to bottom,
+                        #000080 0%,
+                        #001aafff 55%);
             border-radius: 1.6rem;
             align-items: center;
         }
@@ -260,7 +262,7 @@ if (isset($_SESSION['user_id'])) {
         .preview-text{
             width: 100%;
             height: 100%;
-            background-color: blue;
+            /*background-color: blue;*/
             border-radius: 3rem;
             display: flex; 
             flex-direction: column;
@@ -274,8 +276,8 @@ if (isset($_SESSION['user_id'])) {
             max-height: 95%;
             margin:-0.2rem;
             padding: 0;
-            font-size: clamp(0.2rem, 2vw, 0.9rem); 
-            color: red;
+            font-size: clamp(0.2rem, 2vw, 1rem); 
+            color: white;
             align-items: center;
         }
 
@@ -299,7 +301,7 @@ if (isset($_SESSION['user_id'])) {
             </div>
 
             <div>
-                
+
             </div>
             
         </div>
