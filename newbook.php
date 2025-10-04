@@ -211,7 +211,7 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .form-whole{           
-            max-width: 82rem;
+            max-width: 82%;
             margin: 1.5rem auto;
             height: 27.8rem;
             max-height: 27.8rem;
@@ -254,6 +254,7 @@ if (isset($_SESSION['user_id'])) {
             margin-top: 0%;
             background-color: black;
             border-radius: 1.6rem;
+            align-items: center;
         }
 
         .preview-text{
@@ -263,23 +264,21 @@ if (isset($_SESSION['user_id'])) {
             border-radius: 3rem;
             display: flex; 
             flex-direction: column;
-            justify-content: flex-start;   
-            gap: 0.05rem;         
+            justify-content: center;   
+            gap: 0.01rem;        
+            align-items: center; 
         }
 
         .preview-text p{
-            max-width: 100%;
-            max-height: 100%;
-            margin:0%;
+            max-width: 95%;
+            max-height: 95%;
+            margin:-0.2rem;
             padding: 0;
-            font-size: clamp(0.2rem, 2vw, 1.1rem); 
+            font-size: clamp(0.2rem, 2vw, 0.9rem); 
             color: red;
+            align-items: center;
         }
 
-        .preview-text p.top-preview-text{
-            margin-top:0.48rem;
-        }
-        
     </style>
 
     <div class="form-whole">
@@ -292,10 +291,15 @@ if (isset($_SESSION['user_id'])) {
             <div class="preview">
 
                 <div class="preview-text">
-                    <p class="top-preview-text">Titulo</p>
-                    <p>Autor</p>
+                    <p>Titulo: 100 anos de sobriedad</p>
+                    <p>Autor: Gabriel garcia marquez </p>
+                    <p>Estado: 5</p>
                 </div>
 
+            </div>
+
+            <div>
+                
             </div>
             
         </div>
