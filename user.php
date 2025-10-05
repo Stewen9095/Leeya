@@ -322,9 +322,11 @@ if (isset($_SESSION['user_id'])) {
             <h1 class="welcome">Bienvenido, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?>
             </h1>
             <p class="since">Usuario activo desde:
-                <?php echo htmlspecialchars(explode(' ', $_SESSION['user_signdate'])[0]); ?></p>
+                <?php echo htmlspecialchars(explode(' ', $_SESSION['user_signdate'])[0]); ?>
+            </p>
             <p class="infotext">Correo electrónico de contacto:
-                <?php echo htmlspecialchars(explode(' ', $_SESSION['user_email'])[0]); ?></p>
+                <?php echo htmlspecialchars(explode(' ', $_SESSION['user_email'])[0]); ?>
+            </p>
             <p class="infotext">Ubicación: <?php echo htmlspecialchars($_SESSION['user_location']); ?></p>
             <?php
             $user_description = htmlspecialchars($_SESSION['user_description']);
@@ -381,6 +383,55 @@ if (isset($_SESSION['user_id'])) {
                 align-items: center;
             }
         </style>
+
+        <?php
+        $books = [];
+        if ($is_logged_in && isset($_SESSION['user_id'])) {
+            $books = getBooksByUserId($_SESSION['user_id']);
+        }
+        ?>
+
+        <div class="catalog-list">
+            <?php if (empty($books)): ?>
+                <p style="color:#fff;">No tienes libros publicados disponibles.</p>
+            <?php else: ?>
+                <?php foreach ($books as $book): ?>
+                    <div class="book-preview"
+                        style="background:#fff; border-radius:1.5rem; margin-bottom:1.5rem; padding:1rem; display:flex; gap:1.5rem; align-items:center;">
+                        <div class="book-img"
+                            style="width:120px; height:160px; border-radius:1rem; overflow:hidden; background:#eee;">
+                            <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Imagen del libro"
+                                style="width:100%; height:100%; object-fit:cover;">
+                        </div>
+                        <div class="book-info" style="flex:1;">
+                            <h3 style="margin:0 0 0.5rem 0; color:#001aaf;"><?= htmlspecialchars($book['name']) ?></h3>
+                            <p style="margin:0; color:#222;"><b>Autor:</b> <?= htmlspecialchars($book['author']) ?></p>
+                            <p style="margin:0; color:#222;"><b>Editorial:</b> <?= htmlspecialchars($book['editorial']) ?></p>
+                            <p style="margin:0; color:#222;"><b>Género:</b> <?= htmlspecialchars($book['genre']) ?></p>
+                            <p style="margin:0; color:#222;"><b>Descripción:</b> <?= htmlspecialchars($book['description']) ?>
+                            </p>
+                            <p style="margin:0; color:#222;"><b>Estado:</b>
+                                <?php
+                                $stars = '';
+                                for ($i = 0; $i < 5; $i++) {
+                                    $stars .= $i < intval($book['qstatus']) ? '⭐' : '☆';
+                                }
+                                echo $stars;
+                                ?>
+                            </p>
+                            <p style="margin:0; color:#222;"><b>Tipo:</b> <?= htmlspecialchars($book['typeof']) ?></p>
+                            <?php if ($book['price'] !== null): ?>
+                                <p style="margin:0; color:#222;"><b>Precio:</b> $<?= htmlspecialchars($book['price']) ?></p>
+                            <?php endif; ?>
+                            <a href="pickedbook.php?id=<?= $book['id'] ?>" class="functions" style="margin-top:1rem;">
+                                Ver info
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+
     </div>
 
 </body>

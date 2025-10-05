@@ -175,60 +175,105 @@ function changeUserLocation($user_id, $new_location)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function createBook($name, $description, $date, $time, $venue, $price, $available_tickets, $image_url)
+// Crear un libro (publicar)
+function createBook($ownerid, $name, $author, $genre, $editorial, $description, $qstatus, $bookpic, $typeof, $status, $price = null)
 {
     try {
         $pdo = getDBConnection();
-        $stmt = $pdo->prepare(
-            "INSERT INTO events (name, description, date, time, venue, price, available_tickets, image_url, status)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')" // Por defecto, 'pending'
-        );
-        $result = $stmt->execute([$name, $description, $date, $time, $venue, $price, $available_tickets, $image_url]);
+        $stmt = $pdo->prepare("
+            INSERT INTO book 
+                (ownerid, name, author, genre, editorial, description, qstatus, bookpic, typeof, status, price)
+            VALUES 
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $result = $stmt->execute([
+            $ownerid,
+            $name,
+            $author,
+            $genre,
+            $editorial,
+            $description,
+            $qstatus,
+            $bookpic,
+            $typeof,
+            $status,
+            $price
+        ]);
 
         if ($result) {
-            return ['success' => true, 'message' => 'Evento creado exitosamente y pendiente de aprobación.'];
+            return ['success' => true, 'message' => 'Libro publicado exitosamente.'];
         } else {
-            return ['success' => false, 'message' => 'Error al crear el evento.'];
+            return ['success' => false, 'message' => 'Error al publicar el libro.'];
         }
     } catch (PDOException $e) {
-        error_log("Error al crear evento: " . $e->getMessage());
-        return ['success' => false, 'message' => 'Error de base de datos al crear evento: ' . $e->getMessage()];
+        error_log("Error al publicar el libro: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Error de base de datos al publicar el libro: ' . $e->getMessage()];
     }
 }
+
+// Obtener los libros del usuario x su id
+function getBooksByUserId($user_id)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("
+            SELECT id, name, author, genre, editorial, description, qstatus, bookpic, typeof, status, price
+            FROM book
+            WHERE ownerid = ? AND status = 1
+            ORDER BY id DESC
+        ");
+        $stmt->execute([$user_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error al obtener libros del usuario: " . $e->getMessage());
+        return [];
+    }
+}
+
+// Obtiene el libro segun el id del mismo
+function getBookById($book_id)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("SELECT * FROM book WHERE id = ?");
+        $stmt->execute([$book_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error al obtener libro por ID: " . $e->getMessage());
+        return null;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function getUserBooks($org_id)

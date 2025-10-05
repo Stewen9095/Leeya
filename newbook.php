@@ -30,6 +30,43 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 
+$message = '';
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
+    $ownerid = $_SESSION['user_id'];
+    $name = $_POST['name'] ?? '';
+    $author = $_POST['author'] ?? '';
+    $genre = $_POST['genero'] ?? '';
+    $editorial = $_POST['editorial'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $qstatus = $_POST['status'] ?? 0;
+    $bookpic = $_POST['imagen'] ?? '';
+    $typeof = $_POST['trx'] ?? '';
+    $status = 1; // Disponible al ser recién publicado
+    $price = isset($_POST['monto']) && $_POST['monto'] !== '' ? $_POST['monto'] : null;
+
+    if (empty($name) || empty($author) || empty($genre) || empty($editorial) || empty($description) || empty($bookpic) || empty($typeof) || $qstatus === '') {
+        $error = 'Completa todos los campos obligatorios.';
+    } else {
+        $result = createBook($ownerid, $name, $author, $genre, $editorial, $description, $qstatus, $bookpic, $typeof, $status, $price);
+        if ($result['success']) {
+            $_SESSION['newbook_message'] = $result['message'];
+            header('Location: newbook.php');
+            exit();
+        } else {
+            $error = $result['message'];
+        }
+    }
+}
+
+// --- Y agrega esto donde inicializas $message ---
+$message = '';
+if (isset($_SESSION['newbook_message'])) {
+    $message = $_SESSION['newbook_message'];
+    unset($_SESSION['newbook_message']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -297,30 +334,27 @@ if (isset($_SESSION['user_id'])) {
 
         .form-buttons button {
             padding: 0.6rem 1.4rem;
-            border-radius: 1rem;
             font-family: "HovesExpandedBoldItalic";
             font-size: clamp(0.8rem, 1.5vw, 1rem);
             cursor: pointer;
             border: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-save {
-            background: linear-gradient(to bottom, #001aafff 0%, #000080 95%);
-            color: white;
-        }
-
-        .btn-cancel {
-            background: #ddd;
-            color: #000;
+            transition: all 0.5s ease;
+            background-color: white;
+            color: #000080;
+            border: none;
+            border-radius: var(--radius, 8px);
+            font-family: "HovesExpandedBold";
+            transition: background-color 0.5s, transform 0.5s;
         }
 
         .btn-save:hover {
-            background: linear-gradient(to bottom, #000080 0%, #001aafff 95%);
+            background: #000080;
+            color: white;
         }
 
         .btn-cancel:hover {
-            background: #ccc;
+            background: #000080;
+            color: white;
         }
 
         .bookpic {
@@ -345,7 +379,7 @@ if (isset($_SESSION['user_id'])) {
             border-radius: 1rem;
             align-items: center;
             position: absolute;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);            
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
         }
 
         .preview-text {
@@ -363,7 +397,7 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .preview-text p {
-            font-family: "HovesExpandedBoldItalic";
+            font-family: "HovesExtraLight";
             max-width: 95%;
             max-height: 95%;
             margin: -0.2rem;
@@ -394,7 +428,7 @@ if (isset($_SESSION['user_id'])) {
             image-rendering: auto;
         }
 
-        .buttons-back {
+        .messages-back {
             width: 100%;
             height: 15%;
             margin-top: 0rem;
@@ -418,6 +452,26 @@ if (isset($_SESSION['user_id'])) {
             background-color: #fff;
             color: #000;
             cursor: pointer;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c53030;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            border: 1px solid #fed7d7;
+        }
+
+        .success-message {
+            background: #f0fff4;
+            color: #38a169;
+            padding: 0.75rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            border: 1px solid #c6f6d5;
         }
     </style>
 
@@ -490,7 +544,7 @@ if (isset($_SESSION['user_id'])) {
 
                 <div class="form-buttons">
                     <button type="submit" class="btn-save">Guardar</button>
-                    <button type="reset" class="btn-cancel">Cancelar</button>
+                    <button type="reset" class="btn-cancel">Limpiar</button>
                 </div>
             </form>
         </div>
@@ -511,8 +565,13 @@ if (isset($_SESSION['user_id'])) {
                 <img src="" alt="Imagen del libro">
             </div>
 
-            <div class="buttons-back">
-
+            <div class="messages-back">
+                <?php if ($message): ?>
+                    <div class="success-message"><?= htmlspecialchars($message) ?></div>
+                <?php endif; ?>
+                <?php if ($error): ?>
+                    <div class="error-message"><?= htmlspecialchars($error) ?></div>
+                <?php endif; ?>
             </div>
 
         </div>
@@ -531,7 +590,7 @@ if (isset($_SESSION['user_id'])) {
                 montoGroup.style.display = "flex";
                 montoInput.required = true;
                 montoInput.placeholder = "Ingresa el monto";
-            } else if(valor === "Subasta"){
+            } else if (valor === "Subasta") {
                 montoGroup.style.display = "flex";
                 montoInput.required = true;
                 montoInput.placeholder = "Ingresa el monto base";

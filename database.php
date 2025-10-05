@@ -51,8 +51,7 @@ CREATE TABLE book (
     editorial VARCHAR(255), -- ☻
     description TEXT, -- ☻
     qstatus NUMERIC, -- De 0 a 5 estrellas como se encuentra el libro
-    bookpic VARCHAR(500), ☻
-
+    bookpic VARCHAR(500), -- ☻ Link de la imagen
     typeof VARCHAR(50), -- Si es una venta, donacion, intercambio o subasta
     status BOOLEAN, -- Si esta disponible o no
     price NUMERIC(10, 2), -- precio para el caso de venta o subasta
