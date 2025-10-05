@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
         if ($result['success']) {
             $message = $result['message'];
             $_SESSION['user_description'] = $new_description;
+            header('Location: changeDescription.php');
         } else {
             $error = $result['message'];
         }

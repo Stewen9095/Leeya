@@ -47,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
         if ($result['success']) {
             $message = $result['message'];
             $_SESSION['user_location'] = $new_location;
+            header('Location: changeLocation.php');
         } else {
             $error = $result['message'];
         }

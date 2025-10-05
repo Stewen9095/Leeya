@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             $result = changeUserPassword($_SESSION['user_id'], $new);
             if ($result['success']) {
                 $message = $result['message'];
+                header('Location: changePassword.php');
             } else {
                 $error = $result['message'];
             }
