@@ -395,7 +395,7 @@ if (isLoggedIn()) {
                 margin: 0 auto;
                 overflow-x: auto;
                 justify-content: center;
-                padding-bottom: 1rem;
+                padding-bottom: 4vw;
             }
 
             .tweet-wrapper {
@@ -454,174 +454,117 @@ if (isLoggedIn()) {
             }
         </style>
 
-        <h2 class="carrusel-titulo">Últimos libros publicados</h2>
+        <?php
+        $latest_books = getLatestBooks(4, $is_logged_in ? $_SESSION['user_id'] : null);
+        ?>
 
-        <div class="bookbox-container"> <!-- Apartado de los últimos 6 libros publicados -->
-
-            <div class="fullbook"> <!-- Apartado de libro completo -->
-
-                <div class="bookbox"> <!-- Apartado de imagen y de funciones (Like y estado) -->
-
-                    <div class="functionsbook"> <!-- Contenedor de like y estado del libro -->
-                        <button class="likebutton"><img src="img/like.png" class="likepic"
-                                alt="Agrega este libro a tus favoritos"></button>
-                        <h3 class="statusbook">Estado</h3>
-                        <!-- Estado: Referencia a Venta, Donación, Subasta o intercambio -->
+        <?php if (!empty($latest_books)): ?>
+            <h2 class="carrusel-titulo">Últimos libros publicados</h2>
+            <div class="bookbox-container">
+                <?php foreach ($latest_books as $book): ?>
+                    <div class="fullbook">
+                        <div class="bookbox">
+                            <div class="functionsbook">
+                                <button class="likebutton"><img src="img/like.png" class="likepic"
+                                        alt="Agrega este libro a tus favoritos"></button>
+                                <h3 class="statusbook"><?= htmlspecialchars($book['typeof']) ?></h3>
+                            </div>
+                            <div class="imagenbox">
+                                <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Libro publicado">
+                            </div>
+                        </div>
+                        <div class="infolibro">
+                            <h3 class="TituloLibro"><?= htmlspecialchars($book['name']) ?></h3>
+                            <?php if ($book['price'] !== null): ?>
+                                <h4 class="PrecioLibro">$<?= htmlspecialchars($book['price']) ?></h4>
+                            <?php endif; ?>
+                            <div class="AdquirirLibro">
+                                <?php if ($is_logged_in): ?>
+                                    <a href="pickedbook.php?id=<?= $book['id'] ?>">Adquirir</a>
+                                <?php else: ?>
+                                    <a href="login.php">Inicia sesión para adquirir</a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="imagenbox"> <!-- Imagen que cubre el libro -->
-                        <img src="img/like.png" alt="Libro de la publicación reciente">
-                    </div>
-
-                </div>
-
-                <div class="infolibro"> <!-- Apartado de información del libro y acceder al mismo -->
-                    <h3 class="TituloLibro">Libro hola 123asdf</h3>
-                    <h4 class="PrecioLibro">$ Precio</h4>
-                    <a class="AdquirirLibro"><a href="#">Adquirir</a>
-                </div>
-
+                <?php endforeach; ?>
             </div>
-
-            <div class="fullbook"> <!-- Apartado de libro completo -->
-
-                <div class="bookbox"> <!-- Apartado de imagen y de funciones (Like y estado) -->
-
-                    <div class="functionsbook"> <!-- Contenedor de like y estado del libro -->
-                        <button class="likebutton"><img src="img/like.png" class="likepic"
-                                alt="Agrega este libro a tus favoritos"></button>
-                        <h3 class="statusbook">Estado</h3>
-                        <!-- Estado: Referencia a Venta, Donación, Subasta o intercambio -->
-                    </div>
-
-                    <div class="imagenbox"> <!-- Imagen que cubre el libro -->
-                        <img src="img/like.png" alt="Libro de la publicación reciente">
-                    </div>
-
-                </div>
-
-                <div class="infolibro"> <!-- Apartado de información del libro y acceder al mismo -->
-                    <h3 class="TituloLibro">Libro hola 123asdf</h3>
-                    <h4 class="PrecioLibro">$ Precio</h4>
-                    <a class="AdquirirLibro"><a href="#">Adquirir</a>
-                </div>
-
-            </div>
-
-            <div class="fullbook"> <!-- Apartado de libro completo -->
-
-                <div class="bookbox"> <!-- Apartado de imagen y de funciones (Like y estado) -->
-
-                    <div class="functionsbook"> <!-- Contenedor de like y estado del libro -->
-                        <button class="likebutton"><img src="img/like.png" class="likepic"
-                                alt="Agrega este libro a tus favoritos"></button>
-                        <h3 class="statusbook">Estado</h3>
-                        <!-- Estado: Referencia a Venta, Donación, Subasta o intercambio -->
-                    </div>
-
-                    <div class="imagenbox"> <!-- Imagen que cubre el libro -->
-                        <img src="img/like.png" alt="Libro de la publicación reciente">
-                    </div>
-
-                </div>
-
-                <div class="infolibro"> <!-- Apartado de información del libro y acceder al mismo -->
-                    <h3 class="TituloLibro">Libro hola 123asdf</h3>
-                    <h4 class="PrecioLibro">$ Precio</h4>
-                    <a class="AdquirirLibro"><a href="#">Adquirir</a>
-                </div>
-
-            </div>
-
-            <div class="fullbook"> <!-- Apartado de libro completo -->
-
-                <div class="bookbox"> <!-- Apartado de imagen y de funciones (Like y estado) -->
-
-                    <div class="functionsbook"> <!-- Contenedor de like y estado del libro -->
-                        <button class="likebutton"><img src="img/like.png" class="likepic"
-                                alt="Agrega este libro a tus favoritos"></button>
-                        <h3 class="statusbook">Estado</h3>
-                        <!-- Estado: Referencia a Venta, Donación, Subasta o intercambio -->
-                    </div>
-
-                    <div class="imagenbox"> <!-- Imagen que cubre el libro -->
-                        <img src="img/like.png" alt="Libro de la publicación reciente">
-                    </div>
-
-                </div>
-
-                <div class="infolibro"> <!-- Apartado de información del libro y acceder al mismo -->
-                    <h3 class="TituloLibro">Libro hola 123asdf</h3>
-                    <h4 class="PrecioLibro">$ Precio</h4>
-                    <a class="AdquirirLibro"><a href="#">Adquirir</a>
-                </div>
-
-            </div>
-
-
-        </div>
+        <?php endif; ?>
 
         <style>
             /* Estilo de los últimos libros publicados */
             .bookbox-container {
                 display: flex;
-                justify-content: center;
-                gap: 3rem;
-                align-items: center;
-                padding-top: 1.5rem;
-                padding-bottom: 6rem;
-                width: 100%;
-                max-width: 100vw;
                 flex-wrap: wrap;
+                gap: 2vw;
+                justify-content: center;
+                align-items: stretch;
+                width: 100%;
+                padding-top: 2vw;
+                padding-bottom: 4vw;
+                box-sizing: border-box;
             }
 
             /* Editar el porcentaje de uso de la pantalla, no està manejado de manera responsiva al 100%*/
 
             .PrecioLibro {
-                text-align: start;
-                align-self: start;
+                margin: 0 0 0.5vw 0;
+                min-height: 1.5em;
+                color: #222;
+                font-size: 1vw;
             }
 
             .fullbook {
-                align-items: stretch;
-                flex-direction: column;
-                border-radius: 0.625rem;
-                flex: 1 1 20%;
-                box-shadow: 0 4px 8px rgba(255, 255, 255, 0.25);
-                max-width: 20%;
-                text-align: center;
-                overflow: hidden;
+                background: #fff;
+                border-radius: 1vw;
+                box-shadow: 0 0.5vw 2vw rgba(0, 0, 0, 0.08);
+                width: 22vw;
+                min-width: 180px;
+                max-width: 98vw;
                 display: flex;
                 flex-direction: column;
+                align-items: stretch;
+                min-height: 32vw;
+                margin-bottom: 2vw;
+                overflow: hidden;
             }
 
             .bookbox {
-                aspect-ratio: 1 / 1;
-                /* cuadrado */
                 width: 100%;
-                border-radius: 0.625rem;
-                max-width: 100%;
-                background: #ffffff;
+                aspect-ratio: 1/1.2;
+                border-radius: 1vw;
+                background: #f5f5f5;
                 position: relative;
-                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .imagenbox {
-                height: 100%;
-                width: 100%;
+                width: 80%;
+                height: 80%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: auto;
             }
 
             .imagenbox img {
-                height: 100%;
                 width: 100%;
+                height: 100%;
                 object-fit: cover;
+                border-radius: 1vw;
             }
 
             .infolibro {
-                text-align: left;
-                margin: 0;
-                padding: 0;
+                padding: 1vw 1vw 0.5vw 1vw;
                 width: 100%;
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                box-sizing: border-box;
             }
 
             .functionsbook {
@@ -655,26 +598,30 @@ if (isLoggedIn()) {
             }
 
             .TituloLibro {
-                align-self: flex-start;
-                text-align: left;
-                font-size: 1.2rem;
+                font-size: 1.2vw;
                 font-weight: bold;
-                margin: 0;
-                padding: 0;
+                margin: 0 0 0.5vw 0;
+                width: 100%;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                width: 100%;
             }
 
+            .AdquirirLibro {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+            }
 
             .AdquirirLibro a {
                 text-decoration: none;
                 color: #fff;
                 background-color: #000080;
-                padding: 0.5rem 1rem;
-                border-radius: 0.375rem;
+                padding: 0.5vw 1vw;
+                border-radius: 0.5vw;
                 transition: background 0.5s;
+                font-size: 1vw;
             }
 
             .AdquirirLibro a:hover {

@@ -244,6 +244,29 @@ function getBookById($book_id)
     }
 }
 
+// Obtener los 4 libros + recientes xra el index
+function getLatestBooks($limit = 4, $exclude_user_id = null)
+{
+    try {
+        $pdo = getDBConnection();
+        $query = "SELECT * FROM book WHERE status = 1";
+        if ($exclude_user_id) {
+            $query .= " AND ownerid != ?";
+            $query .= " ORDER BY id DESC LIMIT ?";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([$exclude_user_id, $limit]);
+        } else {
+            $query .= " ORDER BY id DESC LIMIT ?";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([$limit]);
+        }
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error al obtener últimos libros: " . $e->getMessage());
+        return [];
+    }
+}
+
 
 
 

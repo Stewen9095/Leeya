@@ -32,16 +32,20 @@ $is_owner = ($is_logged_in && $current_user_id == $book['ownerid']);
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Detalle del libro</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body style="background:#000; color:#fff; font-family:'Inter',sans-serif;">
-    <div style="max-width:600px;margin:2rem auto;background:#fff;border-radius:2rem;padding:2rem;box-shadow:0 0 1rem #0002;">
+    <div
+        style="max-width:600px;margin:2rem auto;background:#fff;border-radius:2rem;padding:2rem;box-shadow:0 0 1rem #0002;">
         <div style="display:flex;gap:2rem;">
             <div style="width:160px;height:220px;overflow:hidden;border-radius:1rem;background:#eee;">
-                <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Imagen del libro" style="width:100%;height:100%;object-fit:cover;">
+                <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Imagen del libro"
+                    style="width:100%;height:100%;object-fit:cover;">
             </div>
             <div style="flex:1;">
                 <h2 style="color:#001aaf;margin-top:0;"><?= htmlspecialchars($book['name']) ?></h2>
@@ -77,4 +81,5 @@ $is_owner = ($is_logged_in && $current_user_id == $book['ownerid']);
         <?php endif; ?>
     </div>
 </body>
+
 </html>
