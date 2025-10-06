@@ -55,6 +55,7 @@ CREATE TABLE book (
     typeof VARCHAR(50), -- Si es una venta, donacion, intercambio o subasta
     status BOOLEAN, -- Si esta disponible o no
     price NUMERIC(10, 2), -- precio para el caso de venta o subasta
+    limdate DATE, -- En caso de ser subasta se impone una fecha limite
     FOREIGN KEY (ownerid) REFERENCES user(id)
 );
 

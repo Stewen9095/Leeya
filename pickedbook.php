@@ -63,6 +63,9 @@ $is_owner = ($is_logged_in && $current_user_id == $book['ownerid']);
                     ?>
                 </p>
                 <p><b>Tipo:</b> <?= htmlspecialchars($book['typeof']) ?></p>
+                <?php if ($book['typeof'] === 'Subasta' && !empty($book['limdate'])): ?>
+                    <p><b>Fecha límite de subasta:</b> <?= htmlspecialchars($book['limdate']) ?></p>
+                <?php endif; ?>
                 <?php if ($book['price'] !== null): ?>
                     <p><b>Precio:</b> $<?= htmlspecialchars($book['price']) ?></p>
                 <?php endif; ?>

@@ -46,10 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
     $status = 1; // Disponible al ser recién publicado
     $price = isset($_POST['monto']) && $_POST['monto'] !== '' ? $_POST['monto'] : null;
 
+    $limdate = isset($_POST['fecha']) && $_POST['fecha'] !== '' ? $_POST['fecha'] : null;
+
     if (empty($name) || empty($author) || empty($genre) || empty($editorial) || empty($description) || empty($bookpic) || empty($typeof) || $qstatus === '') {
         $error = 'Completa todos los campos obligatorios.';
+    } elseif ($typeof === "Subasta" && !$limdate) {
+        $error = 'Debes ingresar una fecha límite para la subasta.';
     } else {
-        $result = createBook($ownerid, $name, $author, $genre, $editorial, $description, $qstatus, $bookpic, $typeof, $status, $price);
+        $result = createBook($ownerid, $name, $author, $genre, $editorial, $description, $qstatus, $bookpic, $typeof, $status, $price, $limdate);
         if ($result['success']) {
             $_SESSION['newbook_message'] = $result['message'];
             header('Location: newbook.php');
@@ -109,7 +113,7 @@ if (isset($_SESSION['newbook_message'])) {
 
                     <a class="circle" href="mymessages.php">
                         <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
-                    </a>                    
+                    </a>
 
                     <a class="circle" href="myproposals.php">
                         <img src="img/noti.png" alt="Notificación" class="noti-icon">
@@ -542,6 +546,11 @@ if (isset($_SESSION['newbook_message'])) {
                     <input type="number" id="monto" name="monto" placeholder="Ingresa el monto del libro">
                 </div>
 
+                <div class="form-group" id="fecha-group" style="display: none;">
+                    <label for="monto">Fecha limite</label>
+                    <input type="date" id="fecha" name="fecha" placeholder="Fecha limite">
+                </div>
+
                 <div class="form-buttons">
                     <button type="submit" class="btn-save">Guardar</button>
                     <button type="reset" class="btn-cancel">Limpiar</button>
@@ -583,6 +592,9 @@ if (isset($_SESSION['newbook_message'])) {
         const trxSelect = document.getElementById("trx");
         const montoGroup = document.getElementById("monto-group");
         const montoInput = document.getElementById("monto");
+        const fechaGroup = document.getElementById("fecha-group");
+        const fechaInput = document.getElementById("fecha");
+
 
         trxSelect.addEventListener("change", () => {
             const valor = trxSelect.value;
@@ -590,15 +602,22 @@ if (isset($_SESSION['newbook_message'])) {
                 montoGroup.style.display = "flex";
                 montoInput.required = true;
                 montoInput.placeholder = "Ingresa el monto";
+                fechaGroup.style.display = "none";
+                fechaInput.required = false;
+                fechaInput.value = "";
             } else if (valor === "Subasta") {
                 montoGroup.style.display = "flex";
                 montoInput.required = true;
                 montoInput.placeholder = "Ingresa el monto base";
-            }
-            else {
+                fechaGroup.style.display = "flex";
+                fechaInput.required = true;
+            } else {
                 montoGroup.style.display = "none";
                 montoInput.required = false;
                 montoInput.value = "";
+                fechaGroup.style.display = "none";
+                fechaInput.required = false;
+                fechaInput.value = "";
             }
         });
 

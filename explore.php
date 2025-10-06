@@ -9,6 +9,7 @@ $is_logged_in = false;
 $user_role = '';
 
 refreshSessionUser();
+updateExpiredAuctions();
 
 if (isLoggedIn()) {
 
