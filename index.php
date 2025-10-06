@@ -465,8 +465,6 @@ if (isLoggedIn()) {
                     <div class="fullbook">
                         <div class="bookbox">
                             <div class="functionsbook">
-                                <button class="likebutton"><img src="img/like.png" class="likepic"
-                                        alt="Agrega este libro a tus favoritos"></button>
                                 <h3 class="statusbook"><?= htmlspecialchars($book['typeof']) ?></h3>
                             </div>
                             <div class="imagenbox">
@@ -477,6 +475,8 @@ if (isLoggedIn()) {
                             <h3 class="TituloLibro"><?= htmlspecialchars($book['name']) ?></h3>
                             <?php if ($book['price'] !== null): ?>
                                 <h4 class="PrecioLibro">$<?= htmlspecialchars($book['price']) ?></h4>
+                            <?php elseif ($book['price'] == null): ?>
+                                <h4 class="PrecioLibro">($) No aplica</h4>
                             <?php endif; ?>
                             <div class="AdquirirLibro">
                                 <?php if ($is_logged_in): ?>
@@ -506,10 +506,11 @@ if (isLoggedIn()) {
             }
 
             .PrecioLibro {
-                margin: 0 0 0.5vw 0;
+                margin: 0 0 0.2vw 0;
                 min-height: 1.5em;
                 color: #222;
                 font-size: 1vw;
+                top: 0;
             }
 
             .fullbook {
@@ -531,7 +532,9 @@ if (isLoggedIn()) {
                 width: 100%;
                 aspect-ratio: 1/1.2;
                 border-radius: 1vw;
-                background: #f5f5f5;
+                background: linear-gradient(to bottom,
+                    #ffffff 0%,
+                    #ebebebff 95%); 
                 position: relative;
                 display: flex;
                 align-items: center;
@@ -555,7 +558,7 @@ if (isLoggedIn()) {
             }
 
             .infolibro {
-                padding: 1vw 1vw 0.5vw 1vw;
+                padding: 0.6vw 2vw 0.2vw 2vw;
                 width: 100%;
                 flex: 1 1 auto;
                 display: flex;
@@ -563,22 +566,20 @@ if (isLoggedIn()) {
                 justify-content: flex-start;
                 align-items: flex-start;
                 box-sizing: border-box;
+                gap: 0;
             }
 
             .functionsbook {
+                background-color: #000080;
                 position: absolute;
-                top: 0.5rem;
-                left: 0.5rem;
+                top: 1.2rem;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                justify-content: space-between;
-                width: 90%;
-            }
-
-            .functionsbook button {
-                background: none;
-                border: none;
+                justify-content: center;
+                width: 55%;
+                height: 12%;
+                border-radius: 1rem;
             }
 
             .functionsbook img {
@@ -587,7 +588,7 @@ if (isLoggedIn()) {
 
             .statusbook {
                 font-size: 1rem;
-                color: #555;
+                color: white;
             }
 
             .PrecioLibro {
@@ -597,17 +598,21 @@ if (isLoggedIn()) {
 
             .TituloLibro {
                 font-size: 1.2vw;
+                font-family: "HovesMedium";
                 font-weight: bold;
-                margin: 0 0 0.5vw 0;
+                margin: 0 0 0.2vw 0;
                 width: 100%;
+                height: 20%;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                margin-top: 0.2rem;
             }
 
             .AdquirirLibro {
-                margin-top: auto;
+                margin-top: 0.8vw;
                 width: 100%;
+                top:0;
                 display: flex;
                 justify-content: flex-end;
             }
@@ -616,10 +621,11 @@ if (isLoggedIn()) {
                 text-decoration: none;
                 color: #fff;
                 background-color: #000080;
-                padding: 0.5vw 1vw;
+                padding: 0.4vw 1vw;
                 border-radius: 0.5vw;
                 transition: background 0.5s;
                 font-size: 1vw;
+                margin-bottom: 1.8vw;
             }
 
             .AdquirirLibro a:hover {
