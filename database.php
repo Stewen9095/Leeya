@@ -64,14 +64,14 @@ CREATE TABLE proposal (
     interested INT,
     targetbookid INT,
     money NUMERIC(10, 2),
-    status VARCHAR(50),
+    status VARCHAR(50), -- En proceso / Finalizada
     proposaldate DATE,
     FOREIGN KEY (interested) REFERENCES user(id),
     FOREIGN KEY (targetbookid) REFERENCES book(id)
 );
 
 
--- Libros ofrecidos en una propuesta
+-- Libros ofrecidos en una propuesta de intercambio
 CREATE TABLE proposal_book (
     id INT PRIMARY KEY AUTO_INCREMENT,
     bookid INT,
@@ -81,9 +81,9 @@ CREATE TABLE proposal_book (
 );
 
 
-CREATE TABLE transaction (
+-- Cuando se finaliza una propuesta se genera transaction
+CREATE TABLE transaction ( 
     id INT PRIMARY KEY AUTO_INCREMENT,
-    trxstatus VARCHAR(50),
     trxdate DATE,
     proposalid INT,
     FOREIGN KEY (proposalid) REFERENCES proposal(id)
@@ -111,12 +111,13 @@ CREATE TABLE reports (
     motive VARCHAR(255),
     description TEXT,
     datereport DATE,
+    ischecked BOOlEAN, -- Si el administrador ya reviso dicho reporte
     FOREIGN KEY (idreporter) REFERENCES user(id),
     FOREIGN KEY (idreported) REFERENCES user(id)
 );
 
 
-CREATE TABLE notifications (
+CREATE TABLE notifications ( -- Se generan una vez que se realiza una propuesta o se da un mensaje en un chat
     id INT PRIMARY KEY AUTO_INCREMENT,
     idproposal INT,
     readed BOOLEAN,
