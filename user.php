@@ -90,11 +90,6 @@ if (isset($_SESSION['user_id'])) {
                         <h3>+</h3>
                     </a>
 
-                    <a href="mybooks.php">
-                        <h3>MIS LIBROS</h3>
-                    </a>
-
-
                 <?php elseif (!$is_logged_in): ?>
 
                     <a href="login.php">
@@ -105,7 +100,11 @@ if (isset($_SESSION['user_id'])) {
 
                 <?php if ($is_logged_in): ?>
 
-                    <a class="circle" href="#">
+                    <a class="circle" href="mymessages.php">
+                        <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
+                    </a>                    
+
+                    <a class="circle" href="myproposals.php">
                         <img src="img/noti.png" alt="Notificación" class="noti-icon">
                     </a>
 
