@@ -95,7 +95,7 @@ CREATE TABLE rate (
     transaction INT UNIQUE,
     rater INT,
     ratee INT,
-    rating INT,
+    rating NUMERIC, -- Calificacion de un usuario x otro usuario
     commentary VARCHAR(500),
     ratedate DATE,
     FOREIGN KEY (transaction) REFERENCES transaction(id),

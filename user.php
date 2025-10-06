@@ -359,77 +359,179 @@ if (isset($_SESSION['user_id'])) {
 
     <div class="profile-catalog">
 
-        <h1 class="catalog">Mi catálogo</h1>
-
-        <style>
-            .catalog {
-                font-family: 'HovesBold';
-                font-size: 2.5rem;
-
-            }
-
-            .profile-catalog {
-                max-width: 80rem;
-                margin: 1.5rem auto;
-                margin-top: -1.8rem;
-                background: linear-gradient(to bottom,
-                        #000080 0%,
-                        #001aafff 55%);
-                border-radius: 2rem;
-                box-shadow: 0 0 0.5rem rgba(240, 240, 240, 0.05);
-                padding: 1rem 1rem 1rem 1rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-        </style>
-
         <?php
+
         $books = [];
         if ($is_logged_in && isset($_SESSION['user_id'])) {
             $books = getBooksByUserId($_SESSION['user_id']);
         }
         ?>
 
-        <div class="catalog-list">
+        <div class="bookbox-container">
             <?php if (empty($books)): ?>
-                <p style="color:#fff;">No tienes libros publicados disponibles.</p>
+                <h2 style="color:#fff;text-align:center;width:100%;">No tienes libros en tu catalogo</h2>
             <?php else: ?>
+                <h1 style="color:#fff;text-align:center;width:100%;">Mi catalogo</h1>
                 <?php foreach ($books as $book): ?>
-                    <div class="book-preview"
-                        style="background:#fff; border-radius:1.5rem; margin-bottom:1.5rem; padding:1rem; display:flex; gap:1.5rem; align-items:center;">
-                        <div class="book-img"
-                            style="width:120px; height:160px; border-radius:1rem; overflow:hidden; background:#eee;">
-                            <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Imagen del libro"
-                                style="width:100%; height:100%; object-fit:cover;">
+                    <div class="fullbook">
+                        <div class="bookbox">
+                            <div class="functionsbook">
+                                <button class="likebutton"><img src="img/like.png" class="likepic"
+                                        alt="Agrega este libro a tus favoritos"></button>
+                                <h3 class="statusbook"><?= htmlspecialchars($book['typeof']) ?></h3>
+                            </div>
+                            <div class="imagenbox">
+                                <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Libro publicado">
+                            </div>
                         </div>
-                        <div class="book-info" style="flex:1;">
-                            <h3 style="margin:0 0 0.5rem 0; color:#001aaf;"><?= htmlspecialchars($book['name']) ?></h3>
-                            <p style="margin:0; color:#222;"><b>Autor:</b> <?= htmlspecialchars($book['author']) ?></p>
-                            <p style="margin:0; color:#222;"><b>Editorial:</b> <?= htmlspecialchars($book['editorial']) ?></p>
-                            <p style="margin:0; color:#222;"><b>Género:</b> <?= htmlspecialchars($book['genre']) ?></p>
-                            <p style="margin:0; color:#222;"><b>Descripción:</b> <?= htmlspecialchars($book['description']) ?>
-                            </p>
-                            <p style="margin:0; color:#222;"><b>Estado:</b>
-                                <?php
-                                $stars = '';
-                                for ($i = 0; $i < 5; $i++) {
-                                    $stars .= $i < intval($book['qstatus']) ? '⭐' : '☆';
-                                }
-                                echo $stars;
-                                ?>
-                            </p>
-                            <p style="margin:0; color:#222;"><b>Tipo:</b> <?= htmlspecialchars($book['typeof']) ?></p>
+                        <div class="infolibro">
+                            <h3 class="TituloLibro"><?= htmlspecialchars($book['name']) ?></h3>
                             <?php if ($book['price'] !== null): ?>
-                                <p style="margin:0; color:#222;"><b>Precio:</b> $<?= htmlspecialchars($book['price']) ?></p>
+                                <h4 class="PrecioLibro">$<?= htmlspecialchars($book['price']) ?></h4>
                             <?php endif; ?>
-                            <a href="pickedbook.php?id=<?= $book['id'] ?>" class="functions" style="margin-top:1rem;">
-                                Ver info
-                            </a>
+                            <div class="AdquirirLibro">
+                                <a href="pickedbook.php?id=<?= $book['id'] ?>">Ver info</a>
+                            </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
+
+            <style>
+                .bookbox-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 2.2vw;
+                    justify-content: center;
+                    align-items: stretch;
+                    width: 100%;
+                    padding-top: 2vw;
+                    padding-bottom: 4vw;
+                    box-sizing: border-box;
+                }
+
+                .PrecioLibro {
+                    margin: 0 0 0.5vw 0;
+                    min-height: 1.5em;
+                    color: #222;
+                    font-size: 1vw;
+                }
+
+                .fullbook {
+                    background: #fff;
+                    border-radius: 1vw;
+                    box-shadow: 0 0.5vw 2vw rgba(0, 0, 0, 0.08);
+                    width: 20.5vw;
+                    min-width: 180px;
+                    max-width: 98vw;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: stretch;
+                    min-height: 32vw;
+                    margin-bottom: 2vw;
+                    overflow: hidden;
+                }
+
+                .bookbox {
+                    width: 100%;
+                    aspect-ratio: 1/1.2;
+                    border-radius: 1vw;
+                    background: #f5f5f5;
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .imagenbox {
+                    width: 80%;
+                    height: 80%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: auto;
+                }
+
+                .imagenbox img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 1vw;
+                }
+
+                .infolibro {
+                    padding: 1vw 1vw 0.5vw 1vw;
+                    width: 100%;
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    box-sizing: border-box;
+                }
+
+                .functionsbook {
+                    position: absolute;
+                    top: 0.5rem;
+                    left: 0.5rem;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 90%;
+                }
+
+                .functionsbook button {
+                    background: none;
+                    border: none;
+                }
+
+                .functionsbook img {
+                    width: 1.5rem;
+                }
+
+                .statusbook {
+                    font-size: 1rem;
+                    color: #555;
+                }
+
+                .PrecioLibro {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .TituloLibro {
+                    font-size: 1.2vw;
+                    font-weight: bold;
+                    margin: 0 0 0.5vw 0;
+                    width: 100%;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .AdquirirLibro {
+                    margin-top: auto;
+                    width: 100%;
+                    display: flex;
+                    justify-content: flex-end;
+                }
+
+                .AdquirirLibro a {
+                    text-decoration: none;
+                    color: #fff;
+                    background-color: #000080;
+                    padding: 0.5vw 1vw;
+                    border-radius: 0.5vw;
+                    transition: background 0.5s;
+                    font-size: 1vw;
+                }
+
+                .AdquirirLibro a:hover {
+                    background-color: #001aafff;
+                }
+            </style>
+
         </div>
 
     </div>

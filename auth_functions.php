@@ -267,8 +267,70 @@ function getLatestBooks($limit = 4, $exclude_user_id = null)
     }
 }
 
+// Obtener los libros para explore
 
+function searchBooks($search = '', $type = '', $exclude_user_id = null)
+{
+    try {
+        $pdo = getDBConnection();
+        $params = [];
+        $query = "SELECT b.*, u.name AS owner_name FROM book b JOIN user u ON b.ownerid = u.id WHERE b.status = 1";
 
+        if ($exclude_user_id) {
+            $query .= " AND b.ownerid != ?";
+            $params[] = $exclude_user_id;
+        }
+
+        if ($type !== '') {
+            $query .= " AND b.typeof = ?";
+            $params[] = $type;
+        }
+
+        if ($search !== '') {
+            $query .= " AND (b.name LIKE ? OR b.author LIKE ? OR b.genre LIKE ?)";
+            $searchParam = '%' . $search . '%';
+            $params[] = $searchParam;
+            $params[] = $searchParam;
+            $params[] = $searchParam;
+        }
+
+        $query .= " ORDER BY b.id DESC";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error en searchBooks: " . $e->getMessage());
+        return [];
+    }
+}
+
+// Buscar usuarios por nombre
+function searchUsers($search = '', $exclude_user_id = null)
+{
+    try {
+        $pdo = getDBConnection();
+        $params = [];
+        $query = "SELECT id, name, email, location, lildescription FROM user WHERE 1=1";
+
+        if ($exclude_user_id) {
+            $query .= " AND id != ?";
+            $params[] = $exclude_user_id;
+        }
+
+        if ($search !== '') {
+            $query .= " AND name LIKE ?";
+            $params[] = '%' . $search . '%'; // Manejado x similitud de cadena
+        }
+
+        $query .= " ORDER BY name ASC";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error en searchUsers: " . $e->getMessage());
+        return [];
+    }
+}
 
 
 

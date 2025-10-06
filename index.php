@@ -496,7 +496,7 @@ if (isLoggedIn()) {
             .bookbox-container {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 2vw;
+                gap: 2.2vw;
                 justify-content: center;
                 align-items: stretch;
                 width: 100%;
@@ -504,8 +504,6 @@ if (isLoggedIn()) {
                 padding-bottom: 4vw;
                 box-sizing: border-box;
             }
-
-            /* Editar el porcentaje de uso de la pantalla, no està manejado de manera responsiva al 100%*/
 
             .PrecioLibro {
                 margin: 0 0 0.5vw 0;
@@ -518,7 +516,7 @@ if (isLoggedIn()) {
                 background: #fff;
                 border-radius: 1vw;
                 box-shadow: 0 0.5vw 2vw rgba(0, 0, 0, 0.08);
-                width: 22vw;
+                width: 20.5vw;
                 min-width: 180px;
                 max-width: 98vw;
                 display: flex;
