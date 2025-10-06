@@ -102,7 +102,7 @@ if (isset($_SESSION['user_id'])) {
 
                     <a class="circle" href="mymessages.php">
                         <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
-                    </a>                    
+                    </a>
 
                     <a class="circle" href="myproposals.php">
                         <img src="img/noti.png" alt="Notificación" class="noti-icon">
@@ -385,7 +385,7 @@ if (isset($_SESSION['user_id'])) {
                             <h3 class="TituloLibro"><?= htmlspecialchars($book['name']) ?></h3>
                             <?php if ($book['price'] !== null): ?>
                                 <h4 class="PrecioLibro">$<?= htmlspecialchars($book['price']) ?></h4>
-                            <?php elseif ($book['price'] == null): ?>                                
+                            <?php elseif ($book['price'] == null): ?>
                                 <h4 class="PrecioLibro">($) No aplica</h4>
                             <?php endif; ?>
                             <div class="AdquirirLibro">
@@ -529,13 +529,15 @@ if (isset($_SESSION['user_id'])) {
                     background-color: #000080;
                     padding: 0.4vw 1vw;
                     border-radius: 0.5vw;
-                    transition: background 0.5s;
+                    transition: background 0.8s;
                     font-size: 1vw;
                     margin-bottom: 1.8vw;
+                    font-family: "HovesDemiBold";
                 }
 
                 .AdquirirLibro a:hover {
-                    background-color: #001aafff;
+                    background-color: #fff;
+                    color: #000080;
                 }
 
                 h2 {

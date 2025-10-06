@@ -74,21 +74,21 @@ if (isset($_SESSION['user_id'])) {
 
             <?php endif; ?>
 
-                <?php if ($is_logged_in): ?>
+            <?php if ($is_logged_in): ?>
 
-                    <a class="circle" href="mymessages.php">
-                        <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
-                    </a>                    
+                <a class="circle" href="mymessages.php">
+                    <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
+                </a>
 
-                    <a class="circle" href="myproposals.php">
-                        <img src="img/noti.png" alt="Notificación" class="noti-icon">
-                    </a>
+                <a class="circle" href="myproposals.php">
+                    <img src="img/noti.png" alt="Notificación" class="noti-icon">
+                </a>
 
-                    <a class="circle" href="user.php">
-                        <img src="img/user.png" alt="Usuario" class="user">
-                    </a>
+                <a class="circle" href="user.php">
+                    <img src="img/user.png" alt="Usuario" class="user">
+                </a>
 
-                <?php endif; ?>
+            <?php endif; ?>
 
             <style>
                 .iconoimg {
@@ -456,13 +456,15 @@ if (isset($_SESSION['user_id'])) {
             background-color: #000080;
             padding: 0.4vw 1vw;
             border-radius: 0.5vw;
-            transition: background 0.5s;
+            transition: background 0.8s;
             font-size: 1vw;
             margin-bottom: 1.8vw;
+            font-family: "HovesDemiBold";
         }
 
         .AdquirirLibro a:hover {
-            background-color: #001aafff;
+            background-color: #fff;
+            color: #000080;
         }
 
         h2 {

@@ -623,13 +623,15 @@ if (isLoggedIn()) {
                 background-color: #000080;
                 padding: 0.4vw 1vw;
                 border-radius: 0.5vw;
-                transition: background 0.5s;
+                transition: background 0.8s;
                 font-size: 1vw;
                 margin-bottom: 1.8vw;
+                font-family: "HovesDemiBold";
             }
 
             .AdquirirLibro a:hover {
-                background-color: #001aafff;
+                background-color: #fff;
+                color:#000080;
             }
         </style>
 
