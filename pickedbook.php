@@ -29,7 +29,62 @@ if (!$book['status']) {
 // Si el usuario es el dueño, no mostrar botones de oferta/chat
 $is_owner = ($is_logged_in && $current_user_id == $book['ownerid']);
 
+// Mensajes POST/REDIRECT/GET
+$proposal_message = '';
+$proposal_error = '';
+if (isset($_SESSION['proposal_message'])) {
+    $proposal_message = $_SESSION['proposal_message'];
+    unset($_SESSION['proposal_message']);
+}
+if (isset($_SESSION['proposal_error'])) {
+    $proposal_error = $_SESSION['proposal_error'];
+    unset($_SESSION['proposal_error']);
+}
+
+// Procesar propuesta SOLO en POST, luego redirigir
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$is_owner && $is_logged_in) {
+    if ($book['typeof'] === 'Donacion') {
+        $proposal_id = createProposal($current_user_id, $book['id'], 'Donacion');
+        $_SESSION['proposal_message'] = $proposal_id ? '¡Propuesta de donación registrada!' : 'Error al registrar la propuesta.';
+    } elseif ($book['typeof'] === 'Venta') {
+        $amount = floatval($_POST['amount'] ?? 0);
+        if ($amount > 0) {
+            $proposal_id = createProposal($current_user_id, $book['id'], 'Venta', $amount);
+            $_SESSION['proposal_message'] = $proposal_id ? '¡Propuesta de compra registrada!' : 'Error al registrar la propuesta.';
+        } else {
+            $_SESSION['proposal_error'] = 'Debes ingresar un monto válido.';
+        }
+    } elseif ($book['typeof'] === 'Intercambio') {
+        $offered_books = $_POST['offered_books'] ?? [];
+        if (!empty($offered_books)) {
+            $proposal_id = createExchangeProposal($current_user_id, $book['id'], $offered_books);
+            $_SESSION['proposal_message'] = $proposal_id ? '¡Propuesta de intercambio registrada!' : 'Error al registrar la propuesta.';
+        } else {
+            $_SESSION['proposal_error'] = 'Debes seleccionar al menos un libro para intercambiar.';
+        }
+    } elseif ($book['typeof'] === 'Subasta') {
+        $amount = floatval($_POST['amount'] ?? 0);
+        $base = floatval($book['price']);
+        if ($amount > $base) {
+            $proposal_id = createAuctionProposal($current_user_id, $book['id'], $amount);
+            $_SESSION['proposal_message'] = $proposal_id ? '¡Puja registrada y monto actualizado!' : 'Error al registrar la puja.';
+        } else {
+            $_SESSION['proposal_error'] = 'La puja debe ser mayor al monto base actual.';
+        }
+    }
+    // Redirige para evitar duplicados al recargar
+    header("Location: pickedbook.php?id=" . $book['id']);
+    exit();
+}
+
+// Para intercambio: obtener libros del usuario
+$user_books = [];
+if ($book['typeof'] === 'Intercambio' && $is_logged_in) {
+    $user_books = getBooksByUserId($current_user_id);
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -37,6 +92,56 @@ $is_owner = ($is_logged_in && $current_user_id == $book['ownerid']);
     <meta charset="UTF-8">
     <title>Detalle del libro</title>
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .proposal-message {
+            background: #f0fff4;
+            color: #38a169;
+            padding: 0.75rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            border: 1px solid #c6f6d5;
+        }
+
+        .proposal-error {
+            background: #fee;
+            color: #c53030;
+            padding: 0.75rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            border: 1px solid #fed7d7;
+        }
+
+        .exchange-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .exchange-item {
+            background: #f5f5f5;
+            border-radius: 1rem;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 0.125rem 0.5rem #0001;
+        }
+
+        .exchange-item label {
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .exchange-item input[type="checkbox"] {
+            accent-color: #001aaf;
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+    </style>
 </head>
 
 <body style="background:#000; color:#fff; font-family:'Inter',sans-serif;">
@@ -73,8 +178,50 @@ $is_owner = ($is_logged_in && $current_user_id == $book['ownerid']);
         </div>
         <hr>
         <?php if (!$is_owner && $is_logged_in): ?>
+            <?php if ($proposal_message): ?>
+                <div class="proposal-message"><?= htmlspecialchars($proposal_message) ?></div>
+            <?php endif; ?>
+            <?php if ($proposal_error): ?>
+                <div class="proposal-error"><?= htmlspecialchars($proposal_error) ?></div>
+            <?php endif; ?>
+
+            <?php if ($book['typeof'] === 'Donacion'): ?>
+                <form method="post">
+                    <button type="submit" class="functions">Solicitar donación</button>
+                </form>
+            <?php elseif ($book['typeof'] === 'Venta'): ?>
+                <form method="post" style="display:flex;gap:1rem;align-items:center;">
+                    <input type="number" name="amount" min="1" step="any" placeholder="Monto a ofrecer" required>
+                    <button type="submit" class="functions">Ofertar</button>
+                </form>
+            <?php elseif ($book['typeof'] === 'Intercambio'): ?>
+                <?php if (empty($user_books)): ?>
+                    <div class="proposal-error">No dispones de libros publicados para hacer un intercambio.</div>
+                <?php else: ?>
+                    <form method="post">
+                        <label>Selecciona tus libros para intercambiar:</label>
+                        <div class="exchange-list">
+                            <?php foreach ($user_books as $ubook): ?>
+                                <div class="exchange-item">
+                                    <input type="checkbox" id="book<?= $ubook['id'] ?>" name="offered_books[]"
+                                        value="<?= $ubook['id'] ?>">
+                                    <label for="book<?= $ubook['id'] ?>">
+                                        <b><?= htmlspecialchars($ubook['name']) ?></b> (<?= htmlspecialchars($ubook['author']) ?>)
+                                    </label>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <button type="submit" class="functions">Proponer intercambio</button>
+                    </form>
+                <?php endif; ?>
+            <?php elseif ($book['typeof'] === 'Subasta'): ?>
+                <form method="post" style="display:flex;gap:1rem;align-items:center;">
+                    <input type="number" name="amount" min="<?= floatval($book['price']) + 1 ?>" step="any"
+                        placeholder="Monto a pujar" required>
+                    <button type="submit" class="functions">Pujar</button>
+                </form>
+            <?php endif; ?>
             <div style="margin-top:1.5rem;display:flex;gap:1rem;">
-                <a href="startProposal.php?bookid=<?= $book['id'] ?>" class="functions">Iniciar oferta</a>
                 <a href="chat.php?bookid=<?= $book['id'] ?>" class="functions">Chat con dueño</a>
             </div>
         <?php elseif (!$is_logged_in): ?>

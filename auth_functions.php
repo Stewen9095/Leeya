@@ -349,6 +349,58 @@ function updateExpiredAuctions()
     }
 }
 
+// Crear propuestas
+function createProposal($interested, $targetbookid, $type, $money = null)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("INSERT INTO proposal (interested, targetbookid, money, status, proposaldate) VALUES (?, ?, ?, 'En proceso', CURDATE())");
+        $stmt->execute([$interested, $targetbookid, $money]);
+        return $pdo->lastInsertId();
+    } catch (PDOException $e) {
+        error_log("Error al crear propuesta: " . $e->getMessage());
+        return false;
+    }
+}
+
+// Crear propuesta de intercambio (varios libros ofrecidos)
+function createExchangeProposal($interested, $targetbookid, $offered_books)
+{
+    $proposal_id = createProposal($interested, $targetbookid, 'Intercambio');
+    if ($proposal_id && is_array($offered_books)) {
+        try {
+            $pdo = getDBConnection();
+            foreach ($offered_books as $offered_book_id) {
+                $stmt = $pdo->prepare("INSERT INTO proposal_book (bookid, proposalid) VALUES (?, ?)");
+                $stmt->execute([$offered_book_id, $proposal_id]);
+            }
+            return $proposal_id;
+        } catch (PDOException $e) {
+            error_log("Error al crear propuesta de intercambio: " . $e->getMessage());
+            return false;
+        }
+    }
+    return false;
+}
+
+// Crear propuesta de subasta y actualizar monto en book
+function createAuctionProposal($interested, $targetbookid, $amount)
+{
+    $proposal_id = createProposal($interested, $targetbookid, 'Subasta', $amount);
+    if ($proposal_id) {
+        try {
+            $pdo = getDBConnection();
+            $stmt = $pdo->prepare("UPDATE book SET price = ? WHERE id = ?");
+            $stmt->execute([$amount, $targetbookid]);
+            return $proposal_id;
+        } catch (PDOException $e) {
+            error_log("Error al actualizar monto de subasta: " . $e->getMessage());
+            return false;
+        }
+    }
+    return false;
+}
+
 
 
 

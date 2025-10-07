@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
     }
 }
 
-// --- Y agrega esto donde inicializas $message ---
+// --- Y agrega esto donde inicializa $message ---
 $message = '';
 if (isset($_SESSION['newbook_message'])) {
     $message = $_SESSION['newbook_message'];
