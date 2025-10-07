@@ -41,7 +41,7 @@ if (isset($_SESSION['proposal_error'])) {
     unset($_SESSION['proposal_error']);
 }
 
-// Procesar propuesta SOLO en POST, luego redirigir
+// Procesar propuesta POST, luego redirigir
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$is_owner && $is_logged_in) {
     if ($book['typeof'] === 'Donacion') {
         $proposal_id = createProposal($current_user_id, $book['id'], 'Donacion');
@@ -82,6 +82,69 @@ $user_books = [];
 if ($book['typeof'] === 'Intercambio' && $is_logged_in) {
     $user_books = getBooksByUserId($current_user_id);
 }
+
+$edit_mode = isset($_GET['edit']) && $is_owner;
+$edit_message = '';
+$edit_error = '';
+
+// Procesar edición
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['edit_book'])) {
+    $update_data = [
+        'name' => $_POST['name'] ?? $book['name'],
+        'author' => $_POST['author'] ?? $book['author'],
+        'editorial' => $_POST['editorial'] ?? $book['editorial'],
+        'genre' => $_POST['genre'] ?? $book['genre'],
+        'description' => $_POST['description'] ?? $book['description'],
+        'qstatus' => $_POST['qstatus'] ?? $book['qstatus'],
+        'bookpic' => $_POST['bookpic'] ?? $book['bookpic'],
+        'typeof' => $_POST['typeof'] ?? $book['typeof'],
+    ];
+
+    // Según tipo, agrega campos
+    if ($_POST['typeof'] === 'Venta' || $_POST['typeof'] === 'Subasta') {
+        $update_data['price'] = $_POST['price'] ?? $book['price'];
+    } else {
+        $update_data['price'] = null;
+    }
+    if ($_POST['typeof'] === 'Subasta') {
+        $update_data['limdate'] = $_POST['limdate'] ?? $book['limdate'];
+    } else {
+        $update_data['limdate'] = null;
+    }
+
+    $result = updateBook($book['id'], $update_data);
+    if ($result) {
+        $_SESSION['edit_message'] = "¡Libro actualizado correctamente!";
+    } else {
+        $_SESSION['edit_error'] = "Error al actualizar el libro.";
+    }
+    // Redirige para evitar duplicados al recargar
+    header("Location: pickedbook.php?id=" . $book['id'] . "&edit=1");
+    exit();
+}
+
+// Mensajes POST/REDIRECT/GET para edición
+$edit_message = '';
+$edit_error = '';
+if (isset($_SESSION['edit_message'])) {
+    $edit_message = $_SESSION['edit_message'];
+    unset($_SESSION['edit_message']);
+}
+if (isset($_SESSION['edit_error'])) {
+    $edit_error = $_SESSION['edit_error'];
+    unset($_SESSION['edit_error']);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_book'])) {
+    $deleted = deleteBook($book['id']);
+    if ($deleted) {
+        header("Location: user.php");
+        exit();
+    } else {
+        $edit_error = "Error al eliminar el libro.";
+    }
+}
+
 ?>
 
 
@@ -94,23 +157,189 @@ if ($book['typeof'] === 'Intercambio' && $is_logged_in) {
     <link rel="stylesheet" href="style.css">
 
     <style>
-        .proposal-message {
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'HovesDemiBold';
+            margin: 0;
+        }
+
+        html {
+            font-size: 15px;
+        }
+
+        .form-whole {
+            max-width: 88%;
+            margin: 1.5rem auto;
+            height: 27.8rem;
+            max-height: 27.8rem;
+            margin-top: -1.2rem;
+            background: linear-gradient(to bottom, #000080 0%, #001aafff 70%);
+            border-radius: 2rem;
+            box-shadow: 0 0 0.5rem rgba(240, 240, 240, 0.05);
+            padding: 1.5rem 1.8rem 1.5rem 1.8rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1.8rem;
+        }
+
+        .bookpic {
+            text-align: center;
+            width: 30%;
+            height: 62%;
+            border-radius: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        .realpic {
+            width: 100%;
+            height: 88%;
+            margin-top: 0%;
+            background: white;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+        }
+
+        .realpic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 1.5rem;
+            max-width: 100%;
+            max-height: 100%;
+            image-rendering: auto;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+        }
+
+        .bookinfo {
+            text-align: center;
+            width: 61%;
+            height: 96%;
+            border-radius: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .bookinfo h2 {
+            font-family: "HovesExpandedBold";
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.05rem;
+            margin-top: 0rem;
+            margin-bottom: 0rem;
+        }
+
+        .book-form {
+            width: 85%;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 0.2rem 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            border: none;
+            box-shadow: none;
+            background: none;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-family: "HovesExpandedBold";
+            color: white;
+            font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+            margin-bottom: 0.15rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.4rem 0.8rem;
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 1vw;
+            background-color: #fff;
+            color: #000080;
+            box-shadow: none !important;
+            outline: none;
+            appearance: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        .form-group select {
+            padding: 0.4rem 0.4rem;
+            border-radius: 1rem;
+            border: 1.8px solid #001aaf;
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
+            outline: none;
+            transition: all 0.25s ease;
+            background-color: #fff;
+            color: #000;
+            cursor: pointer;
+        }
+
+        .form-buttons {
+            grid-column: span 2;
+            display: flex;
+            justify-content: center;
+            gap: 1.6rem;
+            margin-top: 1.2rem;
+        }
+
+        .form-buttons button {
+            padding: 0.6rem 1.4rem;
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            cursor: pointer;
+            border: none;
+            color: white;
+            background-color: #000080;
+            border-radius: var(--radius, 8px);
+            font-family: "HovesExpandedBold";
+            transition: background-color 0.5s, transform 0.5s;
+        }
+
+        .btn-save:hover,
+        .btn-cancel:hover {
+            background: #fff;
+            color: #000080;
+        }
+
+        .success-message {
             background: #f0fff4;
             color: #38a169;
             padding: 0.75rem;
             border-radius: 1rem;
             margin-bottom: 1rem;
-            font-size: 1rem;
+            font-size: 0.9rem;
             border: 1px solid #c6f6d5;
         }
 
-        .proposal-error {
+        .error-message {
             background: #fee;
             color: #c53030;
             padding: 0.75rem;
-            border-radius: 1rem;
+            border-radius: 8px;
             margin-bottom: 1rem;
-            font-size: 1rem;
+            font-size: 0.9rem;
             border: 1px solid #fed7d7;
         }
 
@@ -142,9 +371,10 @@ if ($book['typeof'] === 'Intercambio' && $is_logged_in) {
             height: 1.2rem;
         }
     </style>
+
 </head>
 
-<body style="background:#000; color:#fff; font-family:'Inter',sans-serif;">
+<body>
     <div
         style="max-width:600px;margin:2rem auto;background:#fff;border-radius:2rem;padding:2rem;box-shadow:0 0 1rem #0002;">
         <div style="display:flex;gap:2rem;">
@@ -153,26 +383,84 @@ if ($book['typeof'] === 'Intercambio' && $is_logged_in) {
                     style="width:100%;height:100%;object-fit:cover;">
             </div>
             <div style="flex:1;">
-                <h2 style="color:#001aaf;margin-top:0;"><?= htmlspecialchars($book['name']) ?></h2>
-                <p><b>Autor:</b> <?= htmlspecialchars($book['author']) ?></p>
-                <p><b>Editorial:</b> <?= htmlspecialchars($book['editorial']) ?></p>
-                <p><b>Género:</b> <?= htmlspecialchars($book['genre']) ?></p>
-                <p><b>Descripción:</b> <?= htmlspecialchars($book['description']) ?></p>
-                <p><b>Estado:</b>
-                    <?php
-                    $stars = '';
-                    for ($i = 0; $i < 5; $i++) {
-                        $stars .= $i < intval($book['qstatus']) ? '⭐' : '☆';
-                    }
-                    echo $stars;
-                    ?>
-                </p>
-                <p><b>Tipo:</b> <?= htmlspecialchars($book['typeof']) ?></p>
-                <?php if ($book['typeof'] === 'Subasta' && !empty($book['limdate'])): ?>
-                    <p><b>Fecha límite de subasta:</b> <?= htmlspecialchars($book['limdate']) ?></p>
+                <?php if ($is_owner && !$edit_mode): ?>
+                    <form method="get" style="display:inline;">
+                        <input type="hidden" name="id" value="<?= $book['id'] ?>">
+                        <button type="submit" name="edit" value="1" class="functions"
+                            style="margin-right:0.5rem;">Editar</button>
+                    </form>
+                    <form method="post" style="display:inline;">
+                        <input type="hidden" name="delete_book" value="1">
+                        <button type="submit" class="functions btn-cancel"
+                            onclick="return confirm('¿Seguro que deseas eliminar este libro?');">Eliminar</button>
+                    </form>
                 <?php endif; ?>
-                <?php if ($book['price'] !== null): ?>
-                    <p><b>Precio:</b> $<?= htmlspecialchars($book['price']) ?></p>
+
+                <?php if ($is_owner && $edit_mode): ?>
+                    <?php if ($edit_message): ?>
+                        <div class="proposal-message"><?= htmlspecialchars($edit_message) ?></div>
+                    <?php endif; ?>
+                    <?php if ($edit_error): ?>
+                        <div class="proposal-error"><?= htmlspecialchars($edit_error) ?></div>
+                    <?php endif; ?>
+                    <form method="post">
+                        <input type="hidden" name="edit_book" value="1">
+                        <label>Título:</label>
+                        <input type="text" name="name" value="<?= htmlspecialchars($book['name']) ?>" required>
+                        <label>Autor:</label>
+                        <input type="text" name="author" value="<?= htmlspecialchars($book['author']) ?>" required>
+                        <label>Editorial:</label>
+                        <input type="text" name="editorial" value="<?= htmlspecialchars($book['editorial']) ?>" required>
+                        <label>Género:</label>
+                        <input type="text" name="genre" value="<?= htmlspecialchars($book['genre']) ?>" required>
+                        <label>Descripción:</label>
+                        <textarea name="description" required><?= htmlspecialchars($book['description']) ?></textarea>
+                        <label>Estado (0-5):</label>
+                        <input type="number" name="qstatus" min="0" max="5"
+                            value="<?= htmlspecialchars($book['qstatus']) ?>" required>
+                        <label>Imagen (URL):</label>
+                        <input type="text" name="bookpic" value="<?= htmlspecialchars($book['bookpic']) ?>" required>
+                        <label>Tipo de operación:</label>
+                        <select name="typeof" required>
+                            <option value="Donacion" <?= $book['typeof'] == 'Donacion' ? 'selected' : ''; ?>>Donación</option>
+                            <option value="Venta" <?= $book['typeof'] == 'Venta' ? 'selected' : ''; ?>>Venta</option>
+                            <option value="Intercambio" <?= $book['typeof'] == 'Intercambio' ? 'selected' : ''; ?>>Intercambio
+                            </option>
+                            <option value="Subasta" <?= $book['typeof'] == 'Subasta' ? 'selected' : ''; ?>>Subasta</option>
+                        </select>
+                        <?php if ($book['typeof'] === 'Venta' || $book['typeof'] === 'Subasta'): ?>
+                            <label>Precio:</label>
+                            <input type="number" name="price" min="0" step="any"
+                                value="<?= htmlspecialchars($book['price']) ?>">
+                        <?php endif; ?>
+                        <?php if ($book['typeof'] === 'Subasta'): ?>
+                            <label>Fecha límite de subasta:</label>
+                            <input type="date" name="limdate" value="<?= htmlspecialchars($book['limdate']) ?>">
+                        <?php endif; ?>
+                        <button type="submit" class="functions">Guardar cambios</button>
+                    </form>
+                <?php else: ?>
+                    <h2 style="color:#001aaf;margin-top:0;"><?= htmlspecialchars($book['name']) ?></h2>
+                    <p><b>Autor:</b> <?= htmlspecialchars($book['author']) ?></p>
+                    <p><b>Editorial:</b> <?= htmlspecialchars($book['editorial']) ?></p>
+                    <p><b>Género:</b> <?= htmlspecialchars($book['genre']) ?></p>
+                    <p><b>Descripción:</b> <?= htmlspecialchars($book['description']) ?></p>
+                    <p><b>Estado:</b>
+                        <?php
+                        $stars = '';
+                        for ($i = 0; $i < 5; $i++) {
+                            $stars .= $i < intval($book['qstatus']) ? '⭐' : ' ☆ ';
+                        }
+                        echo $stars;
+                        ?>
+                    </p>
+                    <p><b>Tipo:</b> <?= htmlspecialchars($book['typeof']) ?></p>
+                    <?php if ($book['typeof'] === 'Subasta' && !empty($book['limdate'])): ?>
+                        <p><b>Fecha límite de subasta:</b> <?= htmlspecialchars($book['limdate']) ?></p>
+                    <?php endif; ?>
+                    <?php if ($book['price'] !== null): ?>
+                        <p><b>Precio:</b> $<?= htmlspecialchars($book['price']) ?></p>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>

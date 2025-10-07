@@ -401,6 +401,42 @@ function createAuctionProposal($interested, $targetbookid, $amount)
     return false;
 }
 
+// Edición del libro por usuario dueño
+function updateBook($book_id, $data)
+{
+    try {
+        $pdo = getDBConnection();
+        $fields = [];
+        $params = [];
+
+        foreach ($data as $key => $value) {
+            $fields[] = "$key = ?";
+            $params[] = $value;
+        }
+        $params[] = $book_id;
+
+        $sql = "UPDATE book SET " . implode(', ', $fields) . " WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute($params);
+    } catch (PDOException $e) {
+        error_log("Error al actualizar libro: " . $e->getMessage());
+        return false;
+    }
+}
+
+// Eliminar (cambiar el estado del libro)
+function deleteBook($book_id)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("UPDATE book SET status = 0 WHERE id = ?");
+        return $stmt->execute([$book_id]);
+    } catch (PDOException $e) {
+        error_log("Error al eliminar libro: " . $e->getMessage());
+        return false;
+    }
+}
+
 
 
 
