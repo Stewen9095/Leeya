@@ -260,8 +260,8 @@ if (isset($_SESSION['newbook_message'])) {
             max-height: 27.8rem;
             margin-top: -1.2rem;
             background: linear-gradient(to bottom,
-                    #001aafff 0%,
-                    #000080 55%);
+                    #000080 0%,
+                    #001aafff 70%);
             border-radius: 2rem;
             box-shadow: 0 0 0.5rem rgba(240, 240, 240, 0.05);
             padding: 1.5rem 1.8rem 1.5rem 1.8rem;
@@ -304,6 +304,9 @@ if (isset($_SESSION['newbook_message'])) {
             display: flex;
             flex-direction: column;
             text-align: left;
+            border: none;
+            box-shadow: none;
+            background: none;
         }
 
         .form-group label {
@@ -316,16 +319,25 @@ if (isset($_SESSION['newbook_message'])) {
 
         .form-group input {
             padding: 0.4rem 0.8rem;
-            border-radius: 1rem;
-            border: 1.8px solid #001aaf;
             font-size: clamp(0.8rem, 1.6vw, 1rem);
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 1vw;
+            background-color: #fff;
+            color:#000080;
+
+            box-shadow: none !important;
             outline: none;
-            transition: all 0.25s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+
+            transition: border-color 0.15s ease;
         }
 
         .form-group input:focus {
-            border-color: #0000ff;
-            box-shadow: 0 0 0.3rem rgba(0, 0, 255, 0.3);
+            box-shadow: none;
+            outline: none;
         }
 
         .form-buttons {
@@ -338,13 +350,12 @@ if (isset($_SESSION['newbook_message'])) {
 
         .form-buttons button {
             padding: 0.6rem 1.4rem;
-            font-family: "HovesExpandedBoldItalic";
             font-size: clamp(0.8rem, 1.5vw, 1rem);
             cursor: pointer;
             border: none;
+            color:white;
             transition: all 0.5s ease;
-            background-color: white;
-            color: #000080;
+            background-color: #000080;
             border: none;
             border-radius: var(--radius, 8px);
             font-family: "HovesExpandedBold";
@@ -352,20 +363,19 @@ if (isset($_SESSION['newbook_message'])) {
         }
 
         .btn-save:hover {
-            background: #000080;
-            color: white;
+            background: #fff;
+            color: #000080;
         }
 
         .btn-cancel:hover {
-            background: #000080;
-            color: white;
+            background: #fff;
+            color: #000080;
         }
 
         .bookpic {
             text-align: center;
             width: 30%;
             height: 62%;
-            background-color: #fff;
             border-radius: 2rem;
             display: flex;
             flex-direction: column;
@@ -377,9 +387,7 @@ if (isset($_SESSION['newbook_message'])) {
             width: 100%;
             height: 25%;
             margin-top: 0%;
-            background: linear-gradient(to bottom,
-                    #000080 0%,
-                    #001aafff 55%);
+            background: #000080;
             border-radius: 1rem;
             align-items: center;
             position: absolute;
@@ -389,7 +397,6 @@ if (isset($_SESSION['newbook_message'])) {
         .preview-text {
             width: 100%;
             height: 100%;
-            /*background-color: blue;*/
             border-radius: 3rem;
             display: flex;
             flex-direction: column;
@@ -401,13 +408,13 @@ if (isset($_SESSION['newbook_message'])) {
         }
 
         .preview-text p {
-            font-family: "HovesExtraLight";
+            font-family: "HovesExpandedMediumItalic";
+            color: #fff;
             max-width: 95%;
             max-height: 95%;
             margin: -0.2rem;
             padding: 0;
             font-size: clamp(0.2rem, 2vw, 0.78rem);
-            color: white;
             align-items: center;
         }
 
@@ -418,7 +425,8 @@ if (isset($_SESSION['newbook_message'])) {
             background: white;
             align-items: center;
             overflow: hidden;
-            border-radius: 1.5rem 1.5rem 0 0;
+            border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
         }
 
         .realpic img {
@@ -426,20 +434,19 @@ if (isset($_SESSION['newbook_message'])) {
             height: 100%;
             object-fit: cover;
             object-position: center;
-            border-radius: 1.5rem 1.5rem 0 0;
+            border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
             max-width: 100%;
             max-height: 100%;
             image-rendering: auto;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
         }
 
         .messages-back {
             width: 100%;
             height: 15%;
             margin-top: 0rem;
-            background: linear-gradient(to bottom,
-                    #000080 0%,
-                    #001aafff 55%);
-            border-radius: 0 0 1rem 1rem;
+            background: #000080;
+            border-radius: 1rem 1rem 1rem 1rem;
             align-items: center;
             position: absolute;
             bottom: 0;
@@ -594,7 +601,6 @@ if (isset($_SESSION['newbook_message'])) {
         const montoInput = document.getElementById("monto");
         const fechaGroup = document.getElementById("fecha-group");
         const fechaInput = document.getElementById("fecha");
-
 
         trxSelect.addEventListener("change", () => {
             const valor = trxSelect.value;
