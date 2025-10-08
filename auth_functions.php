@@ -443,11 +443,25 @@ function getSentProposals($user_id)
     try {
         $pdo = getDBConnection();
         $stmt = $pdo->prepare("
-            SELECT p.*, b.name AS book_name, b.author, b.bookpic, b.typeof, b.price, b.ownerid, u.name AS owner_name
+            SELECT 
+                p.*, 
+                b.name AS book_name, 
+                b.author, 
+                b.bookpic, 
+                b.typeof, 
+                b.price, 
+                b.ownerid, 
+                u.name AS owner_name
             FROM proposal p
             JOIN book b ON p.targetbookid = b.id
             JOIN user u ON b.ownerid = u.id
-            WHERE p.interested = ?
+            WHERE 
+                p.interested = ?
+                AND (
+                    b.status = 1
+                    OR (b.status = 0 AND p.status = 'Finalizada')
+                )
+                AND (p.status = 'En proceso' OR p.status = 'Finalizada' OR p.status = 'Rechazada')
             ORDER BY p.id DESC
         ");
         $stmt->execute([$user_id]);
@@ -464,11 +478,25 @@ function getReceivedProposals($user_id)
     try {
         $pdo = getDBConnection();
         $stmt = $pdo->prepare("
-            SELECT p.*, b.name AS book_name, b.author, b.bookpic, b.typeof, b.price, u.name AS interested_name, u.id AS interested_id
+            SELECT 
+                p.*, 
+                b.name AS book_name, 
+                b.author, 
+                b.bookpic, 
+                b.typeof, 
+                b.price, 
+                u.name AS interested_name, 
+                u.id AS interested_id
             FROM proposal p
             JOIN book b ON p.targetbookid = b.id
             JOIN user u ON p.interested = u.id
-            WHERE b.ownerid = ?
+            WHERE 
+                b.ownerid = ?
+                AND (
+                    b.status = 1
+                    OR (b.status = 0 AND p.status = 'Finalizada')
+                )
+                AND (p.status = 'En proceso' OR p.status = 'Finalizada' OR p.status = 'Rechazada')
             ORDER BY p.id DESC
         ");
         $stmt->execute([$user_id]);
@@ -515,8 +543,17 @@ function getPendingProposalsCount($user_id)
 {
     try {
         $pdo = getDBConnection();
+
         // Enviadas
-        $stmt1 = $pdo->prepare("SELECT COUNT(*) FROM proposal WHERE interested = ? AND status = 'En proceso'");
+        $stmt1 = $pdo->prepare("
+            SELECT COUNT(*) 
+            FROM proposal p
+            JOIN book b ON p.targetbookid = b.id
+            WHERE 
+                p.interested = ? 
+                AND p.status = 'En proceso'
+                AND b.status = 1
+        ");
         $stmt1->execute([$user_id]);
         $sent = $stmt1->fetchColumn();
 
@@ -525,12 +562,18 @@ function getPendingProposalsCount($user_id)
             SELECT COUNT(*) 
             FROM proposal p
             JOIN book b ON p.targetbookid = b.id
-            WHERE b.ownerid = ? AND p.status = 'En proceso' OR p.status = 'Finalizada'
+            WHERE 
+                b.ownerid = ? 
+                AND b.status = 1
+                AND (p.status = 'En proceso' OR p.status = 'Finalizada')
         ");
         $stmt2->execute([$user_id]);
         $received = $stmt2->fetchColumn();
 
-        return ['sent' => (int)$sent, 'received' => (int)$received];
+        return [
+            'sent' => (int) $sent,
+            'received' => (int) $received
+        ];
     } catch (PDOException $e) {
         error_log("Error al contar propuestas pendientes: " . $e->getMessage());
         return ['sent' => 0, 'received' => 0];
@@ -590,10 +633,28 @@ function createUserReport($sender_id, $target_id, $motive, $description)
 {
     try {
         $pdo = getDBConnection();
-        $stmt = $pdo->prepare("INSERT INTO reports (sender, target, motive, description, reportdate) VALUES (?, ?, ?, ?, NOW())");
+        $stmt = $pdo->prepare("INSERT INTO reports (idreporter, idreported, motive, description, datereport, ischecked) VALUES (?, ?, ?, ?, NOW(), 0)");
         return $stmt->execute([$sender_id, $target_id, $motive, $description]);
     } catch (PDOException $e) {
         error_log("Error al crear reporte: " . $e->getMessage());
         return false;
+    }
+}
+
+function getExchangeBooks($proposal_id)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("
+            SELECT b.id, b.name, b.author, b.bookpic
+            FROM proposal_book pb
+            JOIN book b ON pb.bookid = b.id
+            WHERE pb.proposalid = ?
+        ");
+        $stmt->execute([$proposal_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error al obtener libros ofrecidos en intercambio: " . $e->getMessage());
+        return [];
     }
 }

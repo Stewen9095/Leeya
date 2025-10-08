@@ -296,6 +296,12 @@ if (isset($_SESSION['user_id'])) {
                         <div class="AdquirirLibro">
                             <a href="pickeduser.php?id=<?= $user['id'] ?>">Ver perfil</a>
                         </div>
+                        <div class="Contactar">
+                            <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($user['email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
+                                target="_blank">
+                                Contactar
+                            </a>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -333,7 +339,7 @@ if (isset($_SESSION['user_id'])) {
                         <?php elseif ($book['price'] == null): ?>
                             <h4 class="PrecioLibro">($) No aplica</h4>
                         <?php endif; ?>
-                        <div class="AdquirirLibro">
+                        <div class="AdquirirLibroSolo">
                             <?php if ($is_logged_in && $book['ownerid'] != $_SESSION['user_id']): ?>
                                 <a href="pickedbook.php?id=<?= $book['id'] ?>">Adquirir</a>
                             <?php elseif (!$is_logged_in): ?>
@@ -481,11 +487,61 @@ if (isset($_SESSION['user_id'])) {
             border-radius: 0.5vw;
             transition: background 0.8s;
             font-size: 1vw;
-            margin-bottom: 1.8vw;
+            margin-bottom: 0.4vw;
             font-family: "HovesDemiBold";
         }
 
         .AdquirirLibro a:hover {
+            background-color: #fff;
+            color: #000080;
+        }
+
+        .AdquirirLibroSolo {
+            margin-top: 0.8vw;
+            width: 100%;
+            top: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .AdquirirLibroSolo a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #000080;
+            padding: 0.4vw 1vw;
+            border-radius: 0.5vw;
+            transition: background 0.8s;
+            font-size: 1vw;
+            margin-bottom: 1.8vw;
+            font-family: "HovesDemiBold";
+        }
+
+        .AdquirirLibroSolo a:hover {
+            background-color: #fff;
+            color: #000080;
+        }
+
+        .Contactar {
+            margin-top: 0.8vw;
+            width: 100%;
+            top: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .Contactar a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #000080;
+            padding: 0.4vw 1vw;
+            border-radius: 0.5vw;
+            transition: background 0.8s;
+            font-size: 1vw;
+            margin-bottom: 1.8vw;
+            font-family: "HovesDemiBold";
+        }
+
+        .Contactar a:hover {
             background-color: #fff;
             color: #000080;
         }

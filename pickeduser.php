@@ -336,6 +336,11 @@ if (isset($_SESSION['report_error'])) {
             <?php else: ?>
                 <p class="infotextfinal">Descripción: <?= htmlspecialchars($user['lildescription']) ?></p>
             <?php endif; ?>
+
+            <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($user['email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
+                target="_blank">
+                Contactar
+            </a>
         </div>
     </div>
 

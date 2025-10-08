@@ -299,8 +299,10 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
                         <span style="color:#fff;">Dueño: <?= htmlspecialchars($p['owner_name']) ?></span>
                     </div>
                     <div style="display:flex;flex-direction:column;gap:0.5rem;">
-                        <a href="chat.php?bookid=<?= $p['targetbookid'] ?>&userid=<?= $p['ownerid'] ?>" class="btn-save"
-                            style="text-decoration:none;">Contactar</a>
+                        <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($user['email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
+                            target="_blank">
+                            Contactar
+                        </a>
                         <?php if ($p['status'] === 'En proceso'): ?>
                             <form method="post" style="margin:0;">
                                 <input type="hidden" name="cancel_proposal" value="<?= $p['id'] ?>">
@@ -310,6 +312,28 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
                         <?php endif; ?>
                     </div>
                 </div>
+
+                <?php if ($p['typeof'] === 'Venta' && $p['money'] !== null): ?>
+                    <span style="color:#ffd700;">Monto ofrecido: $<?= htmlspecialchars($p['money']) ?></span><br>
+                <?php endif; ?>
+
+                <?php if ($p['typeof'] === 'Intercambio'): ?>
+                    <?php
+                    $exchange_books = getExchangeBooks($p['id']);
+                    if ($exchange_books):
+                        ?>
+                        <span style="color:#ffd700;">Libros ofrecidos:</span>
+                        <ul style="margin:0.3rem 0 0 0.5rem;padding:0;">
+                            <?php foreach ($exchange_books as $eb): ?>
+                                <li>
+                                    <img src="<?= htmlspecialchars($eb['bookpic']) ?>" alt="Libro"
+                                        style="width:30px;height:40px;border-radius:0.3rem;vertical-align:middle;">
+                                    <b><?= htmlspecialchars($eb['name']) ?></b> (<?= htmlspecialchars($eb['author']) ?>)
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
@@ -332,8 +356,10 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
                         <span style="color:#fff;">Interesado: <?= htmlspecialchars($p['interested_name']) ?></span>
                     </div>
                     <div style="display:flex;flex-direction:column;gap:0.5rem;">
-                        <a href="chat.php?bookid=<?= $p['targetbookid'] ?>&userid=<?= $p['interested_id'] ?>" class="btn-save"
-                            style="text-decoration:none;">Contactar</a>
+                        <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($user['email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
+                            target="_blank">
+                            Contactar
+                        </a>
                         <?php if ($p['status'] === 'En proceso'): ?>
                             <form method="post" style="margin:0;">
                                 <input type="hidden" name="accept_proposal" value="<?= $p['id'] ?>">
@@ -348,6 +374,27 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
                         <?php endif; ?>
                     </div>
                 </div>
+                <?php if ($p['typeof'] === 'Venta' && $p['money'] !== null): ?>
+                    <span style="color:#ffd700;">Monto ofrecido: $<?= htmlspecialchars($p['money']) ?></span><br>
+                <?php endif; ?>
+
+                <?php if ($p['typeof'] === 'Intercambio'): ?>
+                    <?php
+                    $exchange_books = getExchangeBooks($p['id']);
+                    if ($exchange_books):
+                        ?>
+                        <span style="color:#ffd700;">Libros ofrecidos:</span>
+                        <ul style="margin:0.3rem 0 0 0.5rem;padding:0;">
+                            <?php foreach ($exchange_books as $eb): ?>
+                                <li>
+                                    <img src="<?= htmlspecialchars($eb['bookpic']) ?>" alt="Libro"
+                                        style="width:30px;height:40px;border-radius:0.3rem;vertical-align:middle;">
+                                    <b><?= htmlspecialchars($eb['name']) ?></b> (<?= htmlspecialchars($eb['author']) ?>)
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>

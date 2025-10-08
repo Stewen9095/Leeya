@@ -93,7 +93,6 @@ CREATE TABLE rate (
     FOREIGN KEY (ratee) REFERENCES user(id)
 );
 
-
 CREATE TABLE reports (
     id INT PRIMARY KEY AUTO_INCREMENT,
     idreporter INT,
@@ -104,26 +103,6 @@ CREATE TABLE reports (
     ischecked BOOlEAN, -- Si el administrador ya reviso dicho reporte
     FOREIGN KEY (idreporter) REFERENCES user(id),
     FOREIGN KEY (idreported) REFERENCES user(id)
-);
-
-
-CREATE TABLE chat (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    proposalid INT,
-    status VARCHAR(50),
-    FOREIGN KEY (proposalid) REFERENCES proposal(id)
-);
-
-
-CREATE TABLE message (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    chatid INT,
-    messengerid INT,
-    content VARCHAR(1000),
-    senddate DATE,
-    readed BOOLEAN,
-    FOREIGN KEY (chatid) REFERENCES chat(id),
-    FOREIGN KEY (messengerid) REFERENCES user(id)
 );
 
 */
