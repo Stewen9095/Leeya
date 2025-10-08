@@ -448,10 +448,12 @@ function getSentProposals($user_id)
                 b.name AS book_name, 
                 b.author, 
                 b.bookpic, 
+                b.id AS book_id,
                 b.typeof, 
                 b.price, 
                 b.ownerid, 
-                u.name AS owner_name
+                u.name AS owner_name,
+                u.id AS owner_id
             FROM proposal p
             JOIN book b ON p.targetbookid = b.id
             JOIN user u ON b.ownerid = u.id
@@ -460,6 +462,7 @@ function getSentProposals($user_id)
                 AND (
                     b.status = 1
                     OR (b.status = 0 AND p.status = 'Finalizada')
+                    OR (b.status = 0 AND b.typeof = 'Subasta')
                 )
                 AND (p.status = 'En proceso' OR p.status = 'Finalizada' OR p.status = 'Rechazada')
             ORDER BY p.id DESC
@@ -482,6 +485,7 @@ function getReceivedProposals($user_id)
                 p.*, 
                 b.name AS book_name, 
                 b.author, 
+                b.id AS book_id,
                 b.bookpic, 
                 b.typeof, 
                 b.price, 

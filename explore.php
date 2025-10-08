@@ -26,6 +26,9 @@ if (isset($_SESSION['user_id'])) {
         header('Location: adminpanel.php');
         exit();
     }
+} else {
+    header('Location: index.php');
+    exit();
 }
 
 ?>
@@ -37,7 +40,8 @@ if (isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Explorar libros</title>
+    <link rel="icon" href="img/icon.png" type="image/png">
+    <title>Encuentra tus libros</title>
 </head>
 
 <body>
@@ -82,10 +86,6 @@ if (isset($_SESSION['user_id'])) {
             <?php endif; ?>
 
             <?php if ($is_logged_in): ?>
-
-                <a class="circle" href="mymessages.php">
-                    <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
-                </a>
 
                 <a class="circle" href="myproposals.php" style="position:relative;">
                     <img src="img/noti.png" alt="Notificación" class="noti-icon">

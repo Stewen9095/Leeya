@@ -178,6 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
     <meta charset="UTF-8">
     <title>Detalle del libro</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/icon.png" type="image/png">
 
     <style>
         body {
@@ -719,7 +720,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                 </form>
             <?php endif; ?>
             <div style="margin-top:1.5rem;display:flex;gap:1rem;">
-                <a href="chat.php?bookid=<?= $book['id'] ?>" class="functions">Chat con dueño</a>
+            <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($user['email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
+                target="_blank">
+                Contactar
+            </a>
             </div>
         <?php elseif (!$is_logged_in): ?>
             <div style="margin-top:1.5rem;">

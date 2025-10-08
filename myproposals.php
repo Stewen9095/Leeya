@@ -77,6 +77,8 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis propuestas</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/icon.png" type="image/png">    
 </head>
 
 <body>
@@ -114,10 +116,6 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
                 <?php endif; ?>
 
                 <?php if ($is_logged_in): ?>
-
-                    <a class="circle" href="mymessages.php">
-                        <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
-                    </a>
 
                     <a class="circle" href="myproposals.php" style="position:relative;">
                         <img src="img/noti.png" alt="Notificación" class="noti-icon">
@@ -303,6 +301,8 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
                             target="_blank">
                             Contactar
                         </a>
+                        <a href="pickeduser.php?id=<?= $p['owner_id'] ?>">Perfil del dueño</a>
+                        <a href="pickedbook.php?id=<?= $p['book_id'] ?>">Ver publicación</a>
                         <?php if ($p['status'] === 'En proceso'): ?>
                             <form method="post" style="margin:0;">
                                 <input type="hidden" name="cancel_proposal" value="<?= $p['id'] ?>">
@@ -347,7 +347,7 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
                 <div
                     style="background:#000080;border-radius:1rem;padding:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:1.5rem;">
                     <img src="<?= htmlspecialchars($p['bookpic']) ?>" alt="Libro"
-                        style="width:70px;height:100px;border-radius:1rem;">
+                        style="width:70px;height:100px;border-radius:1rem;"></img>
                     <div style="flex:1;">
                         <b><?= htmlspecialchars($p['book_name']) ?></b> (<?= htmlspecialchars($p['author']) ?>)<br>
                         <span style="color:#fff;">Tipo: <?= htmlspecialchars($p['typeof']) ?> | Precio:
@@ -360,6 +360,8 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
                             target="_blank">
                             Contactar
                         </a>
+                        <a href="pickeduser.php?id=<?= $p['interested_id'] ?>">Perfil del interesado</a>
+                        <a href="pickedbook.php?id=<?= $p['book_id'] ?>">Ver publicación</a>
                         <?php if ($p['status'] === 'En proceso'): ?>
                             <form method="post" style="margin:0;">
                                 <input type="hidden" name="accept_proposal" value="<?= $p['id'] ?>">

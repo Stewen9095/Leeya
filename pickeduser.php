@@ -28,6 +28,16 @@ if (isset($_SESSION['user_id'])) {
     }
 }
 
+if (isset($_SESSION['user_id'])) {
+    if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+        header('Location: adminpanel.php');
+        exit();
+    }
+} else {
+    header('Location: index.php');
+    exit();
+}
+
 
 $current_user_id = $_SESSION['user_id'] ?? null;
 

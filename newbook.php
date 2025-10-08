@@ -81,7 +81,6 @@ if (isset($_SESSION['newbook_message'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publicar libro</title>
     <link rel="icon" href="img/icon.png">
-    </link>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -117,10 +116,6 @@ if (isset($_SESSION['newbook_message'])) {
                 <?php endif; ?>
 
                 <?php if ($is_logged_in): ?>
-
-                    <a class="circle" href="mymessages.php">
-                        <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
-                    </a>
 
                     <a class="circle" href="myproposals.php" style="position:relative;">
                         <img src="img/noti.png" alt="Notificación" class="noti-icon">

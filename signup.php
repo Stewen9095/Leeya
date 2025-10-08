@@ -62,7 +62,6 @@ if (isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear cuenta</title>
     <link rel="icon" href="img/icon.png">
-    </link>
     <link rel="stylesheet" href="style.css">
 </head>
 
