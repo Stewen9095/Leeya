@@ -27,7 +27,7 @@ function getDBConnection()
 /*
 
 CREATE DATABASE leeya;
-USE Leeya;
+USE leeya;
 
 
 CREATE TABLE user (
@@ -82,24 +82,13 @@ CREATE TABLE proposal_book (
 );
 
 
--- Cuando se finaliza una propuesta se genera transaction
-CREATE TABLE transaction ( 
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    trxdate DATE,
-    proposalid INT,
-    FOREIGN KEY (proposalid) REFERENCES proposal(id)
-);
-
-
 CREATE TABLE rate (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    transaction INT UNIQUE,
     rater INT,
     ratee INT,
     rating NUMERIC, -- Calificacion de un usuario x otro usuario
     commentary VARCHAR(500),
     ratedate DATE,
-    FOREIGN KEY (transaction) REFERENCES transaction(id),
     FOREIGN KEY (rater) REFERENCES user(id),
     FOREIGN KEY (ratee) REFERENCES user(id)
 );
@@ -115,15 +104,6 @@ CREATE TABLE reports (
     ischecked BOOlEAN, -- Si el administrador ya reviso dicho reporte
     FOREIGN KEY (idreporter) REFERENCES user(id),
     FOREIGN KEY (idreported) REFERENCES user(id)
-);
-
-
-CREATE TABLE notifications ( -- Se generan una vez que se realiza una propuesta o se da un mensaje en un chat
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    idproposal INT,
-    readed BOOLEAN,
-    datenotification DATE,
-    FOREIGN KEY (idproposal) REFERENCES proposal(id)
 );
 
 

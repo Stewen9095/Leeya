@@ -537,73 +537,63 @@ function getPendingProposalsCount($user_id)
     }
 }
 
+// Obtener datos de usuarios por id
 
+function getUserById($user_id)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("SELECT id, name, email, location, lildescription, signdate FROM user WHERE id = ?");
+        $stmt->execute([$user_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error al obtener usuario por ID: " . $e->getMessage());
+        return null;
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function updateEvent($event_id, $name, $description, $date, $time, $venue, $city, $price, $available_tickets, $image_url)
+// Obtener reseñas de usuario segun id
+function getUserRates($user_id)
 {
     try {
         $pdo = getDBConnection();
         $stmt = $pdo->prepare("
-                UPDATE events 
-                SET name = :name, 
-                    description = :description, 
-                    date = :date, 
-                    time = :time, 
-                    venue = :venue, 
-                    city = :city, 
-                    price = :price, 
-                    available_tickets = :tickets, 
-                    image_url = :image, 
-                    updated_at = NOW()
-                WHERE id = :id
-            ");
-
-        return $stmt->execute([
-            ':name' => $name,
-            ':description' => $description,
-            ':date' => $date,
-            ':time' => $time,
-            ':venue' => $venue,
-            ':city' => $city,
-            ':price' => $price,
-            ':tickets' => $available_tickets,
-            ':image' => $image_url,
-            ':id' => $event_id
-        ]);
+            SELECT r.*, u.name AS sender_name
+            FROM rate r
+            JOIN user u ON r.rater = u.id
+            WHERE r.ratee = ?
+            ORDER BY r.id DESC
+        ");
+        $stmt->execute([$user_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        error_log("Error al actualizar evento: " . $e->getMessage());
+        error_log("Error al obtener reseñas: " . $e->getMessage());
+        return [];
+    }
+}
+
+// Registrar una reseña
+function createUserRate($sender_id, $target_id, $stars, $description)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("INSERT INTO rate (rater, ratee, rating, commentary, ratedate) VALUES (?, ?, ?, ?, NOW())");
+        return $stmt->execute([$sender_id, $target_id, $stars, $description]);
+    } catch (PDOException $e) {
+        error_log("Error al crear reseña: " . $e->getMessage());
         return false;
     }
 }
 
-?>
+// Registrar un reporte
+function createUserReport($sender_id, $target_id, $motive, $description)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("INSERT INTO reports (sender, target, motive, description, reportdate) VALUES (?, ?, ?, ?, NOW())");
+        return $stmt->execute([$sender_id, $target_id, $motive, $description]);
+    } catch (PDOException $e) {
+        error_log("Error al crear reporte: " . $e->getMessage());
+        return false;
+    }
+}

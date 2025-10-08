@@ -294,7 +294,7 @@ if (isset($_SESSION['user_id'])) {
                         <p style="font-size:0.95vw;color:#555;margin:0 0 0.5vw 0;"><b>Descripción:</b>
                             <?= htmlspecialchars($user['lildescription']) ?></p>
                         <div class="AdquirirLibro">
-                            <a href="userprofile.php?id=<?= $user['id'] ?>">Ver perfil</a>
+                            <a href="pickeduser.php?id=<?= $user['id'] ?>">Ver perfil</a>
                         </div>
                     </div>
                 </div>
