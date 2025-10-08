@@ -88,6 +88,13 @@ if (isset($_SESSION['newbook_message'])) {
 <body>
 
     <header>
+
+        <?php
+        $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
+        $total_pending = $pending_counts['sent'] + $pending_counts['received'];
+        $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
+        ?>
+
         <nav>
             <a href="index.php">
                 <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
@@ -115,8 +122,24 @@ if (isset($_SESSION['newbook_message'])) {
                         <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
                     </a>
 
-                    <a class="circle" href="myproposals.php">
+                    <a class="circle" href="myproposals.php" style="position:relative;">
                         <img src="img/noti.png" alt="Notificación" class="noti-icon">
+                        <?php if ($badge_text): ?>
+                            <span style="
+                                position:absolute;
+                                top:-0.3rem; right:-0.3rem;
+                                background:#ff2d55;
+                                color:#fff;
+                                font-size:0.85rem;
+                                font-family:'HovesExpandedBold';
+                                border-radius:1rem;
+                                padding:0.15rem 0.5rem;
+                                min-width:1.5rem;
+                                text-align:center;
+                                box-shadow:0 0 0.2rem #0005;
+                                z-index:2;
+                            "><?= $badge_text ?></span>
+                        <?php endif; ?>
                     </a>
 
                     <a class="circle" href="user.php">
@@ -324,7 +347,7 @@ if (isset($_SESSION['newbook_message'])) {
             border: 1px solid #ccc;
             border-radius: 1vw;
             background-color: #fff;
-            color:#000080;
+            color: #000080;
 
             box-shadow: none !important;
             outline: none;
@@ -353,7 +376,7 @@ if (isset($_SESSION['newbook_message'])) {
             font-size: clamp(0.8rem, 1.5vw, 1rem);
             cursor: pointer;
             border: none;
-            color:white;
+            color: white;
             transition: all 0.5s ease;
             background-color: #000080;
             border: none;

@@ -139,6 +139,13 @@ if (isLoggedIn()) {
 <body>
 
     <header>
+
+        <?php
+        $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
+        $total_pending = $pending_counts['sent'] + $pending_counts['received'];
+        $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
+        ?>
+
         <nav>
             <a href="index.php">
                 <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
@@ -167,10 +174,26 @@ if (isLoggedIn()) {
 
                     <a class="circle" href="mymessages.php">
                         <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
-                    </a>                    
+                    </a>
 
-                    <a class="circle" href="myproposals.php">
+                    <a class="circle" href="myproposals.php" style="position:relative;">
                         <img src="img/noti.png" alt="Notificación" class="noti-icon">
+                        <?php if ($badge_text): ?>
+                            <span style="
+                                position:absolute;
+                                top:-0.3rem; right:-0.3rem;
+                                background:#ff2d55;
+                                color:#fff;
+                                font-size:0.85rem;
+                                font-family:'HovesExpandedBold';
+                                border-radius:1rem;
+                                padding:0.15rem 0.5rem;
+                                min-width:1.5rem;
+                                text-align:center;
+                                box-shadow:0 0 0.2rem #0005;
+                                z-index:2;
+                            "><?= $badge_text ?></span>
+                        <?php endif; ?>
                     </a>
 
                     <a class="circle" href="user.php">
@@ -534,8 +557,8 @@ if (isLoggedIn()) {
                 aspect-ratio: 1/1.2;
                 border-radius: 1vw;
                 background: linear-gradient(to bottom,
-                    #ffffff 0%,
-                    #ebebebff 95%); 
+                        #ffffff 0%,
+                        #ebebebff 95%);
                 position: relative;
                 display: flex;
                 align-items: center;
@@ -613,7 +636,7 @@ if (isLoggedIn()) {
             .AdquirirLibro {
                 margin-top: 0.8vw;
                 width: 100%;
-                top:0;
+                top: 0;
                 display: flex;
                 justify-content: flex-end;
             }
@@ -632,7 +655,7 @@ if (isLoggedIn()) {
 
             .AdquirirLibro a:hover {
                 background-color: #fff;
-                color:#000080;
+                color: #000080;
             }
         </style>
 

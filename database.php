@@ -65,7 +65,7 @@ CREATE TABLE proposal (
     interested INT,
     targetbookid INT,
     money NUMERIC(10, 2),
-    status VARCHAR(50), -- En proceso / Finalizada
+    status VARCHAR(50), -- En proceso / Finalizada / Cancelada / Rechazada
     proposaldate DATE,
     FOREIGN KEY (interested) REFERENCES user(id),
     FOREIGN KEY (targetbookid) REFERENCES book(id)

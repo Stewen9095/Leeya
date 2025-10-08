@@ -437,9 +437,105 @@ function deleteBook($book_id)
     }
 }
 
+// Propuestas hechas
+function getSentProposals($user_id)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("
+            SELECT p.*, b.name AS book_name, b.author, b.bookpic, b.typeof, b.price, b.ownerid, u.name AS owner_name
+            FROM proposal p
+            JOIN book b ON p.targetbookid = b.id
+            JOIN user u ON b.ownerid = u.id
+            WHERE p.interested = ?
+            ORDER BY p.id DESC
+        ");
+        $stmt->execute([$user_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error al obtener propuestas enviadas: " . $e->getMessage());
+        return [];
+    }
+}
 
+// Propuestas recibidas
+function getReceivedProposals($user_id)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("
+            SELECT p.*, b.name AS book_name, b.author, b.bookpic, b.typeof, b.price, u.name AS interested_name, u.id AS interested_id
+            FROM proposal p
+            JOIN book b ON p.targetbookid = b.id
+            JOIN user u ON p.interested = u.id
+            WHERE b.ownerid = ?
+            ORDER BY p.id DESC
+        ");
+        $stmt->execute([$user_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error al obtener propuestas recibidas: " . $e->getMessage());
+        return [];
+    }
+}
 
+// Cambiar estado de propuesta
+function updateProposalStatus($proposal_id, $new_status)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("UPDATE proposal SET status = ? WHERE id = ?");
+        return $stmt->execute([$new_status, $proposal_id]);
+    } catch (PDOException $e) {
+        error_log("Error al actualizar estado de propuesta: " . $e->getMessage());
+        return false;
+    }
+}
 
+// Finalizar propuesta y deshabilitar libro
+function finalizeProposal($proposal_id)
+{
+    try {
+        $pdo = getDBConnection();
+        // Cambia estado de propuesta
+        $stmt = $pdo->prepare("UPDATE proposal SET status = 'Finalizada' WHERE id = ?");
+        $stmt->execute([$proposal_id]);
+        // Marca libro como no disponible
+        $stmt2 = $pdo->prepare("UPDATE book SET status = 0 WHERE id = (SELECT targetbookid FROM proposal WHERE id = ?)");
+        $stmt2->execute([$proposal_id]);
+        return true;
+    } catch (PDOException $e) {
+        error_log("Error al finalizar propuesta: " . $e->getMessage());
+        return false;
+    }
+}
+
+// Obtener el número de propuestas para mostrar en notificaciones
+function getPendingProposalsCount($user_id)
+{
+    try {
+        $pdo = getDBConnection();
+        // Enviadas
+        $stmt1 = $pdo->prepare("SELECT COUNT(*) FROM proposal WHERE interested = ? AND status = 'En proceso'");
+        $stmt1->execute([$user_id]);
+        $sent = $stmt1->fetchColumn();
+
+        // Recibidas
+        $stmt2 = $pdo->prepare("
+            SELECT COUNT(*) 
+            FROM proposal p
+            JOIN book b ON p.targetbookid = b.id
+            WHERE b.ownerid = ? AND p.status = 'En proceso' OR p.status = 'Finalizada'
+        ");
+        $stmt2->execute([$user_id]);
+        $received = $stmt2->fetchColumn();
+
+        return ['sent' => (int)$sent, 'received' => (int)$received];
+    } catch (PDOException $e) {
+        error_log("Error al contar propuestas pendientes: " . $e->getMessage());
+        return ['sent' => 0, 'received' => 0];
+    }
+}
 
 
 

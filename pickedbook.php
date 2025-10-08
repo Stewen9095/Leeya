@@ -5,6 +5,29 @@ require_once 'database.php';
 
 $is_logged_in = isset($_SESSION['user_id']);
 $current_user_id = $_SESSION['user_id'] ?? null;
+$user_role = '';
+
+refreshSessionUser();
+
+if (isLoggedIn()) {
+
+    if (isset($_SESSION['user_id'])) {
+        $is_logged_in = true;
+        $user_name = htmlspecialchars($_SESSION['user_name'] ?? '');
+        $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
+    }
+
+}
+
+if (isset($_SESSION['user_id'])) {
+    if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+        header('Location: adminpanel.php');
+        exit();
+    }
+} else {
+    header('Location: index.php');
+    exit();
+}
 
 // Validar parámetro id
 $book_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -166,6 +189,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
 
         html {
             font-size: 15px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(1rem, 3vw, 2.5rem);
+            width: 75vw;
+            max-width: 75vw;
+            min-width: 18rem;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 3.2rem 0rem 2.8rem 0rem;
+            font-family: 'HovesExpandedBold';
+            box-sizing: border-box;
+        }
+
+        header {
+            background: transparent;
+            box-shadow: none;
         }
 
         .form-whole {
@@ -375,6 +418,172 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
 </head>
 
 <body>
+
+    <header>
+
+        <?php
+        $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
+        $total_pending = $pending_counts['sent'] + $pending_counts['received'];
+        $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
+        ?>
+
+        <nav>
+            <a href="index.php">
+                <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
+            </a>
+            <div class="nav-btns">
+
+                <a href="explore.php">
+                    <h3>EXPLORAR</h3>
+                </a>
+
+                <?php if ($is_logged_in): ?>
+                    <a href="newbook.php">
+                        <h3>+</h3>
+                    </a>
+
+
+                <?php elseif (!$is_logged_in): ?>
+
+                    <a href="login.php">
+                        <h3>INICIAR SESIÓN</h3>
+                    </a>
+
+                <?php endif; ?>
+
+                <?php if ($is_logged_in): ?>
+
+                    <a class="circle" href="mymessages.php">
+                        <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
+                    </a>
+
+                    <a class="circle" href="myproposals.php" style="position:relative;">
+                        <img src="img/noti.png" alt="Notificación" class="noti-icon">
+                        <?php if ($badge_text): ?>
+                            <span style="
+                                position:absolute;
+                                top:-0.3rem; right:-0.3rem;
+                                background:#ff2d55;
+                                color:#fff;
+                                font-size:0.85rem;
+                                font-family:'HovesExpandedBold';
+                                border-radius:1rem;
+                                padding:0.15rem 0.5rem;
+                                min-width:1.5rem;
+                                text-align:center;
+                                box-shadow:0 0 0.2rem #0005;
+                                z-index:2;
+                            "><?= $badge_text ?></span>
+                        <?php endif; ?>
+                    </a>
+
+                    <a class="circle" href="user.php">
+                        <img src="img/user.png" alt="Usuario" class="user">
+                    </a>
+
+                <?php endif; ?>
+
+                <style>
+                    .iconoimg {
+                        height: 3.5rem;
+                        width: auto;
+                        margin-right: -1.5rem;
+                        padding-bottom: 0.5rem;
+                    }
+
+                    .nav-btns {
+                        display: flex;
+                        gap: 0.5rem;
+                        align-items: center;
+                        background: #000080;
+                        border-radius: 2rem;
+                        padding: 0.3rem 0.5rem;
+                    }
+
+                    .nav-btns a {
+                        text-decoration: none;
+                        background: #001aafff;
+                        color: #fff;
+                        font-size: 1.1rem;
+                        border-radius: 1.25rem;
+                        padding: 0.2rem 1rem;
+                        box-shadow: 0 0.125rem 0.5rem #0002;
+                        transition: background 0.5s;
+                        display: flex;
+                        align-items: center;
+                    }
+
+                    .nav-btns a:hover {
+                        background: #000080;
+                    }
+
+                    .nav-btns h3 {
+                        margin: 0;
+                        display: inline;
+                        font-size: 1.05rem;
+                    }
+
+                    .nav-btns .circle {
+                        width: 2.25rem;
+                        height: 2.25rem;
+                        border-radius: 50%;
+                        background: #001aafff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-sizing: border-box;
+                        transition: background 0.8s;
+                        cursor: pointer;
+                    }
+
+                    .nav-btns img {
+                        width: 1.75rem;
+                        height: 1.75rem;
+                        border-radius: 50%;
+                    }
+
+                    .nav-btns .noti-icon {
+                        width: 1.73rem !important;
+                        height: auto !important;
+                        object-fit: contain;
+                        display: block;
+                    }
+
+                    .nav-btns .user {
+                        width: 1.73rem !important;
+                        height: auto !important;
+                        object-fit: contain;
+                        display: block;
+                    }
+
+                    .nav-btns .circle {
+                        width: 2.25rem;
+                        height: 2.25rem;
+                        border-radius: 50%;
+                        background: #001aafff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-sizing: border-box;
+                    }
+
+                    .nav-btns .circle img {
+                        width: 1.3rem;
+                        height: 1.3rem;
+                        object-fit: contain;
+                        display: block;
+                        margin: -0.1rem;
+                    }
+
+                    .nav-btns .circle:hover {
+                        background: #000080;
+                    }
+                </style>
+
+            </div>
+        </nav>
+    </header>
+
     <div
         style="max-width:600px;margin:2rem auto;background:#fff;border-radius:2rem;padding:2rem;box-shadow:0 0 1rem #0002;">
         <div style="display:flex;gap:2rem;">
