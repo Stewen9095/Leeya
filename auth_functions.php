@@ -662,3 +662,50 @@ function getExchangeBooks($proposal_id)
         return [];
     }
 }
+
+function getAllBooks()
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("
+            SELECT 
+                *
+            FROM book b
+            INNER JOIN user u ON b.ownerid = u.id
+            ORDER BY b.id DESC
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error al obtener todos los libros: " . $e->getMessage());
+        return [];
+    }
+}
+// Obtener usuarios por rol
+function getUsersByRole($role = 'user')
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("SELECT id, name, email, location, lildescription, signdate, userrole FROM user WHERE userrole = ? ORDER BY id DESC");
+        $stmt->execute([$role]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error al obtener usuarios por rol: " . $e->getMessage());
+        return [];
+    }
+}
+
+// Contar usuarios por rol
+function countUsersByRole($role = 'user')
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("SELECT COUNT(*) as cnt FROM user WHERE userrole = ?");
+        $stmt->execute([$role]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return intval($row['cnt'] ?? 0);
+    } catch (PDOException $e) {
+        error_log("Error al contar usuarios por rol: " . $e->getMessage());
+        return 0;
+    }
+}

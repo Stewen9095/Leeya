@@ -118,60 +118,22 @@ if (isset($_SESSION['report_error'])) {
         ?>
 
         <nav>
-            <a href="index.php">
+            <a href="adminpanel.php">
                 <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
             </a>
             <div class="nav-btns">
-
                 <a href="explore.php">
                     <h3>EXPLORAR</h3>
                 </a>
-
-                <?php if ($is_logged_in): ?>
-                    <a href="newbook.php">
-                        <h3>+</h3>
-                    </a>
-
-
-                <?php elseif (!$is_logged_in): ?>
-
-                    <a href="login.php">
-                        <h3>INICIAR SESIÓN</h3>
-                    </a>
-
-                <?php endif; ?>
-
-                <?php if ($is_logged_in): ?>
-
-                    <a class="circle" href="mymessages.php">
-                        <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
-                    </a>
-
-                    <a class="circle" href="myproposals.php" style="position:relative;">
-                        <img src="img/noti.png" alt="Notificación" class="noti-icon">
-                        <?php if ($badge_text): ?>
-                            <span style="
-                                position:absolute;
-                                top:-0.3rem; right:-0.3rem;
-                                background:#ff2d55;
-                                color:#fff;
-                                font-size:0.85rem;
-                                font-family:'HovesExpandedBold';
-                                border-radius:1rem;
-                                padding:0.15rem 0.5rem;
-                                min-width:1.5rem;
-                                text-align:center;
-                                box-shadow:0 0 0.2rem #0005;
-                                z-index:2;
-                            "><?= $badge_text ?></span>
-                        <?php endif; ?>
-                    </a>
-
-                    <a class="circle" href="user.php">
-                        <img src="img/user.png" alt="Usuario" class="user">
-                    </a>
-
-                <?php endif; ?>
+                <a href="userlist.php">
+                    <h3>USUARIOS</h3>
+                </a>
+                <a href="adminreports.php">
+                    <h3>REPORTES</h3>
+                </a>
+                <a href="logout.php">
+                    <h3>CERRAR SESIÓN</h3>
+                </a>
 
                 <style>
                     .iconoimg {
