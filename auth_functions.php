@@ -585,7 +585,6 @@ function getPendingProposalsCount($user_id)
 }
 
 // Obtener datos de usuarios por id
-
 function getUserById($user_id)
 {
     try {
@@ -681,6 +680,7 @@ function getAllBooks()
         return [];
     }
 }
+
 // Obtener usuarios por rol
 function getUsersByRole($role = 'user')
 {
