@@ -342,8 +342,7 @@ if (isset($_SESSION['newbook_message'])) {
             border: 1px solid #ccc;
             border-radius: 1vw;
             background-color: #fff;
-            color: #000080;
-
+            color: #000;
             box-shadow: none !important;
             outline: none;
             appearance: none;
