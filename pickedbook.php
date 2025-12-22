@@ -186,6 +186,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
             color: #fff;
             font-family: 'HovesDemiBold';
             margin: 0;
+            position: relative;
+            width: auto;
+            height: auto;
         }
 
         html {
@@ -414,6 +417,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
             width: 1.2rem;
             height: 1.2rem;
         }
+
+        p {
+            color: #000;
+        }
     </style>
 
 </head>
@@ -453,10 +460,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                 <?php endif; ?>
 
                 <?php if ($is_logged_in): ?>
-
-                    <a class="circle" href="mymessages.php">
-                        <img src="img/mensajeria.png" alt="Mensajeria" class="noti-icon">
-                    </a>
 
                     <a class="circle" href="myproposals.php" style="position:relative;">
                         <img src="img/noti.png" alt="Notificación" class="noti-icon">
@@ -585,26 +588,153 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
         </nav>
     </header>
 
-    <div
-        style="max-width:600px;margin:2rem auto;background:#fff;border-radius:2rem;padding:2rem;box-shadow:0 0 1rem #0002;">
-        <div style="display:flex;gap:2rem;">
-            <div style="width:160px;height:220px;overflow:hidden;border-radius:1rem;background:#eee;">
-                <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Imagen del libro"
-                    style="width:100%;height:100%;object-fit:cover;">
+    <main>
+
+        <style>
+            main {
+                background: red;
+                box-sizing: border-box;
+                position: absolute;
+                width: 68vw;
+                height: 30vw;
+                inset: 0;
+                margin: auto;
+                margin-top: 12%;
+                margin-bottom: -45%;
+            }
+
+            .viewowner {
+                display: grid;
+                background: yellow;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                grid-template-columns: 1.5fr 3fr;
+            }
+
+            .cajaowner1 {
+                width: 100%;
+                height: 100%;
+                background: orange;
+                display: grid;
+                grid-template-rows: 6fr 1fr;
+                box-sizing: border-box;
+
+                .subcajaowner1 {
+                    width: 85%;
+                    height: 85%;
+                    background: purple;
+                    overflow: hidden;
+                    border-radius: 1rem;
+                    box-sizing: border-box;
+                    inset: 0;
+                    margin: auto;
+                    margin-bottom: 3.5vh;
+                }
+
+                .subcajaowner2 {
+                    width: 85%;
+                    height: 50%;
+                    background: greenyellow;
+                    overflow: hidden;
+                    border-radius: 1rem;
+                    box-sizing: border-box;
+                    top: 0;
+                    margin: 0 auto;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+
+
+                    .botoneditar {
+                        width: 100%;
+                        height: 100%;
+                        background: #c53030;
+                        box-sizing: border-box;
+
+                        button {
+                            width: 100%;
+                            height: 100%;
+                            border: none;
+                            cursor: pointer;
+                            background: transparent;
+                            border-radius: 1rem 0 0 1rem;
+                            transition: background 0.5s;
+                            margin: 0;
+                            padding: 0;
+                        }
+
+                        button:hover {
+                            background-color: #38a169
+                        }
+
+                    }
+
+                    .botoneliminar {
+                        width: 100%;
+                        height: 100%;
+                        background: #6430c5ff;
+                        box-sizing: border-box;
+
+                        button {
+                            width: 100%;
+                            height: 100%;
+                            border: none;
+                            cursor: pointer;
+                            background: transparent;
+                            border-radius: 0 1rem 1rem 0;
+                            transition: background 0.5s;
+                            margin: 0;
+                            padding: 0;
+                        }
+
+                        button:hover {
+                            background-color: #38a169
+                        }
+
+                    }
+
+
+                }
+
+            }
+        </style>
+
+        <div class="viewowner"> <!-- Edición o visualización owner -->
+
+            <div class="cajaowner1">
+
+                <div class="subcajaowner1">
+                    <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Imagen del libro"
+                        style="width:100%;height:100%;object-fit:cover;">
+                </div>
+
+                <div class="subcajaowner2">
+
+                    <div class="botoneditar">
+                        <?php if ($is_owner && !$edit_mode): ?>
+                            <form method="get" style="display:inline;">
+                                <input type="hidden" name="id" value="<?= $book['id'] ?>">
+                                <button type="submit" name="edit" value="1" class="functions"
+                                    style="margin-right:0.5rem;">Editar</button>
+                            </form>
+                        </div>
+
+                        <div class="botoneliminar">
+                            <form method="post" style="display:inline;">
+                                <input type="hidden" name="delete_book" value="1">
+                                <button type="submit" class="functions btn-cancel"
+                                    onclick="return confirm('¿Seguro que deseas eliminar este libro?');">Eliminar</button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+
             </div>
-            <div style="flex:1;">
-                <?php if ($is_owner && !$edit_mode): ?>
-                    <form method="get" style="display:inline;">
-                        <input type="hidden" name="id" value="<?= $book['id'] ?>">
-                        <button type="submit" name="edit" value="1" class="functions"
-                            style="margin-right:0.5rem;">Editar</button>
-                    </form>
-                    <form method="post" style="display:inline;">
-                        <input type="hidden" name="delete_book" value="1">
-                        <button type="submit" class="functions btn-cancel"
-                            onclick="return confirm('¿Seguro que deseas eliminar este libro?');">Eliminar</button>
-                    </form>
-                <?php endif; ?>
+
+
+            <div class="cajaowner2" style="flex:1;">
+
 
                 <?php if ($is_owner && $edit_mode): ?>
                     <?php if ($edit_message): ?>
@@ -632,9 +762,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                         <input type="text" name="bookpic" value="<?= htmlspecialchars($book['bookpic']) ?>" required>
                         <label>Tipo de operación:</label>
                         <select name="typeof" required>
-                            <option value="Donacion" <?= $book['typeof'] == 'Donacion' ? 'selected' : ''; ?>>Donación</option>
+                            <option value="Donacion" <?= $book['typeof'] == 'Donacion' ? 'selected' : ''; ?>>Donación
+                            </option>
                             <option value="Venta" <?= $book['typeof'] == 'Venta' ? 'selected' : ''; ?>>Venta</option>
-                            <option value="Intercambio" <?= $book['typeof'] == 'Intercambio' ? 'selected' : ''; ?>>Intercambio
+                            <option value="Intercambio" <?= $book['typeof'] == 'Intercambio' ? 'selected' : ''; ?>>
+                                Intercambio
                             </option>
                             <option value="Subasta" <?= $book['typeof'] == 'Subasta' ? 'selected' : ''; ?>>Subasta</option>
                         </select>
@@ -674,6 +806,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                 <?php endif; ?>
             </div>
         </div>
+
+
         <hr>
         <?php if (!$is_owner && $is_logged_in): ?>
             <?php if ($proposal_message): ?>
@@ -720,17 +854,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                 </form>
             <?php endif; ?>
             <div style="margin-top:1.5rem;display:flex;gap:1rem;">
-            <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($user['email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
-                target="_blank">
-                Contactar
-            </a>
+                <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($user['email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
+                    target="_blank">
+                    Contactar
+                </a>
             </div>
         <?php elseif (!$is_logged_in): ?>
             <div style="margin-top:1.5rem;">
                 <a href="login.php" class="functions">Inicia sesión para ofertar o chatear</a>
             </div>
         <?php endif; ?>
-    </div>
+
+
+    </main>
+
 </body>
 
 </html>
