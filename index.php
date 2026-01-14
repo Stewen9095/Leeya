@@ -38,99 +38,86 @@ if (isLoggedIn()) {
     <title>Leeya</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="img/icon.png" type="image/png">
+
     <style>
         html {
-            font-size: 15px;
+            font-size: 14px;
+            width: 100%;
+            height: 100vh;
         }
 
         body {
             margin: 0;
-            font-family: 'HovesDemiBoldItalic';
-            background: #000;
+            font-family: 'HovesDemiBold';
+            background: white;
+            width: 100%;
+            height: 100vh;
         }
 
         header {
-            background: transparent;
-            box-shadow: none;
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            justify-content: center;
+            display: flex;
+            padding-top: 2rem;
+            padding-inline: 20px;
         }
 
         nav {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+            background-color: black;
+            gap: .6rem;
+            position: relative;
+            padding: .3% 0 .3% 0;
             justify-content: center;
-            gap: clamp(1rem, 3vw, 2.5rem);
-            width: 75vw;
-            max-width: 75vw;
-            min-width: 18rem;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 3.2rem 0rem 2.8rem 0rem;
-            font-family: 'HovesExpandedBold';
-            box-sizing: border-box;
+            align-items: center;
+            border-radius: .5rem;
+            box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+
         }
 
-        .carrusel-container {
-            max-width: 68.75rem;
-            margin: 2rem auto;
-            padding-top: 3.5rem;
-            padding-bottom: 5rem;
+        nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.12);
         }
 
-        .carrusel-titulo {
-            font-size: 1.4rem;
-            color: #fff;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-family: 'HovesExpandedDemiBold';
-        }
-
-        .carrusel {
+        nav a {
+            width: 100%;
+            flex: 1 1 300px;
             display: flex;
-            overflow-x: auto;
-            gap: 1.5rem;
-            padding-bottom: 1rem;
-        }
+            box-sizing: border-box;
+            border-radius: 1.2rem;
+            position: relative;
 
-        .libro {
-            min-width: 8.75rem;
-            background: #fff;
-            border-radius: 0.625rem;
-            box-shadow: 0 0.125rem 0.5rem #0001;
-            text-align: center;
-            padding: 1rem 0.5rem;
-        }
-
-        .libro img {
-            width: 5rem;
-            height: 6.875rem;
-            object-fit: cover;
-            border-radius: 0.375rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .libro-nombre {
-            font-size: 1rem;
-            color: #222;
-            font-weight: bold;
-        }
-
-        @media (max-width: 900px) {
-            nav {
-                width: 90vw;
-                max-width: 90vw;
+            h3 {
+                margin: auto;
+                z
             }
         }
 
-        @media (max-width: 700px) {
-            nav {
-                flex-direction: column;
-                gap: 1rem;
-                width: 98vw;
-                max-width: 98vw;
-            }
+        nav a:nth-child(1) {
+            flex: 0 0 100px;
+            position: relative;
+            top: -5px;
+        }
+
+        nav a:nth-child(1) .iconoimg {
+            width: 100%;
+        }
+
+        nav a:nth-child(2) {
+            background-color: black;
+            flex: 0 0 140px;
+            border: .3rem solid white;
+            text-decoration: none;
+            color: white;
+            box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
         }
     </style>
 
@@ -140,162 +127,139 @@ if (isLoggedIn()) {
 
     <header>
 
-        <?php
-        $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
-        $total_pending = $pending_counts['sent'] + $pending_counts['received'];
-        $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
-        ?>
-
         <nav>
-            <a href="index.php">
+
+            <a href="index.php" class="image-logo">
                 <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
             </a>
-            <div class="nav-btns">
 
-                <a href="explore.php">
-                    <h3>EXPLORAR</h3>
+            <a href="explore.php">
+                <h3>EXPLORAR</h3>
+            </a>
+
+            <?php if ($is_logged_in):
+
+                $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
+                $total_pending = $pending_counts['sent'] + $pending_counts['received'];
+                $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
+                ?>
+
+                <a href="newbook.php" class="plus">
+                    <h3>+</h3>
                 </a>
 
-                <?php if ($is_logged_in): ?>
-                    <a href="newbook.php">
-                        <h3>+</h3>
-                    </a>
-
-
-                <?php elseif (!$is_logged_in): ?>
-
-                    <a href="login.php">
-                        <h3>INICIAR SESIÓN</h3>
-                    </a>
-
-                <?php endif; ?>
-
-                <?php if ($is_logged_in): ?>
-
-                    <a class="circle" href="myproposals.php" style="position:relative;">
-                        <img src="img/noti.png" alt="Notificación" class="noti-icon">
-                        <?php if ($badge_text): ?>
-                            <span style="
-                                position:absolute;
-                                top:-0.3rem; right:-0.3rem;
-                                background:#ff2d55;
-                                color:#fff;
-                                font-size:0.85rem;
-                                font-family:'HovesExpandedBold';
-                                border-radius:1rem;
-                                padding:0.15rem 0.5rem;
-                                min-width:1.5rem;
-                                text-align:center;
-                                box-shadow:0 0 0.2rem #0005;
-                                z-index:2;
-                            "><?= $badge_text ?></span>
-                        <?php endif; ?>
-                    </a>
-
-                    <a class="circle" href="user.php">
-                        <img src="img/user.png" alt="Usuario" class="user">
-                    </a>
-
-                <?php endif; ?>
-
                 <style>
-                    .iconoimg {
-                        height: 3.5rem;
-                        width: auto;
-                        margin-right: -1.5rem;
-                        padding-bottom: 0.5rem;
-                    }
-
-                    .nav-btns {
-                        display: flex;
-                        gap: 0.5rem;
-                        align-items: center;
-                        background: #000080;
-                        border-radius: 2rem;
-                        padding: 0.3rem 0.5rem;
-                    }
-
-                    .nav-btns a {
+                    nav a:nth-child(3) {
+                        background-color: black;
+                        border: .3rem solid white;
+                        flex: 0 1 35px;
+                        color: white;
                         text-decoration: none;
-                        background: #001aafff;
-                        color: #fff;
-                        font-size: 1.1rem;
-                        border-radius: 1.25rem;
-                        padding: 0.2rem 1rem;
-                        box-shadow: 0 0.125rem 0.5rem #0002;
-                        transition: background 0.5s;
-                        display: flex;
-                        align-items: center;
-                    }
-
-                    .nav-btns a:hover {
-                        background: #000080;
-                    }
-
-                    .nav-btns h3 {
-                        margin: 0;
-                        display: inline;
-                        font-size: 1.05rem;
-                    }
-
-                    .nav-btns .circle {
-                        width: 2.25rem;
-                        height: 2.25rem;
-                        border-radius: 50%;
-                        background: #001aafff;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        box-sizing: border-box;
-                        transition: background 0.8s;
-                        cursor: pointer;
-                    }
-
-                    .nav-btns img {
-                        width: 1.75rem;
-                        height: 1.75rem;
-                        border-radius: 50%;
-                    }
-
-                    .nav-btns .noti-icon {
-                        width: 1.73rem !important;
-                        height: auto !important;
-                        object-fit: contain;
-                        display: block;
-                    }
-
-                    .nav-btns .user {
-                        width: 1.73rem !important;
-                        height: auto !important;
-                        object-fit: contain;
-                        display: block;
-                    }
-
-                    .nav-btns .circle {
-                        width: 2.25rem;
-                        height: 2.25rem;
-                        border-radius: 50%;
-                        background: #001aafff;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        box-sizing: border-box;
-                    }
-
-                    .nav-btns .circle img {
-                        width: 1.3rem;
-                        height: 1.3rem;
-                        object-fit: contain;
-                        display: block;
-                        margin: -0.1rem;
-                    }
-
-                    .nav-btns .circle:hover {
-                        background: #000080;
+                        box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
                     }
                 </style>
 
-            </div>
+
+            <?php elseif (!$is_logged_in): ?>
+
+                <a href="login.php">
+                    <h3>INICIAR SESIÓN</h3>
+                </a>
+
+                <style>
+                    nav a:nth-child(3) {
+                        background-color: black;
+                        border: .3rem solid white;
+                        flex: 0 1 180px;
+                        color: white;
+                        text-decoration: none;
+                        box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
+                    }
+                </style>
+
+            <?php endif; ?>
+
+            <?php if ($is_logged_in): ?>
+
+                <style>
+                    nav .circle1 {
+                        /* Nth child 4 when is signed up */
+                        flex: 0 1 30px;
+                        box-sizing: border-box;
+                        position: relative;
+                    }
+
+                    nav .circle1 .noti-icon {
+                        /* img for nth child 4 */
+                        width: 95%;
+                        box-sizing: border-box;
+                    }
+
+                    .numnoti {
+                        position: absolute;
+                        top: 10px;
+                        left: 10px;
+                        display: block;
+                        background-color: black;
+                        border: .3rem solid white;
+                        border-radius: .5rem;
+                        color: white;
+                        margin-right: 1rem;
+                        box-sizing: border-box;
+                        height: 18px;
+                        width: 18px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
+
+                        p {
+                            flex: 1;
+                            margin: 0;
+                            text-align: center;
+                            font-size: 10px;
+                        }
+
+                    }
+
+                    nav .circle2 {
+                        /* Nth child 5 when is signed up */
+                        background-color: black;
+                        flex: 0 1 32px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-sizing: border-box;
+                        border: .3rem solid white;
+                        overflow: hidden;
+                        box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
+
+                    }
+
+                    nav .circle2 .user {
+                        /* img for nth child 4 */
+                        width: 100%;
+                        overflow: hidden;
+
+                    }
+                </style>
+
+                <a class="circle1" href="myproposals.php">
+                    <img src="img/noti.png" alt="Notificación" class="noti-icon">
+                    <?php if ($badge_text): ?>
+                        <span class="numnoti">
+                            <p><?= $badge_text ?></p>
+                        </span>
+                    <?php endif; ?>
+                </a>
+
+                <a class="circle2" href="user.php">
+                    <img src="img/user.png" alt="Usuario" class="user">
+                </a>
+
+
+            <?php endif; ?>
+
         </nav>
     </header>
 
@@ -313,80 +277,6 @@ if (isLoggedIn()) {
             </div>
         </div>
 
-        <style>
-            .panels {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 1rem;
-                width: 100%;
-                max-width: 100vw;
-                height: auto;
-                background: linear-gradient(to bottom,
-                        #000000 0%,
-                        #000000 45%,
-                        #000080 90%,
-                        #000080 100%);
-                padding-bottom: 3.5rem;
-                padding-top: 1rem;
-                margin: 0 auto;
-            }
-
-            .panel-interno {
-
-                margin: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                max-width: 70vw;
-                height: auto;
-            }
-
-            .panel1 {
-                width: 28rem;
-                margin-right: -1rem;
-                margin-top: -0.5rem;
-                color: #ffffffff;
-                align-items: center;
-                text-align: justify;
-                font-size: 1.3rem;
-            }
-
-            .panel2 {
-                align-items: center;
-                width: 30rem;
-                text-align: center;
-                max-width: 50rem;
-                margin: 0 auto;
-            }
-
-            .panel2 img {
-                width: 60%;
-                height: auto;
-            }
-
-            .litle-text {
-                font-family: 'HovesDemiBoldItalic';
-                margin: 0;
-            }
-        </style>
-
-        <img class="panel-separator" src="img/separador.png" alt="Separador">
-
-
-        <style>
-            .panel-separator {
-                padding-bottom: 4rem;
-                display: block;
-                width: 100%;
-                max-width: 100vw;
-                height: 1rem;
-                object-fit: cover;
-                background: none;
-                border: none;
-            }
-        </style>
-
         <div class="panel-content">
             <div class="tweet-wrapper">
                 <blockquote class="twitter-tweet">
@@ -403,76 +293,6 @@ if (isLoggedIn()) {
             </video>
 
         </div>
-
-
-        <style>
-            .panel-content {
-                display: flex;
-                align-items: center;
-                gap: 6rem;
-                width: 80vw;
-                max-width: 80vw;
-                margin: 0 auto;
-                overflow-x: auto;
-                justify-content: center;
-                padding-bottom: 4vw;
-            }
-
-            .tweet-wrapper {
-                width: 30rem;
-                height: auto;
-                box-shadow: 0 5px 8px rgba(255, 255, 255, 0.11);
-                border-radius: 0.5rem;
-                overflow: hidden;
-                display: inline-block;
-                vertical-align: top;
-            }
-
-            .twitter-tweet {
-                margin: 0 !important;
-            }
-
-            video {
-                width: 30rem;
-                max-width: 30rem;
-                border-radius: 0.5rem;
-                height: auto;
-                width: 100%;
-                display: block;
-                box-shadow: 0 5px 8px rgba(255, 255, 255, 0.11);
-            }
-
-            .panel1footer {
-                padding-top: 2rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 4em;
-            }
-
-            .panel1footer img {
-                width: 7rem;
-                height: auto;
-            }
-
-            .shortfooter {
-                font-size: 1.2rem;
-                font-family: 'HovesRegular';
-            }
-
-            .panelfooter2 {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .carrusel-titulo {
-                padding-top: 5rem;
-                font-size: 1.8rem;
-                color: #fff;
-                font-family: 'HovesExpandedDemiBold';
-            }
-        </style>
 
         <?php
         $latest_books = getLatestBooks(4, $is_logged_in ? $_SESSION['user_id'] : null);
@@ -511,149 +331,6 @@ if (isLoggedIn()) {
             </div>
         <?php endif; ?>
 
-        <style>
-            /* Estilo de los últimos libros publicados */
-            .bookbox-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 2.2vw;
-                justify-content: center;
-                align-items: stretch;
-                width: 100%;
-                padding-top: 2vw;
-                padding-bottom: 4vw;
-                box-sizing: border-box;
-            }
-
-            .PrecioLibro {
-                margin: 0 0 0.2vw 0;
-                min-height: 1.5em;
-                color: #222;
-                font-size: 1vw;
-                top: 0;
-            }
-
-            .fullbook {
-                background: #fff;
-                border-radius: 1vw;
-                box-shadow: 0 0.5vw 2vw rgba(0, 0, 0, 0.08);
-                width: 20.5vw;
-                min-width: 180px;
-                max-width: 98vw;
-                display: flex;
-                flex-direction: column;
-                align-items: stretch;
-                min-height: 32vw;
-                margin-bottom: 2vw;
-                overflow: hidden;
-            }
-
-            .bookbox {
-                width: 100%;
-                aspect-ratio: 1/1.2;
-                border-radius: 1vw;
-                background: linear-gradient(to bottom,
-                        #ffffff 0%,
-                        #ebebebff 95%);
-                position: relative;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .imagenbox {
-                width: 80%;
-                height: 80%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: auto;
-            }
-
-            .imagenbox img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                border-radius: 1vw;
-            }
-
-            .infolibro {
-                padding: 0.6vw 2vw 0.2vw 2vw;
-                width: 100%;
-                flex: 1 1 auto;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: flex-start;
-                box-sizing: border-box;
-                gap: 0;
-            }
-
-            .functionsbook {
-                background-color: #000080;
-                position: absolute;
-                top: 1.2rem;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-                width: 55%;
-                height: 12%;
-                border-radius: 1rem;
-            }
-
-            .functionsbook img {
-                width: 1.5rem;
-            }
-
-            .statusbook {
-                font-size: 1rem;
-                color: white;
-            }
-
-            .PrecioLibro {
-                margin: 0;
-                padding: 0;
-            }
-
-            .TituloLibro {
-                font-size: 1.2vw;
-                font-family: "HovesMedium";
-                font-weight: bold;
-                margin: 0 0 0.2vw 0;
-                width: 100%;
-                height: 20%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                margin-top: 0.2rem;
-            }
-
-            .AdquirirLibro {
-                margin-top: 0.8vw;
-                width: 100%;
-                top: 0;
-                display: flex;
-                justify-content: flex-end;
-            }
-
-            .AdquirirLibro a {
-                text-decoration: none;
-                color: #fff;
-                background-color: #000080;
-                padding: 0.4vw 1vw;
-                border-radius: 0.5vw;
-                transition: background 0.8s;
-                font-size: 1vw;
-                margin-bottom: 1.8vw;
-                font-family: "HovesDemiBold";
-            }
-
-            .AdquirirLibro a:hover {
-                background-color: #fff;
-                color: #000080;
-            }
-        </style>
 
     </main>
 
@@ -678,26 +355,6 @@ if (isLoggedIn()) {
         </div>
 
     </footer>
-
-    <style>
-        footer {
-            background: #eeeeeeff;
-            color: #fff;
-            text-align: center;
-            padding: 1rem;
-            font-size: 1rem;
-            font-family: 'HovesExpandedBold';
-            padding-bottom: 3.5rem;
-        }
-
-        footer p {
-            color: #000;
-        }
-
-        .panel1footertext {
-            width: 50%;
-        }
-    </style>
 
 </body>
 

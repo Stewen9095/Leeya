@@ -142,7 +142,7 @@ $pdo = getDBConnection();
         </nav>
     </header>
 
-    <main style="min-height: 70vh; text-align:center; padding-top: 4rem;">
+    <main>
         <h1>Bienvenido a Leeya</h1>
         <p>Panel principal de administrador</p>
                 <div class="panel-content">
