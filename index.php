@@ -112,13 +112,12 @@ if (isLoggedIn()) {
                     border-radius: 5px;
                     display: flex;
                     justify-content: center;
-                    align-items: stretch;
+                    align-items: center;
                     max-width: 100%;
-                    min-height: 15px;
+                    min-height: 30px;
                 }
 
             }
-
 
         }
     </style>
@@ -159,7 +158,7 @@ if (isLoggedIn()) {
         <?php if ($is_logged_in): ?>
 
             <a class="circle1" href="myproposals.php">
-                <svg class="esuve" width="256px" height="256px" viewBox="0 0 24.00 24.00" fill="none"
+                <svg class="esuve1" width="256px" height="256px" viewBox="0 0 24.00 24.00" fill="none"
                     xmlns="http://www.w3.org/2000/svg" stroke="" stroke-width="0.00024000000000000003">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#e6e6e6"
@@ -244,23 +243,25 @@ if (isLoggedIn()) {
                 @media (max-width: 500px) {
 
                     .circle1 {
-                        min-height: 95%;
-                        width: 100%;
+                        height: auto;
+                        min-width: 97%;
                         position: relative;
                         padding: 0;
                         border: none;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        .esuve1 {
-                            max-height: 80%;
-                            width: auto;
-                            margin: 0 auto;
-                        }
+                        border: 1px solid rgba(230, 230, 230, 0.84);
+                        background-color: #d8d8d881;
+                        border-radius: 5px;
+                    }
+
+                    .circle1 .esuve1 {
+                        max-width: 8%;
                     }
 
                     .circle2 {
-                        min-height: 95%;
+                        min-width: 97%;
                         width: auto;
                         position: relative;
                         padding: 0;
@@ -269,15 +270,17 @@ if (isLoggedIn()) {
                         background-color: transparent;
                         align-items: center;
                         justify-content: center;
+                        border: 1px solid rgba(230, 230, 230, 0.84);
+                        background-color: #d8d8d881;
+                        border-radius: 5px;
 
-                        .esuve2 {
-                            max-height: 80%;
-                            width: auto;
-                            margin: 0 auto;
-                        }
                     }
 
-                }
+                    .circle2 .esuve2 {
+                        max-width: 8%;
+                        width: auto;
+                        margin: 0 auto;
+                    }
 
                 }
             </style>
@@ -290,7 +293,16 @@ if (isLoggedIn()) {
 
     <main>
 
-        <!--  
+        <style>
+
+
+
+
+            @media (max-width: 500px) {
+
+
+            }
+        </style>
 
         <div class="panel1">
             <div class="son1">
@@ -302,7 +314,7 @@ if (isLoggedIn()) {
             </div>
         </div>
 
-        -->
+
 
         <!--  
         <div class="panel2">
