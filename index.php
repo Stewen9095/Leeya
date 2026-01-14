@@ -40,179 +40,76 @@ if (isLoggedIn()) {
     <link rel="icon" href="img/icon.png" type="image/png">
 
     <style>
-        body {
-            margin: 0;
-            font-family: 'HovesDemiBold';
+        html {
             background: white;
-            width: 100vw;
-            height: 100vh;
+            margin: 0;
+            padding: 0;
         }
 
-        header {
-            box-sizing: border-box;
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            justify-content: center;
-            display: flex;
-            padding-top: 2rem;
-            padding-inline: 20px;
-            font-size: 14px;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'HovesDemiBold';
+            background: white;
         }
 
         nav {
+            max-width: 1440px;
+            min-width: 200px;
+            width: 96%;
+            height: auto;
+            background-color: #cfcfcf67;
             display: flex;
-            flex-wrap: wrap;
-            width: 100%;
-            background-color: black;
-            gap: .6rem;
-            position: relative;
-            padding: .3% 0 .3% 0;
             justify-content: center;
-            align-items: center;
-            border-radius: .5rem;
-            box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
-            transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-        }
-
-        nav:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.12);
+            align-items: stretch;
+            box-sizing: border-box;
+            margin: 0 auto;
+            border: 1px solid rgba(168, 168, 168, 0.37);
+            border-radius: 1rem;
+            margin-top: 15px;
+            gap: .1%;
+            font-size: 14px;
         }
 
         nav a {
-            width: 100%;
-            flex: 1 1 300px;
-            display: flex;
             box-sizing: border-box;
-            border-radius: 1.2rem;
-            position: relative;
+            padding: .2rem 1rem;
+            margin: .3rem;
+            border: 1px solid rgba(168, 168, 168, 0.37);
+            background-color: #a5a5a567;
+            border-radius: .6rem;
+            color: #272727;
+            text-decoration: none;
+            min-width: 0;
+            overflow: hidden;
 
             h3 {
-                margin: auto;
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
             }
         }
-
-        nav a:nth-child(1) {
-            flex: 0 0 100px;
-            position: relative;
-            top: -5px;
-        }
-
-        nav a:nth-child(1) .iconoimg {
-            width: 100%;
-        }
-
-        nav a:nth-child(2) {
-            background-color: black;
-            flex: 0 0 140px;
-            border: .3rem solid white;
-            text-decoration: none;
-            color: white;
-            box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
-        }
-
 
         /* Cel */
         @media (max-width: 500px) {
 
-            body {
-                margin: 0;
-                font-family: 'HovesDemiBold';
-                background: white;
-                width: 100vw;
-                height: 100vh;
-            }
-
-            header {
-                box-sizing: border-box;
-                width: 100%;
-                min-width: 60px;
-                margin: 0 auto;
-                position: relative;
-                justify-content: center;
-                display: flex;
-                padding-top: 1rem;
-                padding-inline: 10px;
-                font-size: 10px;
-            }
-
             nav {
-                flex-wrap: wrap;
-                display: flex;
-                flex-direction: row;
-                width: 100%;
-                background-color: black;
-                gap: .6rem;
-                position: relative;
-                justify-content: center;
-                align-items: center;
-                border-radius: .5rem;
-                box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
-                transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-                padding-bottom: 1rem;
-                padding-inline: 15px;
-            }
+                margin-top: 6px;
+                flex-direction: column;
+                font-size: 8px;
+                border-radius: 5px;
+                padding: 2px 0;
+                width: 96%;
 
-            nav:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.12);
-            }
-
-            nav a {
-                width: 90%;
-                flex: 0 0 auto;
-                box-sizing: border-box;
-                border-radius: 1.2rem;
-                position: relative;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                
-
-                h3 {
-                    margin: 0 auto;
-                    padding: 0;
+                a {
+                    margin: .1rem;
+                    padding: 2px 10px;
+                    width: 98%;
+                    border-radius: 5px;
+                    display: flex;
+                    justify-content: center;
                 }
-            }
 
-            nav a:nth-child(1) {
-                position: relative;
-                justify-content: center;
-                align-items: center;
-                flex: 0 0 auto;
-                display: flex;
-                top: 5px;
-            }
-
-            nav a:nth-child(1) .iconoimg {
-                width: 35%;
-                padding: .5rem;
-            }
-
-            nav a:nth-child(2) {
-                flex: 0 1 25%;
-                width: 80%;
-                padding: 2px 0 2px 0;
-                background-color: black;
-                border: .2rem solid white;
-                text-decoration: none;
-                color: white;
-                box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
-                padding: 4px 0 4px 0;
-                overflow: hidden;
-            }
-
-            nav a:nth-child(3) {
-                width: 80%;
-                max-height: 35px;
-                padding: 2px 0 2px 0;
-                background-color: black;
-                border: .2rem solid white;
-                text-decoration: none;
-                color: white;
-                box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
             }
 
 
@@ -223,230 +120,60 @@ if (isLoggedIn()) {
 
 <body>
 
-    <header>
+    <nav>
 
-        <nav>
+        <a href="index.php" class="image-logo">
+            <h3>LEEYA</h3>
+        </a>
 
-            <a href="index.php" class="image-logo">
-                <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
+        <a href="explore.php">
+            <h3>EXPLORAR</h3>
+        </a>
+
+        <?php if ($is_logged_in):
+
+            $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
+            $total_pending = $pending_counts['sent'] + $pending_counts['received'];
+            $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
+            ?>
+
+            <a href="newbook.php" class="plus">
+                <h3>+</h3>
             </a>
 
-            <a href="explore.php">
-                <h3>EXPLORAR</h3>
+        <?php elseif (!$is_logged_in): ?>
+
+            <a href="login.php">
+                <h3>INICIAR SESIÓN</h3>
             </a>
 
-            <?php if ($is_logged_in):
+        <?php endif; ?>
 
-                $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
-                $total_pending = $pending_counts['sent'] + $pending_counts['received'];
-                $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
-                ?>
-
-                <a href="newbook.php" class="plus">
-                    <h3>+</h3>
-                </a>
-
-                <style>
-                    nav a:nth-child(3) {
-                        background-color: black;
-                        border: .3rem solid white;
-                        flex: 0 1 35px;
-                        color: white;
-                        text-decoration: none;
-                        box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
-                    }
-
-                    @media (max-width: 500px) {
-                        nav a:nth-child(3) {
-                            padding: 4px 0 4px 0;
-                            flex: 0 1 30px;
-                            max-width: 30px;
-                            max-height: 35px;
-                            background-color: black;
-                            border: .2rem solid white;
-                            text-decoration: none;
-                            color: white;
-                            box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
-                        }
-                    }
-                </style>
+        <?php if ($is_logged_in): ?>
 
 
-            <?php elseif (!$is_logged_in): ?>
+            <a class="circle1" href="myproposals.php">
+<!--                 <img src="img/noti.png" alt="Notificación" class="noti-icon">
+                <?php if ($badge_text): ?>
+                    <span class="numnoti">
+                        <p><?= $badge_text ?></p>
+                    </span>
+                <?php endif; ?> -->
+            </a>
 
-                <a href="login.php">
-                    <h3>INICIAR SESIÓN</h3>
-                </a>
-
-                <style>
-                    nav a:nth-child(3) {
-                        background-color: black;
-                        border: .3rem solid white;
-                        flex: 0 1 180px;
-                        color: white;
-                        text-decoration: none;
-                        box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
-                    }
-                </style>
-
-            <?php endif; ?>
-
-            <?php if ($is_logged_in): ?>
-
-                <style>
-                    nav .circle1 {
-                        /* Nth child 4 when is signed up */
-                        flex: 0 1 30px;
-                        box-sizing: border-box;
-                        position: relative;
-                    }
-
-                    nav .circle1 .noti-icon {
-                        /* img for nth child 4 */
-                        width: 95%;
-                        box-sizing: border-box;
-                    }
-
-                    .numnoti {
-                        position: absolute;
-                        top: 10px;
-                        left: 10px;
-                        display: block;
-                        background-color: black;
-                        border: .3rem solid white;
-                        border-radius: .5rem;
-                        color: white;
-                        margin-right: 1rem;
-                        box-sizing: border-box;
-                        height: 18px;
-                        width: 18px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
-
-                        p {
-                            flex: 1;
-                            margin: 0;
-                            text-align: center;
-                            font-size: 10px;
-                        }
-
-                    }
-
-                    nav .circle2 {
-                        /* Nth child 5 when is signed up */
-                        background-color: black;
-                        flex: 0 1 32px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        box-sizing: border-box;
-                        border: .3rem solid white;
-                        overflow: hidden;
-                        box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
-
-                    }
-
-                    nav .circle2 .user {
-                        /* img for nth child 4 */
-                        width: 100%;
-                        overflow: hidden;
-
-                    }
-
-                    @media (max-width: 500px) {
-
-                        nav .circle1 {
-                            width: 80%;
-                            flex: 0 1 auto;
-                            max-width: 30px;
-                            max-height: 35px;
-                            background-color: black;
-                            border: .2rem solid white;
-                            text-decoration: none;
-                            color: white;
-                            box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
-                        }
-
-                        nav .circle1 .noti-icon {
-                            /* img for nth child 4 */
-                            width: 95%;
-                            box-sizing: border-box;
-                        }
-
-                        .numnoti {
-                            position: absolute;
-                            top: 10px;
-                            left: 10px;
-                            display: block;
-                            background-color: black;
-                            border: .3rem solid white;
-                            border-radius: .5rem;
-                            color: white;
-                            margin-right: 1rem;
-                            box-sizing: border-box;
-                            height: 18px;
-                            width: 18px;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
-
-                            p {
-                                flex: 1;
-                                margin: 0;
-                                text-align: center;
-                                font-size: 10px;
-                            }
-
-                        }
-
-                        nav .circle2 {
-                            /* Nth child 5 when is signed up */
-                            background-color: black;
-                            flex: 0 1 32px;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            box-sizing: border-box;
-                            border: .3rem solid white;
-                            overflow: hidden;
-                            box-shadow: 0 5px 5px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 255, 255, 0.12);
-
-                        }
-
-                        nav .circle2 .user {
-                            /* img for nth child 4 */
-                            width: 100%;
-                            overflow: hidden;
-
-                        }
-
-                    }
-                </style>
-
-                <a class="circle1" href="myproposals.php">
-                    <img src="img/noti.png" alt="Notificación" class="noti-icon">
-                    <?php if ($badge_text): ?>
-                        <span class="numnoti">
-                            <p><?= $badge_text ?></p>
-                        </span>
-                    <?php endif; ?>
-                </a>
-
-                <a class="circle2" href="user.php">
-                    <img src="img/user.png" alt="Usuario" class="user">
-                </a>
+            <a class="circle2" href="user.php">
+                <!-- <img src="img/user.png" alt="Usuario" class="user"> --> 
+            </a>
 
 
-            <?php endif; ?>
+        <?php endif; ?>
 
-        </nav>
-    </header>
+    </nav>
 
 
     <main>
+
+        <!--  
 
         <div class="panel1">
             <div class="son1">
@@ -458,54 +185,7 @@ if (isLoggedIn()) {
             </div>
         </div>
 
-        <style>
-            .panel1 {
-                display: flex;
-                flex-wrap: wrap;
-                padding-top: 30px;
-                gap: 15px;
-                width: 100%;
-                max-width: 1150px;
-                justify-content: center;
-                align-items: stretch;
-                margin: 0 auto;
-                box-sizing: border-box;
-                min-width: 0;
-            }
-
-            .son1:first-child {
-                flex: 1 1 450px;
-                box-sizing: border-box;
-                position: relative;
-                display: flex;
-                justify-content: center;
-
-                p {
-                    width: 85%;
-                    font-size: 28px;
-                    overflow-wrap: break-word;
-                    word-break: break-word;
-                    align-self: center;
-                }
-            }
-
-            .son1:last-child {
-                background-color: black;
-                flex: 0 1 360px;
-                box-sizing: border-box;
-                position: relative;
-                display: flex;
-                justify-content: center;
-                padding: 0px 15px;
-                box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1), 0 0 8px rgba(0, 0, 0, 0.12);
-                border-radius: .4 rem;
-
-
-                img {
-                    width: 100%;
-                }
-            }
-        </style>
+        -->
 
         <!--  
         <div class="panel2">
