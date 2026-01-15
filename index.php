@@ -68,7 +68,7 @@ if (isLoggedIn()) {
             border-radius: 1rem;
             margin-top: 15px;
             gap: .05%;
-            font-size: 14px;
+            font-size: 15px;
         }
 
         nav a {
@@ -99,7 +99,7 @@ if (isLoggedIn()) {
                 display: flex;
                 margin-top: 6px;
                 flex-direction: column;
-                font-size: 8px;
+                font-size: 13px;
                 border-radius: 5px;
                 padding: 2px 0;
                 width: 96%;
@@ -290,34 +290,163 @@ if (isLoggedIn()) {
 
     </nav>
 
-
     <main>
 
         <style>
+            main {
+                max-width: 1440px;
+                min-width: 200px;
+                width: 85%;
+                height: auto;
+                display: flex;
+                flex-wrap: nowrap;
+                margin: 3.6rem auto 0 auto;
+                justify-content: center;
+                align-items: center;
+            }
 
+            .panel1 {
+                width: 100%;
+                height: 150px;
+                display: flex;
+                flex-wrap: nowrap;
+                align-items: stretch;
+            }
 
+            .son11{
+                width: 50%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                color: #333333;
+                gap: 0;
 
+                p:first-child {
+                    display: flex;
+                    justify-content: center;
+                    align-items: flex-end;
+                    width: 100%;
+                    font-size: 26px;
+                    text-align: center;
+                    margin: auto;
+                    height: 42%;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
 
-            @media (max-width: 500px) {
+                p:last-child {
+                    display: flex;
+                    flex-direction: row;
+                    text-align: center;
+                    width: 100%;
+                    font-size: 18px;
+                    height: 58%;
+                    margin: auto;
+                    box-sizing: border-box;
+                    padding: 0 6% 0 6%;
+                }
 
+            }
+
+            .son12 {
+                width: 50%;
+                height: auto;
+                background-color: #bebebe;
+                display: flex;
+                justify-content: flex-start;
+                border: 1px solid #64646467;
+                align-items: center;
+                border-radius: .6rem;
+                box-sizing: border-box;
+
+                .imagekid {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    height: 130%;
+                    width: auto;
+                    margin: 0 4%;
+                    background-color: transparent;
+                }
+            }
+
+            @media(max-width: 500px){
+
+                main{
+                    flex-direction: column;
+                    margin: 2rem auto 0 auto;
+                    width: 92%;
+                    height: auto;
+                }
+
+                .panel1{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
+                    height: auto;
+                    margin: auto;
+                    height: auto;
+                }
+
+                .son11{
+                    justify-content: center;
+                    width: 100%;
+                    margin: auto;
+
+                    p:first-child{
+                        font-size: 20px;
+                    }
+
+                    p:last-child{
+                        font-size: 14px;
+                        padding: 0;
+                    }
+                }
+
+                .son12 {
+                    width: 100%;
+                    flex-direction: column;
+                    border-radius: 5px;
+                    padding: 5% 0;
+                    margin: 0 auto 2rem auto;   
+
+                    .imagekid {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: center;
+                        height: auto;
+                        width: 40%;
+                        margin: 0 4%;
+                        background: transparent;
+                    }
+
+                }
 
             }
         </style>
 
         <div class="panel1">
-            <div class="son1">
-                <p>LIBROS AL ALCANCE DE TODOS: PUBLICA O ADQUIERE TUS LIBROS FAVORITOS HOY DESDE
-                    LA COMODIDAD DE TU HOGAR</p>
+            <div class="son11">
+                <p>LIBROS AL ALCANCE DE TODOS:</p>
+                <p>Publica o adquiere tus libros favoritos hoy desde la comodidad de tu
+                    hogar</p>
             </div>
-            <div class="son1">
-                <img src="img/libros.png" alt="Libros">
+            <div class="son12">
+                <img src="img/libros.png" alt="Libros" class="imagekid">
             </div>
         </div>
 
 
+        <style>
 
-        <!--  
-        <div class="panel2">
+
+        </style>
+
+<!--         <div class="panel2">
             <div class="tweet-wrapper">
                 <blockquote class="twitter-tweet">
                     <p lang="en" dir="ltr">Get any book with Leeya!</p>&mdash; readleeya (@readleeya) <a
@@ -332,9 +461,9 @@ if (isLoggedIn()) {
                 Tu navegador no soporta el video HTML5.
             </video>
 
-        </div>
+        </div> -->
 
-        -->
+        
 
         <!--  
 
