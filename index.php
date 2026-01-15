@@ -90,7 +90,11 @@ if (isLoggedIn()) {
                 margin: 0;
                 padding: 0;
             }
+
         }
+
+
+
 
         /* Cel */
         @media (max-width: 500px) {
@@ -150,7 +154,7 @@ if (isLoggedIn()) {
         <?php elseif (!$is_logged_in): ?>
 
             <a href="login.php">
-                <h3>INICIAR SESIÓN</h3>
+                <div class="content">INICIAR SESIÓN</div>
             </a>
 
         <?php endif; ?>
@@ -313,7 +317,7 @@ if (isLoggedIn()) {
                 align-items: stretch;
             }
 
-            .son11{
+            .son11 {
                 width: 50%;
                 height: 100%;
                 display: flex;
@@ -373,16 +377,16 @@ if (isLoggedIn()) {
                 }
             }
 
-            @media(max-width: 500px){
+            @media(max-width: 500px) {
 
-                main{
+                main {
                     flex-direction: column;
                     margin: 2rem auto 0 auto;
                     width: 92%;
                     height: auto;
                 }
 
-                .panel1{
+                .panel1 {
                     display: flex;
                     flex-direction: column;
                     gap: 2rem;
@@ -391,16 +395,16 @@ if (isLoggedIn()) {
                     height: auto;
                 }
 
-                .son11{
+                .son11 {
                     justify-content: center;
                     width: 100%;
                     margin: auto;
 
-                    p:first-child{
+                    p:first-child {
                         font-size: 20px;
                     }
 
-                    p:last-child{
+                    p:last-child {
                         font-size: 14px;
                         padding: 0;
                     }
@@ -411,7 +415,7 @@ if (isLoggedIn()) {
                     flex-direction: column;
                     border-radius: 5px;
                     padding: 5% 0;
-                    margin: 0 auto 2rem auto;   
+                    margin: 0 auto 2rem auto;
 
                     .imagekid {
                         display: flex;
@@ -446,7 +450,7 @@ if (isLoggedIn()) {
 
         </style>
 
-<!--         <div class="panel2">
+        <!--         <div class="panel2">
             <div class="tweet-wrapper">
                 <blockquote class="twitter-tweet">
                     <p lang="en" dir="ltr">Get any book with Leeya!</p>&mdash; readleeya (@readleeya) <a
@@ -463,7 +467,7 @@ if (isLoggedIn()) {
 
         </div> -->
 
-        
+
 
         <!--  
 
