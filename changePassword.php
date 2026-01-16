@@ -75,62 +75,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cambiar Contraseña</title>
+    <title>Cambio de contraseña</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" type="image/png" href="img/logoblanco.png">
+    <link rel="icon" href="img/icon.png" type="image/png">
+
     <style>
-        body,
         html {
             margin: 0;
             padding: 0;
-            height: 100%;
+
+        }
+
+        body {
+            margin: 0 auto;
+            padding: 0;
             font-family: 'HovesDemiBold';
-            overflow: auto;
+            align-items: center;
+            justify-content: center;
+            max-width: 1440px;
+            min-width: 200px;
+            width: 100%;
+        }
+
+        main {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
         }
 
         .background {
             position: fixed;
-            top: 50%;
-            left: 50%;
             width: 100%;
-            max-width: 100vw;
-            display: block;
-            height: 100%;
-            object-fit: cover;
-            background: black;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-
+            max-width: 100dvw;
+            height: auto;
         }
 
-        .back-home {
-            position: absolute;
-            top: 2rem;
-            left: 2rem;
-            color: white;
-            font-family: 'HovesExpandedBold';
-            font-size: 1.4rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            z-index: 2;
-        }
-
-        .back-home:hover {
-            color: var(--color-text-muted, #ccc);
-        }
-
-        @media (max-width: 480px) {
+        @media (max-width: 750px) {
             .auth-card {
                 padding: 2rem 1.5rem;
                 margin: 1rem;
             }
 
-            .back-home {
+            .getbackson {
                 position: relative;
                 top: auto;
                 left: auto;
@@ -140,39 +134,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
         }
 
         .auth-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0rem 1rem;
-            position: relative;
-            z-index: 1;
-            margin: 0rem;
+            margin: 0 auto;
         }
 
-        .auth-card {
-            background: rgba(255, 255, 255, 1);
-            border-radius: var(--radius, 1.5rem);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 2rem 3rem;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .auth-header h1 {
-            font-family: 'HovesBold';
-            font-size: 1.8rem;
-            color: #000000;
-            margin-bottom: 0.5rem;
-        }
-
-        .auth-header p {
-            font-size: 1rem;
-            font-family: 'HovesDemiBold';
-            color: #000000ff
-        }
 
         .form-control {
             width: 100%;
@@ -259,51 +223,152 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
 
 <body>
 
-    <img src="img/background2.png" class="background">
+    <!-- <img src="img/background2.png" class="background"> -->
 
-    <a href="index.php" class="back-home">
-        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        Volver al inicio
-    </a>
+    <main>
 
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <h1 class="titulo">Cambiar contraseña</h1>
-                <p>Actualiza la contraseña de tu cuenta Leeya</p>
-            </div>
-            <?php if ($message): ?>
-                <div class="success-message"><?= htmlspecialchars($message) ?></div>
-            <?php endif; ?>
-            <?php if ($error): ?>
-                <div class="error-message"><?= htmlspecialchars($error) ?></div>
-            <?php endif; ?>
-            <form method="post" autocomplete="off">
-                <div class="form-group">
-                    <label for="current_password">Contraseña actual</label>
-                    <input type="password" id="current_password" name="current_password" class="form-control" required>
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="new_password">Nueva contraseña</label>
-                    <input type="password" id="new_password" name="new_password" class="form-control" required>
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="confirm_password">Confirmar nueva contraseña</label>
-                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
-                </div>
+        <style>
+            .getback {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto;
+                padding: 0 0 1.8rem 0;
+            }
 
-                <br>
-                <button type="submit" class="auth-button">Cambiar contraseña</button>
-                <br>
-            </form>
-            <a href="user.php"><button class="auth-button2">Volver</button></a>
+            .getbackson {
+                width: 95%;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                color: white;
+                text-decoration: none;
+                font-size: 25px;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 2rem 0 0 0;
+                transition: 3s;
+            }
+
+
+            .getbackson:hover {
+                color: orange
+            }
+
+
+            @media (max-width: 750px) {
+
+                .getbackson {
+                    margin-bottom: 1rem;
+                    justify-content: center;
+                    font-size: 20px;
+                    padding: 2rem;
+                }
+            }
+        </style>
+
+        <div class="getback">
+            <a href="user.php" class="getbackson">
+                <svg width="25" height="25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Volver a mi perfil
+            </a>
         </div>
-    </div>
 
+
+
+        <style>
+            .auth-container {
+                background-color: red;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .auth-card {
+                background-color: purple;
+                width: 45%;
+                backdrop-filter: blur(5px);
+                padding: 1rem 3rem;
+            }
+
+            .auth-header {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: space-between;
+                margin: 0 auto 1rem auto;
+                gap: .6rem;
+
+                p {
+                    margin: 0;
+                    padding: 0;
+                    display: block;
+                    font-size: 16px;
+                }
+
+                h1 {
+                    margin: 0;
+                    padding: 0;
+                    font-size: 32px;
+                }
+
+            }
+        </style>
+
+
+        <div class="auth-container">
+
+            <div class="auth-card">
+
+                <div class="auth-header">
+                    <h1 class="titulo">Cambiar contraseña</h1>
+                    <p>Actualiza la contraseña de tu cuenta Leeya</p>
+                </div>
+
+                <div class="messages">
+                <?php if ($message): ?>
+                    <div class="success-message"><?= htmlspecialchars($message) ?></div>
+                <?php endif; ?>
+                <?php if ($error): ?>
+                    <div class="error-message"><?= htmlspecialchars($error) ?></div>
+                <?php endif; ?>
+                </div>
+
+                <form method="post" autocomplete="off" class="formulario">
+                    <div class="form-group">
+                        <label for="current_password">Contraseña actual</label>
+                        <input type="password" id="current_password" name="current_password" class="form-control"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new_password">Nueva contraseña</label>
+                        <input type="password" id="new_password" name="new_password" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_password">Confirmar nueva contraseña</label>
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-control"
+                            required>
+                    </div>
+
+                    <button type="submit" class="auth-button">Cambiar contraseña</button>
+
+                </form>
+                <a href="user.php"><button class="auth-button2">Volver</button></a>
+            </div>
+        </div>
+
+    </main>
 
 </body>
 

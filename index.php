@@ -38,6 +38,9 @@ if (isLoggedIn()) {
     <title>Leeya</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="img/icon.png" type="image/png">
+</head>
+
+<body>
 
     <style>
         html {
@@ -54,33 +57,40 @@ if (isLoggedIn()) {
         }
 
         nav {
+            position: fixed;
             max-width: 1440px;
             min-width: 200px;
-            width: 96%;
+            width: fit-content;
             height: auto;
-            background-color: #64646467;
-            display: flex;
+            background-color: #64646425;
+            backdrop-filter: blur(8px);
+            display: inline-flex;
             justify-content: center;
             align-items: stretch;
             box-sizing: border-box;
-            margin: 0 auto;
+            left: 0;
+            right: 0;
+            margin: auto;
             border: 1px solid rgba(99, 99, 99, 0.37);
             border-radius: 1rem;
-            margin-top: 15px;
-            gap: .05%;
             font-size: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
         }
 
         nav a {
             box-sizing: border-box;
-            padding: .2rem 1rem;
-            margin: .3rem .15rem;
-            border: 1px solid rgba(230, 230, 230, 0.84);
-            background-color: #d8d8d881;
+            margin-inline: auto;
+            inset-inline: 0;
+            width: fit-content;
+            padding: .2rem .5rem;
+            margin: .3rem .3rem .3rem .3rem;
+            border: 1px solid rgba(99, 99, 99, 0.37);
+            background-color: #d8d8d888;
             border-radius: .6rem;
             color: #333333;
             text-decoration: none;
-            min-width: 0;
+            min-width: 140px;
             overflow: hidden;
             max-width: 18%;
             max-height: 30px;
@@ -89,46 +99,42 @@ if (isLoggedIn()) {
                 box-sizing: border-box;
                 margin: 0;
                 padding: 0;
+                text-align: center;
             }
 
         }
 
-
-
-
         /* Cel */
-        @media (max-width: 500px) {
+        @media (max-width: 750px) {
 
             nav {
+                position: static;
                 display: flex;
-                margin-top: 6px;
+                margin-top: 30px;
                 flex-direction: column;
                 font-size: 13px;
                 border-radius: 5px;
                 padding: 2px 0;
-                width: 96%;
+                width: 80%;
                 align-items: center;
 
                 a {
                     margin: .1rem;
                     padding: 2px 10px;
                     width: 98%;
+                    height: 35px;
                     border-radius: 5px;
                     display: flex;
                     justify-content: center;
-                    align-items: center;
+                    align-items: stretch;
                     max-width: 100%;
                     min-height: 30px;
                 }
 
             }
-
+            
         }
     </style>
-
-</head>
-
-<body>
 
     <nav>
 
@@ -244,7 +250,7 @@ if (isLoggedIn()) {
                 }
 
                 /* Cel */
-                @media (max-width: 500px) {
+                @media (max-width: 750px) {
 
                     .circle1 {
                         height: auto;
@@ -304,7 +310,8 @@ if (isLoggedIn()) {
                 height: auto;
                 display: flex;
                 flex-direction: column;
-                margin: 3.6rem auto 0 auto;
+                margin: 2.8rem auto 0 auto;
+                padding: 2rem 0 0 0;
                 justify-content: center;
                 align-items: center;
             }
@@ -312,6 +319,7 @@ if (isLoggedIn()) {
             .panel1 {
                 width: 82%;
                 height: 150px;
+                margin-top: 50px;
                 display: flex;
                 flex-wrap: wrap;
                 align-items: stretch;
@@ -363,7 +371,7 @@ if (isLoggedIn()) {
                 flex: 1 0 45%;
                 max-width: 60%;
                 height: 95%;
-                background-color: #bebebe;
+                background-color: #C0C0C0;
                 display: flex;
                 justify-content: flex-start;
                 align-self: center;
@@ -386,13 +394,14 @@ if (isLoggedIn()) {
                 }
             }
 
-            @media(max-width: 500px) {
+            @media(max-width: 750px) {
 
                 main {
                     flex-direction: column;
                     margin: 2rem auto 0 auto;
                     width: 92%;
                     height: auto;
+                    padding: 0;
                 }
 
                 .panel1 {
@@ -496,7 +505,7 @@ if (isLoggedIn()) {
             }
 
 
-            @media(max-width: 500px) {
+            @media(max-width: 750px) {
 
                 .panel2 {
                     display: flex;
@@ -505,7 +514,7 @@ if (isLoggedIn()) {
                     max-width: 90%;
                     height: auto;
                     margin-top: 15%;
-                    margin-bottom: 12%;
+                    margin-bottom: 8%;
                     align-items: center;
                     justify-content: center;
                     gap: 0;
@@ -565,6 +574,11 @@ if (isLoggedIn()) {
 
 
 
+        <style>
+
+
+        </style>
+
         <!--  
 
         <div class="latests-books">
@@ -613,49 +627,68 @@ if (isLoggedIn()) {
 
     <style>
         footer {
-            bottom: 0;
-            height: 300px;
+            bottom: 25px;
+            height: auto;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             max-width: 1440px;
+            min-width: 200px;
             width: 100%;
-            height: auto;
             justify-content: center;
             align-items: center;
-            background-color: #d8d8d881;
+            background-color: #c0c0c039;
+            backdrop-filter: blur(10px);
+            border: 1px solid #9D9D9D;
+            margin: .8rem auto 30px auto;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .sonfooter1 {
-            width: 40%;
+            margin: 0;
+            width: 80%;
             display: flex;
             flex-wrap: nowrap;
+            color: #333333;
+            font-size: 12px;
+
+            .textfooter11 {
+                width: 100%;
+                text-align: center;
+                color: #333333;
+            }
+        }
+
+        @media(max-width: 750px) {
+            footer {
+                bottom: 0;
+                margin: 0 auto 15px auto;
+                width: 100%;
+                padding: 10px 0;
+                font-size: 12px;
+            }
+
+            .sonfooter1 {
+                width: 88%;
+                font-size: 10px;
+            }
         }
     </style>
 
-    <!--  
+
     <footer>
 
         <div class="sonfooter1">
 
-            <img src="img/icon.png" class="imgfooter11" alt="Leeya icono">
-
             <div class="textfooter11">
-                Leeya: un espacio de acceso a la literatura y contenido bibliográfico dedicado a
-                    los estudiantes de la Universidad Distrital Francisco José de Caldas.
+                Leeya (2026), Un espacio de acceso a la literatura y contenido bibliográfico dedicado a
+                los estudiantes de la Universidad Distrital Francisco José de Caldas.
             </div>
 
         </div>
 
-        <div class="sonfooter1">
-
-            <div class="textfooter21">Leeya (2026): Un proyecto de la Universidad Distrital Francisco José de Caldas</div>
-
-        </div>
-
     </footer>
-
-    -->
 
 </body>
 
