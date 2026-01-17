@@ -86,6 +86,7 @@ if (isLoggedIn()) {
             padding: .2rem .5rem;
             margin: .3rem .3rem .3rem .3rem;
             border: 1px solid rgba(99, 99, 99, 0.37);
+            backdrop-filter: blur(5px);
             background-color: #d8d8d888;
             border-radius: .6rem;
             color: #333333;
@@ -220,7 +221,9 @@ if (isLoggedIn()) {
                     align-items: center;
                     justify-content: center;
                     border: none;
-                    background-color: transparent;
+                    background-color: #64646425;
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+
 
                     .esuve {
                         height: 100%;
@@ -240,7 +243,9 @@ if (isLoggedIn()) {
                     align-items: center;
                     justify-content: center;
                     border: none;
-                    background-color: transparent;
+                    background-color: #64646425;
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    
 
                     .esuve2 {
                         height: 88%;
@@ -261,7 +266,7 @@ if (isLoggedIn()) {
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        border: 1px solid rgba(230, 230, 230, 0.84);
+                        border: 1px solid rgba(99, 99, 99, 0.37);
                         background-color: #d8d8d881;
                         border-radius: 5px;
                     }
@@ -280,7 +285,7 @@ if (isLoggedIn()) {
                         background-color: transparent;
                         align-items: center;
                         justify-content: center;
-                        border: 1px solid rgba(230, 230, 230, 0.84);
+                        border: 1px solid rgba(99, 99, 99, 0.37);
                         background-color: #d8d8d881;
                         border-radius: 5px;
 
