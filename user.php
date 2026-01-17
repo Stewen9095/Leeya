@@ -81,6 +81,7 @@ if (isset($_SESSION['user_id'])) {
             font-size: 15px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             overflow: hidden;
+            z-index: 4;
         }
 
         nav a {
@@ -91,6 +92,7 @@ if (isset($_SESSION['user_id'])) {
             padding: .2rem .5rem;
             margin: .3rem .3rem .3rem .3rem;
             border: 1px solid rgba(99, 99, 99, 0.37);
+            backdrop-filter: blur(5px);
             background-color: #d8d8d888;
             border-radius: .6rem;
             color: #333333;
@@ -193,24 +195,6 @@ if (isset($_SESSION['user_id'])) {
                         <p><?= $badge_text ?></p>
                     </span>
                 <?php endif; ?>
-            </a>
-
-            <a class="circle2" href="user.php">
-                <svg class="esuve2" width="256px" height="256px" viewBox="0 0 28.00 28.00" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" stroke="#333333" stroke-width="0.14">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#e6e6e6"
-                        stroke-width="2.632">
-                        <path clip-rule="evenodd"
-                            d="M13.9991 2C10.6405 2 7.88924 4.6739 7.88924 8.00723C7.88924 10.1497 9.02582 12.0197 10.7297 13.0825C5.95609 14.5248 2.41965 19.0144 2.00617 24.0771C1.91662 25.1735 2.81571 26 3.81688 26H24.1831C25.1843 26 26.0834 25.1735 25.9938 24.0771C25.5803 19.014 22.0433 14.524 17.2691 13.0821C18.9726 12.0193 20.109 10.1494 20.109 8.00723C20.109 4.6739 17.3577 2 13.9991 2ZM9.74071 8.00723C9.74071 5.72598 11.6315 3.84838 13.9991 3.84838C16.3667 3.84838 18.2575 5.72598 18.2575 8.00723C18.2575 10.2885 16.3667 12.1661 13.9991 12.1661C11.6315 12.1661 9.74071 10.2885 9.74071 8.00723ZM4.95086 24.1516C4.36361 24.1516 3.89887 23.6462 4.01091 23.0697C4.94115 18.2837 9.09806 14.4476 14 14.4476C18.902 14.4476 23.0589 18.2837 23.9891 23.0697C24.1011 23.6462 23.6364 24.1516 23.0492 24.1516H4.95086Z"
-                            fill="#333333" fill-rule="evenodd"></path>
-                    </g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path clip-rule="evenodd"
-                            d="M13.9991 2C10.6405 2 7.88924 4.6739 7.88924 8.00723C7.88924 10.1497 9.02582 12.0197 10.7297 13.0825C5.95609 14.5248 2.41965 19.0144 2.00617 24.0771C1.91662 25.1735 2.81571 26 3.81688 26H24.1831C25.1843 26 26.0834 25.1735 25.9938 24.0771C25.5803 19.014 22.0433 14.524 17.2691 13.0821C18.9726 12.0193 20.109 10.1494 20.109 8.00723C20.109 4.6739 17.3577 2 13.9991 2ZM9.74071 8.00723C9.74071 5.72598 11.6315 3.84838 13.9991 3.84838C16.3667 3.84838 18.2575 5.72598 18.2575 8.00723C18.2575 10.2885 16.3667 12.1661 13.9991 12.1661C11.6315 12.1661 9.74071 10.2885 9.74071 8.00723ZM4.95086 24.1516C4.36361 24.1516 3.89887 23.6462 4.01091 23.0697C4.94115 18.2837 9.09806 14.4476 14 14.4476C18.902 14.4476 23.0589 18.2837 23.9891 23.0697C24.1011 23.6462 23.6364 24.1516 23.0492 24.1516H4.95086Z"
-                            fill="#333333" fill-rule="evenodd"></path>
-                    </g>
-                </svg>
             </a>
 
             <style>
@@ -316,7 +300,7 @@ if (isset($_SESSION['user_id'])) {
             main {
                 max-width: 1440px;
                 min-width: 200px;
-                width: 92%;
+                width: 100%;
                 height: auto;
                 display: flex;
                 flex-direction: column;
@@ -331,99 +315,97 @@ if (isset($_SESSION['user_id'])) {
                 main {
                     flex-direction: column;
                     margin: 2rem auto 0 auto;
-                    width: 92%;
+                    width: 95%;
                     height: auto;
                     padding: 0;
                 }
             }
+
+            .profile-container {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: row;
+                margin: 0 auto;
+                justify-content: center;
+                align-items: stretch;
+                margin-top: 3.5rem;
+                gap: 3.5%;
+            }
+
+            .dataUser {
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                box-sizing: border-box;
+                padding: 3% 5% 3% 5%;
+                border-radius: 10px;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                background-color: #d8d8d888;
+                backdrop-filter: blur(80px);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+                color: #333333;
+
+                h1 {
+                
+                margin: 0;
+                    font-size: 28px;
+                }
+
+                p {
+                    display: block;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .since {
+                    margin-bottom: 3%;
+                    font-family: 'HovesDemiBoldItalic';
+                }
+
+            }
+
+            .userChanges {
+                width: 30%;
+                background-color: yellow;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: space-evenly;
+                border-radius: 10px;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                background-color: #d8d8d888;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                
+                a{
+                    background-color: red;
+                    width: 90%;
+                    text-align: center;
+                    padding: 2.5%;
+                    border-radius: 10px;
+                    background-color: #d8d8d888;
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    backdrop-filter: blur(80px);
+                    text-decoration: none;
+                }
+
+            }
+
+            a:visited{
+                text-decoration: none;
+                color: #333333;
+            }
+
         </style>
 
 
         <div class="profile-container">
-
-            <style>
-                .profile-container {
-                    padding-bottom: 2rem;
-                    border-radius: 1.25rem;
-                }
-
-                .welcome {
-                    font-family: 'HovesBold';
-                    font-size: 3rem;
-                    margin-bottom: -1.8rem;
-                    margin-top: 0.5rem;
-                }
-
-                .since {
-                    padding-bottom: 1rem;
-                }
-
-                .infotext {
-                    margin-bottom: 0rem;
-                    margin-top: 0rem;
-                    text-align: center;
-                }
-
-                .infotextfinal {
-                    margin-top: 0;
-                }
-
-                .dataUser {
-                    text-align: center;
-                    width: 50%;
-                    height: 80%;
-                    /*background-color: #fff;*/
-                    border-radius: 2rem;
-                    padding-top: 1rem;
-                    padding-bottom: 1rem;
-                    margin-left: 2rem;
-                }
-
-                .userChanges {
-
-                    margin-left: -5rem;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    text-align: center;
-                    width: 50%;
-                    height: 92%;
-                    /*background-color: #fff;*/
-                    border-radius: 1.25rem;
-                    gap: 0.8rem;
-                    padding-top: 1.2rem;
-
-                }
-
-
-                .profile-container {
-                    padding-left: -2rem;
-                    padding-right: -2rem;
-                }
-
-                .functions {
-                    text-decoration: none;
-                    background: #001aafff 0%;
-                    color: #fff;
-                    text-align: center;
-                    font-size: 1.2rem;
-                    border-radius: 2rem;
-                    padding: 0.5rem 1rem;
-                    box-shadow: 0 0.125rem 0.5rem rgba(8, 4, 253, 0.13);
-                    transition: background 0.5s;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: 80%;
-                    max-width: 25rem;
-                }
-
-
-                .functions:hover {
-                    background: #000080 95%;
-                }
-            </style>
 
             <div class="dataUser">
 
@@ -456,8 +438,6 @@ if (isset($_SESSION['user_id'])) {
 
             </div>
 
-            <!-- Diff divs -->
-
             <div class="userChanges">
                 <a class="functions" href="changePassword.php">Cambiar contraseña</a>
                 <a class="functions" href="changeLocation.php">Cambiar localidad</a>
@@ -467,7 +447,6 @@ if (isset($_SESSION['user_id'])) {
 
         </div>
 
-        <br>
 
         <div class="profile-catalog">
 
@@ -515,155 +494,6 @@ if (isset($_SESSION['user_id'])) {
                     <?php endforeach; ?>
                 <?php endif; ?>
 
-                <style>
-                    .bookbox-container {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: 2.2vw;
-                        justify-content: center;
-                        align-items: stretch;
-                        width: 100%;
-                        padding-top: 2vw;
-                        padding-bottom: 4vw;
-                        box-sizing: border-box;
-                    }
-
-                    .PrecioLibro {
-                        margin: 0 0 0.2vw 0;
-                        min-height: 1.5em;
-                        color: #222;
-                        font-size: 1vw;
-                        top: 0;
-                    }
-
-                    .fullbook {
-                        background: #fff;
-                        border-radius: 1vw;
-                        box-shadow: 0 0.5vw 2vw rgba(0, 0, 0, 0.08);
-                        width: 20.5vw;
-                        min-width: 180px;
-                        max-width: 98vw;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: stretch;
-                        min-height: 32vw;
-                        margin-bottom: 2vw;
-                        overflow: hidden;
-                    }
-
-                    .bookbox {
-                        width: 100%;
-                        aspect-ratio: 1/1.2;
-                        border-radius: 1vw;
-                        background: linear-gradient(to bottom,
-                                #ffffff 0%,
-                                #ebebebff 95%);
-                        position: relative;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    }
-
-                    .imagenbox {
-                        width: 80%;
-                        height: 80%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        margin: auto;
-                    }
-
-                    .imagenbox img {
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                        border-radius: 1vw;
-                    }
-
-                    .infolibro {
-                        padding: 0.6vw 2vw 0.2vw 2vw;
-                        width: 100%;
-                        flex: 1 1 auto;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: flex-start;
-                        align-items: flex-start;
-                        box-sizing: border-box;
-                        gap: 0;
-                    }
-
-                    .functionsbook {
-                        background-color: #000080;
-                        position: absolute;
-                        top: 1.2rem;
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        justify-content: center;
-                        width: 55%;
-                        height: 12%;
-                        border-radius: 1rem;
-                    }
-
-
-                    .functionsbook img {
-                        width: 1.5rem;
-                    }
-
-                    .statusbook {
-                        font-size: 1rem;
-                        color: white;
-                    }
-
-                    .PrecioLibro {
-                        margin: 0;
-                        padding: 0;
-                    }
-
-                    .TituloLibro {
-                        font-size: 1.2vw;
-                        font-family: "HovesMedium";
-                        font-weight: bold;
-                        margin: 0 0 0.2vw 0;
-                        width: 100%;
-                        height: 20%;
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        margin-top: 0.2rem;
-                        color: black;
-                    }
-
-                    .AdquirirLibro {
-                        margin-top: 0.8vw;
-                        width: 100%;
-                        top: 0;
-                        display: flex;
-                        justify-content: flex-end;
-                    }
-
-                    .AdquirirLibro a {
-                        text-decoration: none;
-                        color: #fff;
-                        background-color: #000080;
-                        padding: 0.4vw 1vw;
-                        border-radius: 0.5vw;
-                        transition: background 0.8s;
-                        font-size: 1vw;
-                        margin-bottom: 1.8vw;
-                        font-family: "HovesDemiBold";
-                    }
-
-                    .AdquirirLibro a:hover {
-                        background-color: #fff;
-                        color: #000080;
-                    }
-
-                    h2 {
-                        margin-top: 3.5rem;
-                        margin-bottom: 1rem;
-                    }
-                </style>
             </div>
 
         </div>

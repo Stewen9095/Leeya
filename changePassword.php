@@ -269,7 +269,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 background-color: #64646402;
                 border-radius: .8rem;
                 border: 1px solid rgba(99, 99, 99, 0.66);
-                backdrop-filter: blur(80px);
+                backdrop-filter: blur(38px);
                 width: 42%;
                 padding: 2.5rem 3rem 3.5rem 3rem;
             }
