@@ -225,7 +225,9 @@ if (isset($_SESSION['user_id'])) {
                     align-items: center;
                     justify-content: center;
                     border: none;
-                    background-color: transparent;
+                    background-color: #64646425;
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+
 
                     .esuve {
                         height: 100%;
@@ -245,7 +247,9 @@ if (isset($_SESSION['user_id'])) {
                     align-items: center;
                     justify-content: center;
                     border: none;
-                    background-color: transparent;
+                    background-color: #64646425;
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+
 
                     .esuve2 {
                         height: 88%;
@@ -266,7 +270,7 @@ if (isset($_SESSION['user_id'])) {
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        border: 1px solid rgba(230, 230, 230, 0.84);
+                        border: 1px solid rgba(99, 99, 99, 0.37);
                         background-color: #d8d8d881;
                         border-radius: 5px;
                     }
@@ -285,7 +289,7 @@ if (isset($_SESSION['user_id'])) {
                         background-color: transparent;
                         align-items: center;
                         justify-content: center;
-                        border: 1px solid rgba(230, 230, 230, 0.84);
+                        border: 1px solid rgba(99, 99, 99, 0.37);
                         background-color: #d8d8d881;
                         border-radius: 5px;
 
