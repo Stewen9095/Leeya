@@ -352,8 +352,8 @@ if (isset($_SESSION['user_id'])) {
                 color: #333333;
 
                 h1 {
-                
-                margin: 0;
+
+                    margin: 0;
                     font-size: 28px;
                 }
 
@@ -382,8 +382,8 @@ if (isset($_SESSION['user_id'])) {
                 border: 1px solid rgba(99, 99, 99, 0.37);
                 background-color: #d8d8d888;
                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-                
-                a{
+
+                a {
                     background-color: red;
                     width: 90%;
                     text-align: center;
@@ -397,11 +397,10 @@ if (isset($_SESSION['user_id'])) {
 
             }
 
-            a:visited{
+            a:visited {
                 text-decoration: none;
                 color: #333333;
             }
-
         </style>
 
 
@@ -448,53 +447,90 @@ if (isset($_SESSION['user_id'])) {
         </div>
 
 
-        <div class="profile-catalog">
+        <style>
+            .header-container {
+                margin-top: 3%;
+                margin-bottom: 1.5rem;
+                color: #333333;
 
-            <?php
+                h1 {
+                    padding: 0;
+                    margin: 0;
+                    font-size: clamp(1.4rem, 2vw, 3rem);
+                    color: #333333;
 
-            $books = [];
-            if ($is_logged_in && isset($_SESSION['user_id'])) {
-                $books = getBooksByUserId($_SESSION['user_id']);
+                }
             }
-            ?>
+
+            .bookbox-container {
+                background-color: brown;
+                width: 96%;
+                padding: 1.4rem 0 1.4rem 0;
+                display: flex;
+                flex-wrap: wrap;
+                justify-items: stretch;
+                justify-content: center;
+                align-items: stretch;
+                gap: 2rem;
+                border-radius: clamp(1rem, 1.5vw, 2rem);
+            }
+
+            .fullbook{
+                flex: 1 1 1fr;
+                background-color: orange;
+                border: 1px solid #333333;
+                min-width: 300px;
+                box-sizing: border-box;
+            }
+        </style>
+
+        <?php
+
+        $books = [];
+        if ($is_logged_in && isset($_SESSION['user_id'])) {
+            $books = getBooksByUserId($_SESSION['user_id']);
+        }
+        ?>
+
+        <div class="header-container">
+            <?php if (empty($books)): ?>
+                <h1>No tienes libros en tu catalogo</h1>
+            <?php else: ?>
+                <h1>Mi catalogo</h1>
+            </div>
 
             <div class="bookbox-container">
-                <?php if (empty($books)): ?>
-                    <h2 style="color:#fff;text-align:center;width:100%;">No tienes libros en tu catalogo</h2>
-                <?php else: ?>
-                    <h1 style="color:#fff;text-align:center;width:100%;">Mi catalogo</h1>
-                    <?php foreach ($books as $book): ?>
-                        <div class="fullbook">
-                            <div class="bookbox">
-                                <div class="functionsbook">
-                                    <h3 class="statusbook">
-                                        <?= htmlspecialchars($book['typeof']) ?>
-                                    </h3>
-                                </div>
-                                <div class="imagenbox">
-                                    <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Libro publicado">
-                                </div>
-                            </div>
-                            <div class="infolibro">
-                                <h3 class="TituloLibro">
-                                    <?= htmlspecialchars($book['name']) ?>
+
+                <?php foreach ($books as $book): ?>
+                    <div class="fullbook">
+                        <div class="bookbox">
+                            <div class="functionsbook">
+                                <h3 class="statusbook">
+                                    <?= htmlspecialchars($book['typeof']) ?>
                                 </h3>
-                                <?php if ($book['price'] !== null): ?>
-                                    <h4 class="PrecioLibro">$
-                                        <?= htmlspecialchars($book['price']) ?>
-                                    </h4>
-                                <?php elseif ($book['price'] == null): ?>
-                                    <h4 class="PrecioLibro">($) No aplica</h4>
-                                <?php endif; ?>
-                                <div class="AdquirirLibro">
-                                    <a href="pickedbook.php?id=<?= $book['id'] ?>">Ver info</a>
-                                </div>
+                            </div>
+                            <div class="imagenbox">
+                                <!-- <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Libro publicado"> -->
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-
-            </div>
+                        <div class="infolibro">
+                            <h3 class="TituloLibro">
+                                <?= htmlspecialchars($book['name']) ?>
+                            </h3>
+                            <?php if ($book['price'] !== null): ?>
+                                <h4 class="PrecioLibro">$
+                                    <?= htmlspecialchars($book['price']) ?>
+                                </h4>
+                            <?php elseif ($book['price'] == null): ?>
+                                <h4 class="PrecioLibro">($) No aplica</h4>
+                            <?php endif; ?>
+                            <div class="AdquirirLibro">
+                                <a href="pickedbook.php?id=<?= $book['id'] ?>">Ver info</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
         </div>
 
