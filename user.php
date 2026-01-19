@@ -448,6 +448,7 @@ if (isset($_SESSION['user_id'])) {
 
                     .since {
                         margin-bottom: 3%;
+                        margin-bottom: 3%;
                         max-height: auto;
                         height: auto;
                         font-family: 'HovesDemiBoldItalic';
