@@ -38,6 +38,9 @@ if (isset($_SESSION['user_id'])) {
     if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
         header('Location: adminpanel.php');
         exit();
+    } elseif (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'banned') {
+        header('Location: banned.php');
+        exit();
     }
 } else {
     header('Location: index.php');
@@ -396,7 +399,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 cursor: pointer;
             }
 
-            select{
+            select {
                 background-color: transparent;
                 border: 1px solid #333333;
                 font-family: 'HovesDemiBold';
@@ -523,7 +526,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                     </div>
                     <div class="form-group">
 
-                    <br>
+                        <br>
                         <label for="location">Localidad de residencia</label>
                         <select id="location" name="location" class="form-control" required>
                             <option value="" disabled selected>Selecciona una nueva localidad</option>

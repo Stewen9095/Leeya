@@ -5,12 +5,6 @@ session_start();
 require_once 'auth_functions.php';
 require_once 'database.php';
 
-/* Modificar para redirigir a la página de panel de administrador si el usuario es un administrador
- if (isset($_SESSION['user_id']) && ($_SESSION['user_role'] ?? '') === 'admin') {
-    header('Location: admin-dashboard.php'); // Redirige al panel de administrador
-    exit(); // Detiene la ejecución del script para asegurar la redirección
-}*/
-
 $is_logged_in = false;
 $user_role = '';
 
@@ -25,6 +19,16 @@ if (isLoggedIn()) {
         $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
     }
 
+}
+
+if (isset($_SESSION['user_id'])) {
+    if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+        header('Location: adminpanel.php');
+        exit();
+    } elseif ($_SESSION['user_role'] === 'banned') {
+        header('Location: banned.php');
+        exit();
+    }
 }
 
 ?>
@@ -144,16 +148,16 @@ if (isLoggedIn()) {
             <div class="content">LEEYA</div>
         </a>
 
-        <a href="explore.php">
-            <div class="content">EXPLORAR</div>
-        </a>
-
         <?php if ($is_logged_in):
 
             $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
             $total_pending = $pending_counts['sent'] + $pending_counts['received'];
             $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
             ?>
+
+            <a href="explore.php">
+                <div class="content">EXPLORAR</div>
+            </a>
 
             <a href="newbook.php" class="plus">
                 <div class="content">+</div>
@@ -225,11 +229,18 @@ if (isLoggedIn()) {
                     background-color: #d8d8d888;
                     border: 1px solid rgba(99, 99, 99, 0.37);
 
-
                     .esuve {
                         height: 100%;
                         width: auto;
                         max-height: 100%;
+                    }
+
+                    .numnoti {
+                        position: absolute;
+                        margin: auto;
+                        padding: 3px 1px 0 0;
+                        color: #202020;
+                        font-size: clamp(.4rem, 1.2vh, .6rem);
                     }
                 }
 

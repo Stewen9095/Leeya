@@ -25,6 +25,9 @@ if (isset($_SESSION['user_id'])) {
     if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
         header('Location: adminpanel.php');
         exit();
+    } elseif (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'banned') {
+        header('Location: banned.php');
+        exit();
     }
 } else {
     header('Location: index.php');
@@ -213,6 +216,14 @@ if (isset($_SESSION['user_id'])) {
                     border: 1px solid rgba(99, 99, 99, 0.37);
 
 
+                    .numnoti {
+                        position: absolute;
+                        margin: auto;
+                        padding: 3px 1px 0 0;
+                        color: #202020;
+                        font-size: clamp(.4rem, 1.2vh, .6rem);
+                    }
+
                     .esuve {
                         height: 100%;
                         width: auto;
@@ -331,7 +342,9 @@ if (isset($_SESSION['user_id'])) {
                 justify-content: center;
                 align-items: stretch;
                 margin-top: 3.5rem;
-                gap: 3.5%;
+                gap: 2.5%;
+                padding: 0 2rem;
+                box-sizing: border-box;
             }
 
             @media(max-width: 750px) {
@@ -347,7 +360,7 @@ if (isset($_SESSION['user_id'])) {
                     font-size: 10px;
                 }
 
-                h1{
+                h1 {
                     font-size: 15px;
                 }
             }
@@ -357,11 +370,11 @@ if (isset($_SESSION['user_id'])) {
                 display: flex;
                 flex-direction: column;
                 flex-wrap: nowrap;
-                align-items: center;
-                justify-content: center;
+                align-items: flex-start;
+                justify-content: flex-start;
                 margin: 0;
                 box-sizing: border-box;
-                padding: 2.5% 3% 2.5% 3%;
+                padding: 3rem;
                 border-radius: 10px;
                 border: 1px solid rgba(99, 99, 99, 0.37);
                 background-color: #d8d8d888;
@@ -369,64 +382,93 @@ if (isset($_SESSION['user_id'])) {
                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                 overflow: hidden;
                 color: #333333;
+                gap: 1.2rem;
 
                 h1 {
-
-                    margin: 0;
+                    margin: 0 0 0.5rem 0;
                     font-size: 28px;
+                    width: 100%;
+                    text-align: left;
                 }
 
                 p {
                     display: block;
-                    margin: .6rem;
+                    margin: 0;
                     padding: 0;
+                    width: 100%;
+                    text-align: left;
+                    line-height: 1.4;
+                    font-size: 14px;
                 }
 
                 .since {
-                    margin-bottom: 3%;
+                    margin-bottom: 0.5rem;
                     font-family: 'HovesDemiBoldItalic';
+                    font-size: 13px;
+                    color: #555555;
                 }
 
             }
 
             .userChanges {
                 width: 30%;
-                background-color: yellow;
                 display: flex;
                 flex-direction: column;
                 flex-wrap: nowrap;
-                align-items: center;
-                justify-content: space-evenly;
+                align-items: stretch;
+                justify-content: center;
+                gap: 0.8rem;
                 border-radius: 10px;
                 border: 1px solid rgba(99, 99, 99, 0.37);
                 background-color: #d8d8d888;
                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                padding: 2rem;
+                box-sizing: border-box;
 
                 a {
-                    background-color: red;
-                    width: 90%;
+                    width: 100%;
                     text-align: center;
-                    padding: 2.5%;
+                    padding: 1rem;
                     border-radius: 10px;
                     background-color: #d8d8d888;
                     border: 1px solid rgba(99, 99, 99, 0.37);
                     backdrop-filter: blur(80px);
                     text-decoration: none;
+                    font-size: 14px;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                    color: #333333;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 45px;
+                    box-sizing: border-box;
+                }
+
+                a:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+                    border-color: rgba(99, 99, 99, 0.6);
                 }
 
             }
 
             @media(max-width: 750px) {
+                .profile-container {
+                    padding: 0 1rem;
+                    gap: 1.5rem;
+                }
+
                 .dataUser {
-                    width: 90%;
+                    width: 100%;
                     display: flex;
                     flex-direction: column;
                     flex-wrap: nowrap;
-                    align-items: center;
-                    justify-content: center;
+                    align-items: flex-start;
+                    justify-content: flex-start;
                     margin: 0;
                     box-sizing: border-box;
-                    padding: 3% 5% 3% 5%;
+                    padding: 2rem;
                     border-radius: 10px;
                     border: 1px solid rgba(99, 99, 99, 0.37);
                     background-color: #d8d8d888;
@@ -434,57 +476,69 @@ if (isset($_SESSION['user_id'])) {
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                     overflow: hidden;
                     color: #333333;
+                    gap: 0.8rem;
 
                     h1 {
-                        margin: 0;
+                        margin: 0 0 0.5rem 0;
                         font-size: 18px;
+                        width: 100%;
                     }
 
                     p {
                         display: block;
                         margin: 0;
                         padding: 0;
+                        width: 100%;
+                        font-size: 13px;
                     }
 
                     .since {
-                        margin-bottom: 3%;
-                        margin-bottom: 3%;
-                        max-height: auto;
-                        height: auto;
+                        margin-bottom: 0;
                         font-family: 'HovesDemiBoldItalic';
+                        font-size: 12px;
                     }
 
                 }
 
                 .userChanges {
-                    width: 90%;
-                    background-color: yellow;
+                    width: 100%;
                     display: flex;
                     flex-direction: column;
                     flex-wrap: nowrap;
-                    align-items: center;
-                    justify-content: space-evenly;
+                    align-items: stretch;
+                    justify-content: flex-start;
                     border-radius: 10px;
                     border: 1px solid rgba(99, 99, 99, 0.37);
                     background-color: #d8d8d888;
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-                    margin: 10px;
-                    margin-top: 15px;
+                    margin: 0;
                     box-sizing: border-box;
-                    padding: 2.5%;
-                    gap: 8px;
-
+                    padding: 1.5rem;
+                    gap: 0.6rem;
 
                     a {
-                        background-color: red;
-                        width: 90%;
+                        width: 100%;
                         text-align: center;
-                        padding: 2.5%;
+                        padding: 0.85rem;
                         border-radius: 10px;
                         background-color: #d8d8d888;
                         border: 1px solid rgba(99, 99, 99, 0.37);
                         backdrop-filter: blur(80px);
                         text-decoration: none;
+                        font-size: 13px;
+                        font-weight: 600;
+                        transition: all 0.3s ease;
+                        color: #333333;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-height: 40px;
+                        box-sizing: border-box;
+                    }
+
+                    a:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
                     }
 
                 }
@@ -496,12 +550,15 @@ if (isset($_SESSION['user_id'])) {
             }
 
             .infotextfinal {
-                max-height: 65px;
+                max-height: 60px;
                 height: auto;
                 text-overflow: ellipsis;
                 overflow: auto;
                 box-sizing: border-box;
-                padding-top: 2rem;
+                padding-top: 0;
+                width: 100%;
+                font-size: 14px;
+                line-height: 1.4;
 
             }
         </style>
@@ -552,14 +609,14 @@ if (isset($_SESSION['user_id'])) {
 
         <style>
             .header-container {
-                margin-top: 3%;
+                margin-top: clamp(2.2rem, 3vh, 3.4rem);
                 margin-bottom: 1.5rem;
                 color: #333333;
 
                 h1 {
                     padding: 0;
                     margin: 0;
-                    font-size: clamp(1.4rem, 2vw, 3rem);
+                    font-size: clamp(1.2rem, 2vw, 1.6rem);
                     color: #333333;
 
                 }

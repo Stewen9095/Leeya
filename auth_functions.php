@@ -453,7 +453,8 @@ function getSentProposals($user_id)
                 b.price, 
                 b.ownerid, 
                 u.name AS owner_name,
-                u.id AS owner_id
+                u.id AS owner_id,
+                u.email AS owner_email
             FROM proposal p
             JOIN book b ON p.targetbookid = b.id
             JOIN user u ON b.ownerid = u.id
@@ -490,7 +491,8 @@ function getReceivedProposals($user_id)
                 b.typeof, 
                 b.price, 
                 u.name AS interested_name, 
-                u.id AS interested_id
+                u.id AS interested_id,
+                u.email AS interested_email
             FROM proposal p
             JOIN book b ON p.targetbookid = b.id
             JOIN user u ON p.interested = u.id
