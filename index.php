@@ -76,6 +76,7 @@ if (isLoggedIn()) {
             font-size: 15px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             overflow: hidden;
+            z-index: 5;
         }
 
         nav a {
@@ -133,7 +134,7 @@ if (isLoggedIn()) {
                 }
 
             }
-            
+
         }
     </style>
 
@@ -221,7 +222,7 @@ if (isLoggedIn()) {
                     align-items: center;
                     justify-content: center;
                     border: none;
-                    background-color: #64646425;
+                    background-color: #d8d8d888;
                     border: 1px solid rgba(99, 99, 99, 0.37);
 
 
@@ -243,9 +244,8 @@ if (isLoggedIn()) {
                     align-items: center;
                     justify-content: center;
                     border: none;
-                    background-color: #64646425;
+                    background-color: #d8d8d888;
                     border: 1px solid rgba(99, 99, 99, 0.37);
-                    
 
                     .esuve2 {
                         height: 88%;
@@ -578,54 +578,191 @@ if (isLoggedIn()) {
         </div>
 
 
-
         <style>
+            .header-container {
+                margin-top: clamp(.6rem, 1.8vh, 2.2rem);
+                margin-bottom: 1.5rem;
+                color: #333333;
 
+                h1 {
+                    padding: 0;
+                    margin: 0;
+                    color: #333333;
+                    font-size: clamp(.6rem, 1.8vw, 1.4rem);
 
+                }
+            }
+
+            .bookbox-container {
+                margin: 0 auto clamp(1.5rem, 1.5vh, 3rem) auto;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                background-color: #d8d8d888;
+                backdrop-filter: blur(8px);
+                width: 96%;
+                padding: clamp(.8rem, 2vw, 2.2rem);
+                display: flex;
+                flex-wrap: wrap;
+                justify-items: stretch;
+                justify-content: center;
+                align-items: stretch;
+                gap: 1rem;
+                border-radius: clamp(1rem, 1.5vw, 2rem);
+                box-sizing: border-box;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            }
+
+            .fullbook {
+                flex: 0 0 auto;
+                background-color: #d8d8d888;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                max-width: 270px;
+                width: 100%;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                justify-items: center;
+                border-radius: clamp(15px, 1.8vw, 22px);
+                align-items: center;
+                align-content: stretch;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                justify-items: center;
+            }
+
+            .statusbook {
+                background-color: #d8d8d888;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                width: clamp(8rem, 10vw, 5vw);
+                text-align: center;
+                color: #333333;
+                margin: clamp(.6rem, 3.5vh, 2rem) 0 clamp(1rem, 1vh, 3rem) 0;
+                border-radius: clamp(10px, 1.5vw, 20px);
+                font-size: clamp(.7rem, 1.2vw, 1rem);
+            }
+
+            .imagenbox {
+                background-color: transparent;
+                height: 200px;
+                margin: 0 auto clamp(.5rem, .8vh, 2rem) auto;
+                width: 88%;
+                border-radius: clamp(10px, 1.5vw, 20px);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+
+                img {
+                    height: auto;
+                    width: 100%;
+                }
+            }
+
+            .cajajunta {
+                width: 84%;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: stretch;
+                justify-content: space-between;
+                text-overflow: ellipsis;
+                font-size: clamp(.6rem, 1vw, 1rem);
+            }
+
+            .TituloLibro {
+                width: 62%;
+                text-align: start;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                color: #333333;
+                align-self: center;
+            }
+
+            .PrecioLibro {
+                width: 38%;
+                color: #202020;
+                text-align: center;
+                align-self: center;
+            }
+
+            .AdquirirLibro {
+                text-decoration: none;
+                width: 70%;
+                font-size: clamp(.6rem, 1vw, 1rem);
+                text-align: center;
+                border-radius: clamp(10px, 1.5vw, 20px);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                margin: clamp(.4rem, 2.6vh, 1.6rem) 0 clamp(1rem, 4vh, 3rem) 0;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                justify-items: center;
+
+                a {
+                    text-decoration: none;
+                    color: #333333;
+
+                }
+
+                a::visited {
+                    text-decoration: none;
+                    color: ;
+                }
+            }
         </style>
 
-        <!--  
 
-        <div class="latests-books">
-            <?php
-            $latest_books = getLatestBooks(4, $is_logged_in ? $_SESSION['user_id'] : null);
-            ?>
+        <?php
+        $latest_books = getLatestBooks(4, $is_logged_in ? $_SESSION['user_id'] : null);
+        ?>
+
+        <div class="header-container">
 
             <?php if (!empty($latest_books)): ?>
-                <h2 class="carrusel-titulo">Últimos libros publicados</h2>
-                <div class="bookbox-container">
-                    <?php foreach ($latest_books as $book): ?>
-                        <div class="fullbook">
-                            <div class="bookbox">
-                                <div class="functionsbook">
-                                    <h3 class="statusbook"><?= htmlspecialchars($book['typeof']) ?></h3>
-                                </div>
-                                <div class="imagenbox">
-                                    <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Libro publicado">
-                                </div>
-                            </div>
-                            <div class="infolibro">
-                                <h3 class="TituloLibro"><?= htmlspecialchars($book['name']) ?></h3>
-                                <?php if ($book['price'] !== null): ?>
-                                    <h4 class="PrecioLibro">$<?= htmlspecialchars($book['price']) ?></h4>
-                                <?php elseif ($book['price'] == null): ?>
-                                    <h4 class="PrecioLibro">($) No aplica</h4>
-                                <?php endif; ?>
-                                <div class="AdquirirLibro">
-                                    <?php if ($is_logged_in): ?>
-                                        <a href="pickedbook.php?id=<?= $book['id'] ?>">Adquirir</a>
-                                    <?php else: ?>
-                                        <a href="login.php">Inicia sesión para adquirir</a>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-        </div>
+                <h1>Últimos libros publicados</h1>
+            </div>
 
-                -->
+            <div class="bookbox-container">
+
+                <?php foreach ($latest_books as $book): ?>
+
+
+                    <div class="fullbook">
+
+
+                        <div class="statusbook"><?= htmlspecialchars($book['typeof']) ?></div>
+
+                        <div class="imagenbox">
+                            <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Libro publicado">
+                        </div>
+
+                        <div class="cajajunta">
+
+                            <div class="TituloLibro"><?= htmlspecialchars($book['name']) ?></div>
+                            <?php if ($book['price'] !== null): ?>
+                                <div class="PrecioLibro">$<?= htmlspecialchars($book['price']) ?></div>
+                            <?php elseif ($book['price'] == null): ?>
+                                <div class="PrecioLibro">($) No aplica</div>
+                            <?php endif; ?>
+                        </div>
+
+
+                        <div class="AdquirirLibro">
+                            <?php if ($is_logged_in): ?>
+                                <a href="pickedbook.php?id=<?= $book['id'] ?>">Adquirir</a>
+                            <?php else: ?>
+                                <a href="login.php">Inicia sesión para adquirir</a>
+                            <?php endif; ?>
+                        </div>
+
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+
+        <?php elseif (empty($latest_books)): ?>
+            <div class="header-container">
+                <h1>No existen libros publicados</h1>
+            </div>
+        <?php endif; ?>
+
+
+
 
     </main>
 

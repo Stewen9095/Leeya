@@ -319,6 +319,7 @@ if (isset($_SESSION['user_id'])) {
                     height: auto;
                     padding: 0;
                 }
+
             }
 
             .profile-container {
@@ -333,6 +334,24 @@ if (isset($_SESSION['user_id'])) {
                 gap: 3.5%;
             }
 
+            @media(max-width: 750px) {
+                .profile-container {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    margin: 0 auto;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 1rem;
+                    gap: 3.5%;
+                    font-size: 10px;
+                }
+
+                h1{
+                    font-size: 15px;
+                }
+            }
+
             .dataUser {
                 width: 50%;
                 display: flex;
@@ -342,7 +361,7 @@ if (isset($_SESSION['user_id'])) {
                 justify-content: center;
                 margin: 0;
                 box-sizing: border-box;
-                padding: 3% 5% 3% 5%;
+                padding: 2.5% 3% 2.5% 3%;
                 border-radius: 10px;
                 border: 1px solid rgba(99, 99, 99, 0.37);
                 background-color: #d8d8d888;
@@ -359,7 +378,7 @@ if (isset($_SESSION['user_id'])) {
 
                 p {
                     display: block;
-                    margin: 0;
+                    margin: .6rem;
                     padding: 0;
                 }
 
@@ -397,9 +416,92 @@ if (isset($_SESSION['user_id'])) {
 
             }
 
+            @media(max-width: 750px) {
+                .dataUser {
+                    width: 90%;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: nowrap;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0;
+                    box-sizing: border-box;
+                    padding: 3% 5% 3% 5%;
+                    border-radius: 10px;
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    background-color: #d8d8d888;
+                    backdrop-filter: blur(80px);
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                    overflow: hidden;
+                    color: #333333;
+
+                    h1 {
+                        margin: 0;
+                        font-size: 18px;
+                    }
+
+                    p {
+                        display: block;
+                        margin: 0;
+                        padding: 0;
+                    }
+
+                    .since {
+                        margin-bottom: 3%;
+                        max-height: auto;
+                        height: auto;
+                        font-family: 'HovesDemiBoldItalic';
+                    }
+
+                }
+
+                .userChanges {
+                    width: 90%;
+                    background-color: yellow;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: nowrap;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    border-radius: 10px;
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    background-color: #d8d8d888;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                    margin: 10px;
+                    margin-top: 15px;
+                    box-sizing: border-box;
+                    padding: 2.5%;
+                    gap: 8px;
+
+
+                    a {
+                        background-color: red;
+                        width: 90%;
+                        text-align: center;
+                        padding: 2.5%;
+                        border-radius: 10px;
+                        background-color: #d8d8d888;
+                        border: 1px solid rgba(99, 99, 99, 0.37);
+                        backdrop-filter: blur(80px);
+                        text-decoration: none;
+                    }
+
+                }
+            }
+
             a:visited {
                 text-decoration: none;
                 color: #333333;
+            }
+
+            .infotextfinal {
+                max-height: 65px;
+                height: auto;
+                text-overflow: ellipsis;
+                overflow: auto;
+                box-sizing: border-box;
+                padding-top: 2rem;
+
             }
         </style>
 
@@ -463,24 +565,109 @@ if (isset($_SESSION['user_id'])) {
             }
 
             .bookbox-container {
-                background-color: brown;
-                width: 96%;
-                padding: 1.4rem 0 1.4rem 0;
+                margin: 0 auto clamp(2.2rem, 2.8vh, 3.5rem) auto;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                background-color: #d8d8d888;
+                backdrop-filter: blur(8px);
+                width: 92%;
+                padding: clamp(.8rem, 2vw, 2.2rem);
                 display: flex;
                 flex-wrap: wrap;
                 justify-items: stretch;
                 justify-content: center;
                 align-items: stretch;
-                gap: 2rem;
+                gap: 1rem;
                 border-radius: clamp(1rem, 1.5vw, 2rem);
+                box-sizing: border-box;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             }
 
-            .fullbook{
-                flex: 1 1 1fr;
-                background-color: orange;
-                border: 1px solid #333333;
-                min-width: 300px;
+            .fullbook {
+                flex: 0 0 auto;
+                background-color: #d8d8d888;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                max-width: 280px;
+                width: 100%;
                 box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                border-radius: clamp(15px, 1.8vw, 22px);
+                align-items: center;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            }
+
+            .statusbook {
+                background-color: #d8d8d888;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                width: clamp(8rem, 10vw, 5vw);
+                text-align: center;
+                color: #333333;
+                margin: clamp(.6rem, 3.5vh, 2rem) 0 clamp(1rem, 1vh, 3rem) 0;
+                border-radius: clamp(10px, 1.5vw, 20px);
+                font-size: clamp(.7rem, 1.2vw, 1rem);
+            }
+
+            .imagenbox {
+                background-color: transparent;
+                height: 200px;
+                margin: 0 auto clamp(.5rem, .8vh, 2rem) auto;
+                width: 88%;
+                border-radius: clamp(10px, 1.5vw, 20px);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+
+                img {
+                    height: auto;
+                    width: 100%;
+                }
+            }
+
+            .cajajunta {
+                width: 84%;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: space-between;
+                text-overflow: ellipsis;
+                font-size: clamp(.6rem, 1vw, 1rem);
+            }
+
+            .TituloLibro {
+                width: 65%;
+                text-align: start;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                color: #333333;
+            }
+
+            .PrecioLibro {
+                width: 35%;
+                color: #202020;
+                text-align: center;
+            }
+
+            .AdquirirLibro {
+                text-decoration: none;
+                width: 40%;
+                font-size: clamp(.6rem, 1vw, 1rem);
+                text-align: center;
+                border-radius: clamp(10px, 1.5vw, 20px);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                margin: clamp(.4rem, 2.6vh, 1.6rem) 0 clamp(1rem, 4vh, 3rem) 0;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+
+                a {
+                    text-decoration: none;
+                    color: #333333;
+
+                }
+
+                a::visited {
+                    text-decoration: none;
+                    color: ;
+                }
             }
         </style>
 
@@ -502,32 +689,38 @@ if (isset($_SESSION['user_id'])) {
             <div class="bookbox-container">
 
                 <?php foreach ($books as $book): ?>
+
                     <div class="fullbook">
-                        <div class="bookbox">
-                            <div class="functionsbook">
-                                <h3 class="statusbook">
-                                    <?= htmlspecialchars($book['typeof']) ?>
-                                </h3>
-                            </div>
-                            <div class="imagenbox">
-                                <!-- <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Libro publicado"> -->
-                            </div>
+
+                        <div class="statusbook">
+                            <?= htmlspecialchars($book['typeof']) ?>
                         </div>
-                        <div class="infolibro">
-                            <h3 class="TituloLibro">
+
+
+                        <div class="imagenbox">
+                            <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Libro publicado">
+                        </div>
+
+                        <div class="cajajunta">
+                            <div class="TituloLibro">
                                 <?= htmlspecialchars($book['name']) ?>
-                            </h3>
-                            <?php if ($book['price'] !== null): ?>
-                                <h4 class="PrecioLibro">$
-                                    <?= htmlspecialchars($book['price']) ?>
-                                </h4>
-                            <?php elseif ($book['price'] == null): ?>
-                                <h4 class="PrecioLibro">($) No aplica</h4>
-                            <?php endif; ?>
-                            <div class="AdquirirLibro">
-                                <a href="pickedbook.php?id=<?= $book['id'] ?>">Ver info</a>
                             </div>
+
+
+                            <?php if ($book['price'] !== null): ?>
+                                <div class="PrecioLibro">$
+                                    <?= htmlspecialchars($book['price']) ?>
+                                </div>
+                            <?php elseif ($book['price'] == null): ?>
+                                <div class="PrecioLibro">($) No aplica</div>
+                            <?php endif; ?>
                         </div>
+
+
+                        <div class="AdquirirLibro">
+                            <a href="pickedbook.php?id=<?= $book['id'] ?>">Más info</a>
+                        </div>
+
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>

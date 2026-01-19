@@ -54,6 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
     } elseif ($new !== $confirm) {
         $error = 'Las contraseñas nuevas no coinciden.';
     } else {
+
+
         // Verifica la contraseña actual
         $pdo = getDBConnection();
         $stmt = $pdo->prepare("SELECT passwd FROM user WHERE id = ?");
@@ -341,6 +343,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 backdrop-filter: blur(12px);
                 padding-right: 40px;
                 box-sizing: border-box;
+                padding: 0 2rem 0 1rem;
+                font-family: 'HovesDemiBold';
+                color: #333333;
             }
 
             .toggle-password {
@@ -504,8 +509,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                     font-size: 20px;
                     cursor: pointer;
                 }
-
-
             }
         </style>
 

@@ -30,8 +30,16 @@ if (isLoggedIn()) {
 
 }
 
-$message = '';
-$error = '';
+$message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
+$error = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
+
+if (isset($_SESSION['success_message'])) {
+    unset($_SESSION['success_message']);
+}
+if (isset($_SESSION['error_message'])) {
+    unset($_SESSION['error_message']);
+}
+
 $current_description = htmlspecialchars(explode(' ', $_SESSION['user_description'])[0]);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
@@ -41,14 +49,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
         $error = 'Completa todos los campos.';
     } else {
         $result = changeUserDescription($_SESSION['user_id'], $new_description);
+        $_SESSION['user_description'] = $new_description;
         if ($result['success']) {
-            $message = $result['message'];
-            $_SESSION['user_description'] = $new_description;
-            header('Location: changeDescription.php');
+            $_SESSION['success_message'] = $result['message'];
         } else {
             $error = $result['message'];
         }
     }
+
+    header('Location: changeDescription.php');
+    exit();
 }
 
 ?>
@@ -64,57 +74,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
         rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" type="image/png" href="img/logoblanco.png">
+
     <style>
-        body,
         html {
             margin: 0;
             padding: 0;
-            height: 100%;
+            background-color: white;
+        }
+
+        body {
+            margin: 0 auto;
+            padding: 0;
             font-family: 'HovesDemiBold';
-            overflow: auto;
+            align-items: center;
+            justify-content: center;
+        }
+
+        main {
+            max-width: 1440px;
+            min-width: 200px;
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
         }
 
         .background {
             position: fixed;
-            top: 50%;
-            left: 50%;
             width: 100%;
-            max-width: 100vw;
-            display: block;
-            height: 100%;
-            object-fit: cover;
-            background: black;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-
+            max-width: 100dvw;
+            height: auto;
+            opacity: 55%;
         }
 
-        .back-home {
-            position: absolute;
-            top: 2rem;
-            left: 2rem;
-            color: white;
-            font-family: 'HovesExpandedBold';
-            font-size: 1.4rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            z-index: 2;
-        }
-
-        .back-home:hover {
-            color: var(--color-text-muted, #ccc);
-        }
-
-        @media (max-width: 480px) {
+        @media (max-width: 750px) {
             .auth-card {
                 padding: 2rem 1.5rem;
                 margin: 1rem;
             }
 
-            .back-home {
+            .getbackson {
                 position: relative;
                 top: auto;
                 left: auto;
@@ -124,175 +128,396 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
         }
 
         .auth-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0rem 1rem;
-            position: relative;
-            z-index: 1;
-            margin: 0rem;
-        }
-
-        .auth-card {
-            background: rgba(255, 255, 255, 1);
-            border-radius: var(--radius, 1.5rem);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 2rem 3rem;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .auth-header h1 {
-            font-family: 'HovesBold';
-            font-size: 1.8rem;
-            color: #000000;
-            margin-bottom: 0.5rem;
-        }
-
-        .auth-header p {
-            font-size: 1rem;
-            font-family: 'HovesDemiBold';
-            color: #000000ff
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.7rem;
-            border: 2px solid #a1a1a1b0;
-            border-radius: var(--radius, 8px);
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--color-primary, #333);
-        }
-
-        .error-message {
-            background: #fee;
-            color: #c53030;
-            padding: 0.75rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            border: 1px solid #fed7d7;
-        }
-
-        .success-message {
-            background: #f0fff4;
-            color: #38a169;
-            padding: 0.75rem;
-            border-radius: var(--radius);
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            border: 1px solid #c6f6d5;
-        }
-
-        .auth-button {
-            width: 65%;
-            background-color: var(--color-accent, #000080);
-            color: #fff;
-            padding: 0.85rem;
-            border: none;
-            border-radius: var(--radius, 8px);
-            font-size: 1.05rem;
-            font-weight: 600;
-            font-family: 'HovesExpandedDemiBold';
-            cursor: pointer;
-            transition: background-color 0.5s, transform 0.5s;
-        }
-
-        .auth-button:hover {
-            background-color: var(--color-accent-hover, #ffffffff);
-            color: #000000ff;
-            transform: translateY(-0.1px);
-            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.22);
-        }
-
-        .auth-button2 {
-            margin-top: 0.6rem;
-            width: 65%;
-            background-color: var(--color-accent, #000080);
-            color: #fff;
-            padding: 0.85rem;
-            border: none;
-            border-radius: var(--radius, 8px);
-            font-size: 1.05rem;
-            font-weight: 600;
-            font-family: 'HovesExpandedDemiBold';
-            cursor: pointer;
-            transition: background-color 0.5s, transform 0.5s;
-        }
-
-        .auth-button2:hover {
-            background-color: var(--color-accent-hover, #ffffffff);
-            color: #000000ff;
-            transform: translateY(-0.1px);
-            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.22);
-        }
-
-        .titulo {
-            margin-top: 0rem;
+            margin: 0 auto;
         }
     </style>
+
 </head>
 
 <body>
 
     <img src="img/background2.png" class="background">
 
-    <a href="index.php" class="back-home">
-        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        Volver al inicio
-    </a>
 
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <h1 class="titulo">Modifica tu descripcion</h1>
-                <p>Cuéntanos más de ti</p>
+    <main>
+
+        <style>
+            .getback {
+                display: flex;
+                width: 42%;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: space-between;
+                margin: 0 auto;
+                padding: 3.2% 0 3.2% 0;
+            }
+
+            .getbackson1 {
+                width: 45%;
+                margin: 0 auto;
+            }
+
+            .getbackson2 {
+                width: 60%;
+                margin: 0 auto;
+                justify-content: flex-start;
+            }
+
+            .getbackson {
+                width: 95%;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                color: white;
+                text-decoration: none;
+                font-size: 24px;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 0 0 0 0;
+                margin: 0;
+                transition: 5s;
+                color: #333333;
+                box-sizing: border-box;
+            }
+
+            .getbackson:hover {
+                color: #292929cc
+            }
+
+            @media (max-width: 750px) {
+
+                .getback {
+                    padding: 0;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: nowrap;
+                    width: 95%;
+                }
+
+                .getbackson {
+                    justify-content: center;
+                    font-size: 15px;
+                    padding: 1.5rem 0 1.5rem 0;
+                    margin: 0;
+                }
+
+                .getbackson1 {
+                    width: 90%;
+                }
+
+                .getbackson2 {
+                    width: 90%;
+                    font-size: 10px;
+                }
+
+            }
+        </style>
+
+
+        <div class="getback">
+
+            <div class="getbackson1">
+                <a href="user.php" class="getbackson">
+                    <svg width="25" height="25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Volver a mi perfil
+                </a>
             </div>
-            <?php if ($message): ?>
-                <div class="success-message"><?= htmlspecialchars($message) ?></div>
-            <?php endif; ?>
-            <?php if ($error): ?>
-                <div class="error-message"><?= htmlspecialchars($error) ?></div>
-            <?php endif; ?>
-            <form method="post" autocomplete="off">
-                <div class="form-group">
-                    <label>Tu descripcion actual es: </label>
-                    <?php
-                    if ($current_description == '') {
-                        ?>
-                        <p>Aun no cuentas con una descripcion</p>
-                        <?php
-                    } else {
-                        ?>
-                        <?php echo htmlspecialchars($_SESSION['user_description']); ?>
-                        <?php
-                    }
-                    ?>
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="new_password">Nueva descripcion</label>
-                    <input type="text" id="new_description" name="new_description" class="form-control" required>
-                </div>
 
-                <br>
-                <button type="submit" class="auth-button">Cambiar descripcion</button>
-                <br>
-            </form>
-            <a href="user.php"><button class="auth-button2">Volver</button></a>
+            <div class="getbackson2">
+                <?php if ($message): ?>
+                    <div class="success-message">
+                        <?= htmlspecialchars($message) ?>
+                    </div>
+                <?php endif; ?>
+                <?php if ($error): ?>
+                    <div class="error-message">
+                        <?= htmlspecialchars($error) ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+
         </div>
-    </div>
 
+        <style>
+            .auth-container {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .auth-card {
+                box-sizing: border-box;
+                background-color: #64646402;
+                border-radius: .8rem;
+                border: 1px solid rgba(99, 99, 99, 0.66);
+                backdrop-filter: blur(38px);
+                width: 60%;
+                padding: 2.5rem 3rem 3.5rem 3rem;
+            }
+
+            .auth-header {
+                width: 85%;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: space-between;
+                margin: 0 auto 1.5rem auto;
+
+                p {
+                    margin: 0;
+                    padding: 0;
+                    display: block;
+                    font-size: 16px;
+                    color: #333333;
+                }
+
+                h1 {
+                    margin: 0;
+                    padding: 0;
+                    font-size: 26px;
+                    color: #333333;
+                }
+            }
+
+            .formulario {
+                width: 72%;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                justify-content: center;
+                align-items: center;
+                box-sizing: border-box;
+                margin: 0 auto;
+                gap: 16px;
+            }
+
+            .form-group {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: start;
+                text-overflow: ellipsis;
+                height: auto;
+                padding-top: clamp(.2rem, .5vh, 2.2rem);
+                max-height: 120px;
+
+                box-sizing: border-box;
+
+                label {
+                    text-align: start;
+                    align-self: flex-start;
+                    color: #303030;
+                    margin: 0 0 5px 10px;
+                    text-overflow: ellipsis;
+                    overflow: auto;
+                }
+            }
+
+            .password-container {
+                position: relative;
+                width: 100%;
+            }
+
+            .form-control {
+                width: 96%;
+                height: 35px;
+                border: 1px solid rgba(99, 99, 99, 0.71);
+                border-radius: 10px;
+                background-color: #ffffffbb;
+                backdrop-filter: blur(12px);
+                padding-right: 40px;
+                box-sizing: border-box;
+                padding: 0 2rem 0 1rem;
+                font-family: 'HovesDemiBold';
+                color: #333333;
+            }
+
+            .error-message {
+                background: rgba(255, 238, 238, 0.64);
+                color: #c53030af;
+                backdrop-filter: blur(5px);
+                padding: 0.2rem 1.5rem 0.2rem 1.5rem;
+                box-sizing: border-box;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                border: 1px solid #fed7d7;
+            }
+
+            .success-message {
+                background: rgba(200, 215, 255, 0.64);
+                color: #0819b6af;
+                backdrop-filter: blur(5px);
+                padding: 0.2rem 1.5rem 0.2rem 1.5rem;
+                box-sizing: border-box;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                border: 1px solid #d3dbff;
+            }
+
+            .auth-button {
+                width: 58%;
+                background-color: #ffffff57;
+                backdrop-filter: blur(5px);
+                padding: 2%;
+                border: none;
+                border: 1px solid rgba(99, 99, 99, 0.71);
+                border-radius: 10px;
+                margin-top: 5%;
+                color: #333333;
+                font-family: "HovesDemiBold";
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            @media (max-width: 750px) {
+                .auth-card {
+                    box-sizing: border-box;
+                    background-color: #64646402;
+                    border-radius: 10px;
+                    border: .8px solid rgba(99, 99, 99, 0.66);
+                    backdrop-filter: blur(80px);
+                    width: 88%;
+                    padding: 2.2rem 1rem 3rem 1rem;
+                }
+
+                .auth-header {
+                    width: 90%;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: nowrap;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin: 2% auto 5% auto;
+
+                    p {
+                        margin: 0;
+                        padding: 0;
+                        display: block;
+                        font-size: 16px;
+                        color: #333333;
+                    }
+
+                    h1 {
+                        margin: 0;
+                        padding: 0;
+                        font-size: 20px;
+                        color: #333333;
+                    }
+                }
+
+                .formulario {
+                    width: 98%;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: nowrap;
+                    justify-content: center;
+                    align-items: center;
+                    box-sizing: border-box;
+                    margin: 0 auto;
+                    gap: 25px;
+                }
+
+                .form-group {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: nowrap;
+                    align-items: center;
+                    justify-content: center;
+
+                    label {
+                        text-align: start;
+                        color: #303030;
+                        margin: 0 0 5px 10px;
+                        font-size: 14px;
+                    }
+                }
+
+                .error-message {
+                    background: rgba(255, 238, 238, 0.64);
+                    color: #c53030af;
+                    backdrop-filter: blur(5px);
+                    padding: 0.2rem 1.5rem 0.2rem 1.5rem;
+                    box-sizing: border-box;
+                    border-radius: 8px;
+                    font-size: 0.9rem;
+                    border: 1px solid #fed7d7;
+                    text-align: center;
+                }
+
+                .success-message {
+                    background: rgba(200, 215, 255, 0.64);
+                    color: #0819b6af;
+                    backdrop-filter: blur(5px);
+                    padding: 0.2rem 1.5rem 0.2rem 1.5rem;
+                    box-sizing: border-box;
+                    border-radius: 8px;
+                    font-size: 0.9rem;
+                    border: 1px solid #d3dbff;
+                    text-align: center;
+                }
+
+                .auth-button {
+                    width: 90%;
+                    background-color: #ffffff57;
+                    backdrop-filter: blur(5px);
+                    padding: 2%;
+                    border: none;
+                    border: 1px solid rgba(99, 99, 99, 0.71);
+                    border-radius: 10px;
+                    margin-top: 4%;
+                    color: #333333;
+                    font-family: "HovesDemiBold";
+                    font-size: 20px;
+                    cursor: pointer;
+                }
+            }
+        </style>
+
+
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1 class="titulo">Modifica tu descripcion</h1>
+                    <p>Cuéntanos más de ti</p>
+                </div>
+                <form method="post" autocomplete="off">
+                    <div class="form-group">
+                        <label class="infouser">Tu descripcion actual es: <?php
+                        if ($current_description == '') {
+                            ?>
+                                <p>Aun no cuentas con una descripcion</p>
+                                <?php
+                        } else {
+                            ?>
+                                <?php echo htmlspecialchars($_SESSION['user_description']); ?>
+                                <?php
+                        }
+                        ?>
+                        </label>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="new_password">Nueva descripcion</label>
+                        <input type="text" id="new_description" name="new_description" class="form-control" required>
+                    </div>
+
+
+                    <button type="submit" class="auth-button">Cambiar descripcion</button>
+
+                </form>
+            </div>
+        </div>
+
+    </main>
 
 </body>
 
