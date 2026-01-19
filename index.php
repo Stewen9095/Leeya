@@ -776,7 +776,6 @@ if (isset($_SESSION['user_id'])) {
 
     </main>
 
-
     <style>
         footer {
             bottom: 25px;
@@ -803,7 +802,7 @@ if (isset($_SESSION['user_id'])) {
             display: flex;
             flex-wrap: nowrap;
             color: #333333;
-            font-size: 12px;
+            font-size: clamp(.8rem, 2vh, 1.6rem);
 
             .textfooter11 {
                 width: 100%;
@@ -818,7 +817,6 @@ if (isset($_SESSION['user_id'])) {
                 margin: 0 auto 15px auto;
                 width: 100%;
                 padding: 10px 0;
-                font-size: 12px;
             }
 
             .sonfooter1 {
