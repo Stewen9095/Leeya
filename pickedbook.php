@@ -23,7 +23,7 @@ if (isset($_SESSION['user_id'])) {
     if (empty($_SESSION['user_role'])) {
         header('Location: index.php');
         exit();
-    }elseif (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'banned') {
+    } elseif (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'banned') {
         header('Location: banned.php');
         exit();
     }
@@ -194,6 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user_role === 'admin' && isset($_P
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle del libro</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="img/icon.png" type="image/png">
@@ -209,7 +210,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user_role === 'admin' && isset($_P
             margin: 0;
             padding: 0;
             font-family: 'HovesDemiBold';
-            background: beige;
         }
 
         nav {
@@ -480,15 +480,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user_role === 'admin' && isset($_P
         main {
             max-width: 1440px;
             min-width: 200px;
-            width: 92%;
+            width: 100%;
             height: auto;
             display: flex;
             flex-direction: column;
             margin: 2.8rem auto 0 auto;
-            padding: 2rem 0 0 0;
+            padding: clamp(3rem, 22vh, 5.8rem) 0 0 0;
             justify-content: center;
             align-items: center;
-            background-color: red;
+            background-color: yellow;
         }
 
         @media(max-width: 750px) {
@@ -496,60 +496,153 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user_role === 'admin' && isset($_P
             main {
                 flex-direction: column;
                 margin: 2rem auto 0 auto;
-                width: 92%;
+                width: 95%;
                 height: auto;
                 padding: 0;
+            }
+        }
+
+        .bigcontainer {
+            background-color: aquamarine;
+            width: 94%;
+            display: flex;
+            flex-direction: row;
+            justify-content: stretch;
+            align-items: stretch;
+            align-content: stretch;
+            flex-wrap: wrap;
+            justify-items: stretch;
+            gap: clamp(1.2rem, 5vh, 3.5rem);
+        }
+
+        .left-controls {
+            flex: 1 1 280px;
+            height: 420px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+            justify-items: center;
+            align-items: center;
+            align-content: center;
+            overflow: hidden;
+            background-color: yellow;
+        }
+
+        .rightcontrols {
+            flex: 1 1 480px;
+            height: 420px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+            align-content: center;
+            background-color: yellowgreen;
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        .imagebook {
+            height: 85%;
+            width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: clamp(1.4rem, 2vh, 2.6rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                height: 100%;
+                width: auto;
+                margin: 0 auto;
+            }
+
+        }
+
+        .buttons-left {
+            height: 15%;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            background-color: red;
+            justify-content: space-evenly;
+            align-items: center;
+
+            form:first-child {
+                width: 42%;
+                background-color: greenyellow;
+                align-content: center;
+                align-items: center;
+                justify-self: center;
+                justify-content: center;
+                display: flex;
+
+                button {
+                    width: 100%;
+                    margin: 0 auto;
+                    padding: 0;
+                    align-self: center;
+                }
+            }
+
+            form:last-child {
+                width: 42%;
+                background-color: aqua;
+                align-self: center;
+                justify-self: center;
+                display: flex;
+
+                button {
+                    width: 100%;
+                    margin: 0 auto;
+                    align-items: center;
+                    justify-content: center;
+                }
             }
         }
     </style>
 
     <main>
 
-
-        <style>
-            .bigcontainer {
-                background-color: aquamarine;
-                width: 100%;
-                display: flex;
-            }
-        </style>
-
         <div class="bigcontainer">
 
-            <div class="imagebook">
-                <!-- <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Imagen del libro"> -->
+            <div class="left-controls">
+
+                <div class="imagebook">
+                    <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Imagen del libro">
+                </div>
+                <div class="buttons-left">
+                    <?php if ($is_owner && !$edit_mode): ?>
+                        <form method="get">
+                            <input type="hidden" name="id" value="<?= $book['id'] ?>">
+                            <button type="submit" name="edit" value="1" class="functions">Editar</button>
+                        </form>
+
+                        <form method="post">
+                            <input type="hidden" name="delete_book" value="1">
+                            <button type="submit" class="functions btn-cancel"
+                                onclick="return confirm('¿Seguro que deseas eliminar este libro?');">Eliminar</button>
+                        </form>
+                    <?php endif; ?>
+                </div>
+
             </div>
 
-            <div class="ownerview">
+            <div class="rightcontrols">
+                <div class="mensajes">
+                    <?php if ($edit_message): ?>
+                        <div class="proposal-message"><?= htmlspecialchars($edit_message) ?></div>
+                    <?php endif; ?>
+                    <?php if ($edit_error): ?>
+                        <div class="proposal-error"><?= htmlspecialchars($edit_error) ?></div>
+                    <?php endif; ?>
+                </div>
 
-                <div class="owneredit">
-
-                    <div class="ownerbuttons">
-                        <?php if ($is_owner && !$edit_mode): ?>
-                            <form method="get">
-                                <input type="hidden" name="id" value="<?= $book['id'] ?>">
-                                <button type="submit" name="edit" value="1" class="functions">Editar</button>
-                            </form>
-
-                            <form method="post">
-                                <input type="hidden" name="delete_book" value="1">
-                                <button type="submit" class="functions btn-cancel"
-                                    onclick="return confirm('¿Seguro que deseas eliminar este libro?');">Eliminar</button>
-                            </form>
-                        <?php endif; ?>
-                    </div>
-
-                    <div class="mensajes">
-                        <?php if ($edit_message): ?>
-                            <div class="proposal-message"><?= htmlspecialchars($edit_message) ?></div>
-                        <?php endif; ?>
-                        <?php if ($edit_error): ?>
-                            <div class="proposal-error"><?= htmlspecialchars($edit_error) ?></div>
-                        <?php endif; ?>
-                    </div>
-
+                <div class="datosedicion">
                     <?php if ($is_owner && $edit_mode): ?>
-
                         <form method="post">
                             <input type="hidden" name="edit_book" value="1">
                             <label>Título:</label>
@@ -590,119 +683,121 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user_role === 'admin' && isset($_P
                             <?php endif; ?>
                             <button type="submit" class="functions">Guardar cambios</button>
                         </form>
-
-
-                        <div class="ownernoedit">
-
-                        <?php else: ?>
-                            <h2><?= htmlspecialchars($book['name']) ?></h2>
-                            <p><b>Autor:</b> <?= htmlspecialchars($book['author']) ?></p>
-                            <p><b>Editorial:</b> <?= htmlspecialchars($book['editorial']) ?></p>
-                            <p><b>Género:</b> <?= htmlspecialchars($book['genre']) ?></p>
-                            <p><b>Descripción:</b> <?= htmlspecialchars($book['description']) ?></p>
-                            <p><b>Estado:</b>
-                                <?php
-                                $stars = '';
-                                for ($i = 0; $i < 5; $i++) {
-                                    $stars .= $i < intval($book['qstatus']) ? '⭐' : ' ☆ ';
-                                }
-                                echo $stars;
-                                ?>
-                            </p>
-                            <p><b>Tipo:</b> <?= htmlspecialchars($book['typeof']) ?></p>
-                            <?php if ($book['typeof'] === 'Subasta' && !empty($book['limdate'])): ?>
-                                <p><b>Fecha límite de subasta:</b> <?= htmlspecialchars($book['limdate']) ?></p>
-                            <?php endif; ?>
-                            <?php if ($book['price'] !== null): ?>
-                                <p><b>Precio:</b> $<?= htmlspecialchars($book['price']) ?></p>
-                            <?php endif; ?>
-                        <?php endif; ?>
                     </div>
 
+                    <div class="ownernoedit">
+
+                    <?php else: ?>
+                        <h2><?= htmlspecialchars($book['name']) ?></h2>
+                        <p><b>Autor:</b> <?= htmlspecialchars($book['author']) ?></p>
+                        <p><b>Editorial:</b> <?= htmlspecialchars($book['editorial']) ?></p>
+                        <p><b>Género:</b> <?= htmlspecialchars($book['genre']) ?></p>
+                        <p><b>Descripción:</b> <?= htmlspecialchars($book['description']) ?></p>
+                        <p><b>Estado:</b>
+                            <?php
+                            $stars = '';
+                            for ($i = 0; $i < 5; $i++) {
+                                $stars .= $i < intval($book['qstatus']) ? '⭐' : ' ☆ ';
+                            }
+                            echo $stars;
+                            ?>
+                        </p>
+                        <p><b>Tipo:</b> <?= htmlspecialchars($book['typeof']) ?></p>
+                        <?php if ($book['typeof'] === 'Subasta' && !empty($book['limdate'])): ?>
+                            <p><b>Fecha límite de subasta:</b> <?= htmlspecialchars($book['limdate']) ?></p>
+                        <?php endif; ?>
+                        <?php if ($book['price'] !== null): ?>
+                            <p><b>Precio:</b> $<?= htmlspecialchars($book['price']) ?></p>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
+            </div>
+
+            <div class="buyerview">
+
+                <?php if (!$is_owner && $is_logged_in && $_SESSION['user_role'] !== 'admin'): ?>
 
 
-                <div class="buyerview">
-
-                    <?php if (!$is_owner && $is_logged_in && $_SESSION['user_role'] !== 'admin'): ?>
-
+                    <div>
 
                         <div>
+                            <b>Publicación realizada por:</b>
+                            <?= htmlspecialchars($book_owner['name']) ?>
+                        </div>
 
-                            <div>
-                                <b>Publicación realizada por:</b>
-                                <?= htmlspecialchars($book_owner['name']) ?>
-                            </div>
-
+                        <div>
                             <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($book_owner['email']) ?>&subject=Consulta%20sobre%20libro&body=Hola,%20estoy%20interesado%20en%20el%20libro"
                                 target="_blank" class="functions">
                                 Contactar vendedor
                             </a>
+                        </div>
+
+                        <div>
                             <a href="pickeduser.php?id=<?= $book['ownerid'] ?>" class="functions">
                                 Ver perfil del vendedor
                             </a>
-
                         </div>
 
-                        <?php if ($proposal_message): ?>
-                            <div class="proposal-message"><?= htmlspecialchars($proposal_message) ?></div>
-                        <?php endif; ?>
-                        <?php if ($proposal_error): ?>
-                            <div class="proposal-error"><?= htmlspecialchars($proposal_error) ?></div>
-                        <?php endif; ?>
+                    </div>
 
-                        <?php if ($book['typeof'] === 'Donacion'): ?>
-                            <form method="post">
-                                <button type="submit" class="functions">Solicitar donación</button>
-                            </form>
-                        <?php elseif ($book['typeof'] === 'Venta'): ?>
-                            <form method="post">
-                                <input type="number" name="amount" min="1" step="any" placeholder="Monto a ofrecer" required>
-                                <button type="submit" class="functions">Ofertar</button>
-                            </form>
-                        <?php elseif ($book['typeof'] === 'Intercambio'): ?>
-                            <?php if (empty($user_books)): ?>
-                                <div class="proposal-error">No dispones de libros publicados para hacer un intercambio.</div>
-                            <?php else: ?>
-                                <form method="post">
-                                    <label>Selecciona tus libros para intercambiar:</label>
-                                    <div class="exchange-list">
-                                        <?php foreach ($user_books as $ubook): ?>
-                                            <div class="exchange-item">
-                                                <input type="checkbox" id="book<?= $ubook['id'] ?>" name="offered_books[]"
-                                                    value="<?= $ubook['id'] ?>">
-                                                <label for="book<?= $ubook['id'] ?>">
-                                                    <b><?= htmlspecialchars($ubook['name']) ?></b>
-                                                    (<?= htmlspecialchars($ubook['author']) ?>)
-                                                </label>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    </div>
-                                    <button type="submit" class="functions">Proponer intercambio</button>
-                                </form>
-                            <?php endif; ?>
-                        <?php elseif ($book['typeof'] === 'Subasta'): ?>
-                            <form method="post">
-                                <input type="number" name="amount" min="<?= floatval($book['price']) + 1 ?>" step="any"
-                                    placeholder="Monto a pujar" required>
-                                <button type="submit" class="functions">Pujar</button>
-                            </form>
-
-                        <?php endif; ?>
-                    <?php elseif (!$is_owner && $is_logged_in && $_SESSION['user_role'] === 'admin'): ?>
-                        <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-direction:column;">
-                            <form method="post">
-                                <input type="hidden" name="admin_delete_book" value="1">
-                                <button type="submit" class="functions btn-cancel"
-                                    onclick="return confirm('¿Seguro que deseas eliminar esta publicación?');">Eliminar
-                                    publicación</button>
-                            </form>
-                            <a href="pickeduser.php?id=<?= $book['ownerid'] ?>" class="functions">
-                                Ver perfil del propietario
-                            </a>
-                        </div>
+                    <?php if ($proposal_message): ?>
+                        <div class="proposal-message"><?= htmlspecialchars($proposal_message) ?></div>
                     <?php endif; ?>
-                </div>
+                    <?php if ($proposal_error): ?>
+                        <div class="proposal-error"><?= htmlspecialchars($proposal_error) ?></div>
+                    <?php endif; ?>
+
+                    <?php if ($book['typeof'] === 'Donacion'): ?>
+                        <form method="post">
+                            <button type="submit" class="functions">Solicitar donación</button>
+                        </form>
+                    <?php elseif ($book['typeof'] === 'Venta'): ?>
+                        <form method="post">
+                            <input type="number" name="amount" min="1" step="any" placeholder="Monto a ofrecer" required>
+                            <button type="submit" class="functions">Ofertar</button>
+                        </form>
+                    <?php elseif ($book['typeof'] === 'Intercambio'): ?>
+                        <?php if (empty($user_books)): ?>
+                            <div class="proposal-error">No dispones de libros publicados para hacer un intercambio.</div>
+                        <?php else: ?>
+                            <form method="post">
+                                <label>Selecciona tus libros para intercambiar:</label>
+                                <div class="exchange-list">
+                                    <?php foreach ($user_books as $ubook): ?>
+                                        <div class="exchange-item">
+                                            <input type="checkbox" id="book<?= $ubook['id'] ?>" name="offered_books[]"
+                                                value="<?= $ubook['id'] ?>">
+                                            <label for="book<?= $ubook['id'] ?>">
+                                                <b><?= htmlspecialchars($ubook['name']) ?></b>
+                                                (<?= htmlspecialchars($ubook['author']) ?>)
+                                            </label>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <button type="submit" class="functions">Proponer intercambio</button>
+                            </form>
+                        <?php endif; ?>
+                    <?php elseif ($book['typeof'] === 'Subasta'): ?>
+                        <form method="post">
+                            <input type="number" name="amount" min="<?= floatval($book['price']) + 1 ?>" step="any"
+                                placeholder="Monto a pujar" required>
+                            <button type="submit" class="functions">Pujar</button>
+                        </form>
+
+                    <?php endif; ?>
+                <?php elseif (!$is_owner && $is_logged_in && $_SESSION['user_role'] === 'admin'): ?>
+                    <div>
+                        <form method="post">
+                            <input type="hidden" name="admin_delete_book" value="1">
+                            <button type="submit" class="functions btn-cancel"
+                                onclick="return confirm('¿Seguro que deseas eliminar esta publicación?');">Eliminar
+                                publicación</button>
+                        </form>
+                        <a href="pickeduser.php?id=<?= $book['ownerid'] ?>" class="functions">
+                            Ver perfil del propietario
+                        </a>
+                    </div>
+                <?php endif; ?>
             </div>
     </main>
 </body>
