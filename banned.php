@@ -71,22 +71,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
         }
 
         .ban-container {
-            background-color: white;
-            border: 2px solid #d32f2f;
+            background-color: #64646425;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(99, 99, 99, 0.37);
             border-radius: 10px;
             padding: 2rem;
             max-width: 600px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.12);
         }
 
         .ban-container h1 {
-            color: #d32f2f;
             margin-top: 0;
+            color: #333333;
         }
 
         .ban-container p {
-            color: #666;
+            color: #333333;
             font-size: 1.1rem;
             line-height: 1.6;
         }
@@ -100,18 +101,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
         }
 
         .ban-container button {
-            background-color: #d32f2f;
-            color: white;
-            border: none;
+            background-color: #d8d8d888;
+            color: #333333;
+            font-family: 'HovesDemiBold';
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(99, 99, 99, 0.37);
+            border-radius: clamp(.4rem, 4vh,1rem);
             padding: 0.8rem 2rem;
             border-radius: 5px;
             font-size: 1rem;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition:3s;
         }
 
         .ban-container button:hover {
-            background-color: #b71c1c;
+            background-color: #80808088;
         }
 
         @media (max-width: 750px) {
