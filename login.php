@@ -184,7 +184,7 @@ if (isset($_SESSION['user_id'])) {
                 flex-wrap: nowrap;
                 color: white;
                 text-decoration: none;
-                font-size: 24px;
+                font-size: 20px;
                 align-items: center;
                 justify-content: flex-start;
                 padding: 0 0 0 0;
@@ -570,11 +570,11 @@ if (isset($_SESSION['user_id'])) {
                         }
                     </script>
 
-                    <button type="submit" class="auth-button">Iniciar sesión</button>
+                    <button type="submit" class="auth-button">INICIAR SESIÓN</button>
                 </form>
 
                 <div class="auth-links">
-                    <p>¿No tienes cuenta? <a href="signup.php">Registrate aquí</a></p>
+                    <p>¿No tienes cuenta? <a href="signup.php">REGISTRATE AQUÍ</a></p>
                 </div>
 
             </div>

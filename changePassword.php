@@ -189,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 flex-wrap: nowrap;
                 color: white;
                 text-decoration: none;
-                font-size: 24px;
+                font-size: 20px;
                 align-items: center;
                 justify-content: flex-start;
                 padding: 0 0 0 0;
@@ -240,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                     <svg width="25" height="25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
-                    Volver a mi perfil
+                    VOLVER A MI PERFIL
                 </a>
             </div>
 
@@ -396,7 +396,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             }
 
             .auth-button {
-                width: 58%;
+                width: 68%;
                 background-color: #ffffff57;
                 backdrop-filter: blur(5px);
                 padding: 2%;
@@ -579,7 +579,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                         </div>
                     </div>
 
-                    <button type="submit" class="auth-button">Cambiar contraseña</button>
+                    <button type="submit" class="auth-button">CAMBIAR CONTRASEÑA</button>
 
                 </form>
             </div>

@@ -162,7 +162,7 @@ if (isset($_SESSION['user_id'])) {
                 flex-wrap: nowrap;
                 color: white;
                 text-decoration: none;
-                font-size: 24px;
+                font-size: 20px;
                 align-items: center;
                 justify-content: flex-start;
                 padding: 0 0 0 0;
@@ -602,12 +602,12 @@ if (isset($_SESSION['user_id'])) {
                         </select>
                     </div>
 
-                    <button type="submit" class="auth-button full-width" href="index.php">Crear cuenta</button>
+                    <button type="submit" class="auth-button full-width" href="index.php">CREAR CUENTA</button>
 
                 </form>
 
                 <div class="auth-links">
-                    <p>¿Ya tienes una cuenta? <a href="login.php">Inicia sesión aquí</a></p>
+                    <p>¿Ya tienes una cuenta? <a href="login.php">INICIA SESIÓN</a></p>
                 </div>
             </div>
         </div>

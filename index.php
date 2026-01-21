@@ -695,7 +695,7 @@ if (isset($_SESSION['user_id'])) {
             .AdquirirLibro {
                 text-decoration: none;
                 width: 70%;
-                font-size: clamp(.8rem, 1.2vw, 1.4rem);
+                font-size: clamp(.6rem, 1.1vw, 1.4rem);
                 text-align: center;
                 border-radius: clamp(10px, 1.5vw, 20px);
                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
@@ -754,9 +754,9 @@ if (isset($_SESSION['user_id'])) {
 
                         <div class="AdquirirLibro">
                             <?php if ($is_logged_in): ?>
-                                <a href="pickedbook.php?id=<?= $book['id'] ?>">Adquirir</a>
+                                <a href="pickedbook.php?id=<?= $book['id'] ?>">ADQUIRIR</a>
                             <?php else: ?>
-                                <a href="login.php">Inicia sesión</a>
+                                <a href="login.php">INICIAR SESIÓN</a>
                             <?php endif; ?>
                         </div>
 

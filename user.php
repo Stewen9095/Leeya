@@ -598,10 +598,10 @@ if (isset($_SESSION['user_id'])) {
             </div>
 
             <div class="userChanges">
-                <a class="functions" href="changePassword.php">Cambiar contraseña</a>
-                <a class="functions" href="changeLocation.php">Cambiar localidad</a>
-                <a class="functions" href="changeDescription.php">Cambiar descripción</a>
-                <a class="functions" href="logout.php">Cerrar sesión</a>
+                <a class="functions" href="changePassword.php">CAMBIAR CONTRASEÑA</a>
+                <a class="functions" href="changeLocation.php">CAMBIAR LOCALIDAD</a>
+                <a class="functions" href="changeDescription.php">CAMBIAR DESCRIPCIÓN</a>
+                <a class="functions" href="logout.php">CERRAR SESIÓN</a>
             </div>
 
         </div>
@@ -775,7 +775,7 @@ if (isset($_SESSION['user_id'])) {
 
 
                         <div class="AdquirirLibro">
-                            <a href="pickedbook.php?id=<?= $book['id'] ?>">Más info</a>
+                            <a href="pickedbook.php?id=<?= $book['id'] ?>">MÁS INFO</a>
                         </div>
 
                     </div>
