@@ -155,16 +155,16 @@ if (isset($_SESSION['user_id'])) {
         <a href="index.php" class="image-logo">
             <div class="content">LEEYA</div>
         </a>
-        <a href="index.php" class="image-logo">
+        <a href="explore.php" class="image-logo">
             <div class="content">EXPLORAR</div>
         </a>
-        <a href="index.php" class="image-logo">
+        <a href="userlist.php" class="image-logo">
             <div class="content">USUARIOS</div>
         </a>
-        <a href="index.php" class="image-logo">
+        <a href="reports.php" class="image-logo">
             <div class="content">REPORTES</div>
         </a>
-        <a href="index.php" class="image-logo">
+        <a href="logout.php" class="image-logo">
             <div class="content">CERRAR SESIÓN</div>
         </a>
 
