@@ -666,7 +666,9 @@ if (isset($_SESSION['user_id'])) {
             }
 
             .cajajunta {
-                width: 84%;
+                width: 82%;
+                max-height: 20px;
+                overflow: hidden;
                 display: flex;
                 flex-direction: row;
                 flex-wrap: nowrap;

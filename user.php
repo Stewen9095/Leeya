@@ -609,7 +609,7 @@ if (isset($_SESSION['user_id'])) {
 
         <style>
             .header-container {
-                margin-top: clamp(2.2rem, 3vh, 3.4rem);
+                margin-top: clamp(3rem, 8vh, 6rem);
                 margin-bottom: 1.5rem;
                 color: #333333;
 
@@ -681,7 +681,9 @@ if (isset($_SESSION['user_id'])) {
             }
 
             .cajajunta {
-                width: 84%;
+                width: 82%;
+                max-height: 20px;
+                overflow: hidden;
                 display: flex;
                 flex-direction: row;
                 flex-wrap: nowrap;
@@ -692,7 +694,7 @@ if (isset($_SESSION['user_id'])) {
             }
 
             .TituloLibro {
-                width: 65%;
+                width: 55%;
                 text-align: start;
                 text-overflow: ellipsis;
                 overflow: hidden;
@@ -700,7 +702,7 @@ if (isset($_SESSION['user_id'])) {
             }
 
             .PrecioLibro {
-                width: 35%;
+                width: 40%;
                 color: #202020;
                 text-align: center;
             }

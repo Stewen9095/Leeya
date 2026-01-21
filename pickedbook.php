@@ -512,6 +512,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
 
         .bigcontainer {
             width: 94%;
+            min-height: 500px;
+            height: 100%;
             display: flex;
             flex-direction: row;
             justify-content: stretch;
@@ -531,10 +533,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
         }
 
         .left-controls {
-            flex: 1 1 320px;
+            flex: 1 1 180px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
             box-sizing: border-box;
             justify-items: center;
             align-items: center;
@@ -550,21 +552,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
         }
 
         .rightcontrols {
-            flex: 1 1 480px;
+            flex: 1 1 340px;
             display: flex;
             flex-direction: column;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
             box-sizing: border-box;
             margin: 0;
             border-radius: clamp(10px, 4vh, 18px);
             border: 1px solid rgba(99, 99, 99, 0.37);
-            background-color: #d8d8d888;
+            background-color: #64646425;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             min-height: auto;
+            padding: clamp(.5rem, 2vh, 1rem);
+            color: #333333;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .imagebook {
-            flex: 1;
             width: 100%;
             box-sizing: border-box;
             display: flex;
@@ -573,11 +578,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
             border-radius: clamp(10px, 4vh, 18px);
             overflow: hidden;
             box-shadow: 0 2px 2px rgba(0, 0, 0, 0.08);
-            min-height: 250px;
+            max-height: 600px;
+            flex: 1 1 120px;
+            height: auto;
 
             img {
-                width: 100%;
                 height: auto;
+                width: 100%;
                 margin: 0 auto;
             }
 
@@ -662,24 +669,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
             </div>
 
             <style>
-                .rightcontrols {
-                    width: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    box-sizing: border-box;
-                    border: 1px solid rgba(99, 99, 99, 0.37);
-                    border-radius: clamp(10px, 4vh, 18px);
-                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-                    background-color: #64646425;
-                    backdrop-filter: blur(8px);
-                    padding: clamp(.5rem, 2vh, 1rem);
-                    /*         gap: clamp(0.4rem, 5vh, .8rem); */
-                    min-height: auto;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    color: #333333;
-                }
-
                 .mensajescaja {
                     width: 100%;
                     min-height: auto;
@@ -694,7 +683,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                 }
 
                 .datosedicion {
-                    padding: clamp(.6rem, 4vh, 1rem);
+                    padding: clamp(.6rem, 6vh, 1.2rem) clamp(1rem, 10vh, 1.8rem) clamp(.4rem, 2vh, .8rem) clamp(1rem, 10vh, 1.8rem);
                     width: 100%;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -709,7 +698,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                         text-overflow: ellipsis;
                         margin: 0;
                         padding: 0;
-                        padding-block: clamp(.8rem, 4vh, 1.2rem);
+                        padding-bottom: clamp(.4rem, 2vh, .8rem);
                     }
 
                     p {
@@ -717,7 +706,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                         text-overflow: ellipsis;
                         margin: 0;
                         padding: 0;
-                        padding-block: clamp(.8rem, 4vh, 1.2rem);
+                        padding-bottom: clamp(.3rem, 4vh, .6rem);
                     }
                 }
 
@@ -843,7 +832,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
 
                 .buyerview {
                     width: 100%;
-                    margin-block: clamp(1rem, 3vh, 1.4rem);
+                    margin-bottom: clamp(.2rem, 1vh, .4rem);
                     display: flex;
                     flex-direction: column;
                     gap: clamp(0.8rem, 2vh, 1rem);
@@ -884,8 +873,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
 
                     button,
                     .functions {
-                        padding: 0.6rem 1rem;
-                        min-height: 45px;
+                        padding: 0.4rem 1rem;
+                        min-height: 25px;
                         border: 1px solid rgba(99, 99, 99, 0.37);
                         border-radius: 8px;
                         background-color: #d8d8d888;
@@ -911,7 +900,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                     flex-direction: column;
                     gap: clamp(0.4rem, 1vh, 0.8rem);
                     width: 100%;
-                    margin: clamp(0.6rem, 1.5vh, 1rem) 0;
+                    margin: 0;
+                    max-height: 45px;
+                    overflow: auto;
+                    justify-self: flex-start;
                 }
 
                 .exchange-item {
