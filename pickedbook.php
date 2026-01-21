@@ -17,6 +17,9 @@ if (isLoggedIn()) {
         $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
     }
 
+} else {
+    header('Location: index.php');
+    exit();
 }
 
 if (isset($_SESSION['user_id'])) {
