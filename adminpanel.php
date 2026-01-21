@@ -2,13 +2,16 @@
 
 session_start();
 
+// Prevenir caché para que no se pueda ir atrás después de cerrar sesión
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
+
 require_once 'auth_functions.php';
 require_once 'database.php';
 
 $is_logged_in = false;
 $user_role = '';
-$pdo = getDBConnection();
-
 
 refreshSessionUser();
 updateExpiredAuctions();
@@ -18,9 +21,14 @@ if (isLoggedIn()) {
     if (isset($_SESSION['user_id'])) {
         $is_logged_in = true;
         $user_name = htmlspecialchars($_SESSION['user_name'] ?? '');
-        $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'admin');
+        $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
     }
+}
 
+// Validar que solo admins puedan acceder
+if (!isset($_SESSION['user_id']) || empty($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    header('Location: index.php');
+    exit();
 }
 
 if (isset($_SESSION['user_id'])) {
@@ -32,8 +40,6 @@ if (isset($_SESSION['user_id'])) {
         exit();
     }
 }
-
-
 
 ?>
 
@@ -147,9 +153,6 @@ if (isset($_SESSION['user_id'])) {
 
 <body>
 
-
-
-
     <nav>
 
         <a href="index.php" class="image-logo">
@@ -172,7 +175,6 @@ if (isset($_SESSION['user_id'])) {
 
 
     <main>
-
 
         <style>
             main {

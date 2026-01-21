@@ -18,7 +18,6 @@ if (isLoggedIn()) {
         $user_name = htmlspecialchars($_SESSION['user_name'] ?? '');
         $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
     }
-
 }
 
 if (isset($_SESSION['user_id'])) {
@@ -717,7 +716,6 @@ if (isset($_SESSION['user_id'])) {
                 }
             }
         </style>
-
 
         <?php
         $latest_books = getLatestBooks(4, $is_logged_in ? $_SESSION['user_id'] : null);
