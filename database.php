@@ -1,7 +1,7 @@
 <?php
-define('DB_HOST', '127.0.0.1:3307');
+define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', '123456');
+define('DB_PASS', '');
 define('DB_NAME', 'leeya');
 
 function getDBConnection()
@@ -103,6 +103,22 @@ CREATE TABLE reports (
     ischecked BOOlEAN, -- Si el administrador ya reviso dicho reporte
     FOREIGN KEY (idreporter) REFERENCES user(id),
     FOREIGN KEY (idreported) REFERENCES user(id)
+);
+
+INSERT INTO user (
+    name,
+    email,
+    passwd,
+    signdate,
+    location,
+    userrole
+) VALUES (
+    'Admin',
+    'admin@admin.com',
+    '$2y$10$NOeiZ/8J45lVLSe2P/jb6.ZyRIoiSksFk2qBr03a29C/T3612KzAy', -- Contraseña temporal "123456"
+    CURDATE(),
+    'Sistema',
+    'admin'
 );
 
 */

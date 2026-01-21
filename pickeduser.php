@@ -21,6 +21,13 @@ if (isLoggedIn()) {
 
 }
 
+if (isset($_SESSION['user_id'])) {
+    if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'banned') {
+        header('Location: banned.php');
+        exit();
+    }
+}
+
 // Require login to view user profiles
 if (!isset($_SESSION['user_id'])) {
     header('Location: index.php');

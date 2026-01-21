@@ -87,6 +87,12 @@ function isLoggedIn()
     return isset($_SESSION['user_id']);
 }
 
+// Función para verificar si el usuario es administrador
+function isAdmin()
+{
+    return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
+}
+
 // Función para validar la sesión del usuario y eliminar si no existe la cuenta por X razón
 function refreshSessionUser()
 {
@@ -437,6 +443,37 @@ function deleteBook($book_id)
     }
 }
 
+// Eliminar libro por admin (con validación de rol)
+function deleteBookByAdmin($book_id, $admin_user_id)
+{
+    try {
+        $pdo = getDBConnection();
+        // Validar que el usuario sea admin
+        $stmt = $pdo->prepare("SELECT userrole FROM user WHERE id = ?");
+        $stmt->execute([$admin_user_id]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$user || $user['userrole'] !== 'admin') {
+            error_log("Intento no autorizado de eliminar libro por usuario ID: " . $admin_user_id);
+            return false;
+        }
+        
+        // Proceder a eliminar el libro
+        $stmt = $pdo->prepare("UPDATE book SET status = 0 WHERE id = ?");
+        $result = $stmt->execute([$book_id]);
+        
+        if ($result) {
+            // Registrar la acción en log
+            error_log("Admin ID " . $admin_user_id . " eliminó el libro ID " . $book_id);
+        }
+        
+        return $result;
+    } catch (PDOException $e) {
+        error_log("Error al eliminar libro por admin: " . $e->getMessage());
+        return false;
+    }
+}
+
 // Propuestas hechas
 function getSentProposals($user_id)
 {
@@ -453,7 +490,8 @@ function getSentProposals($user_id)
                 b.price, 
                 b.ownerid, 
                 u.name AS owner_name,
-                u.id AS owner_id
+                u.id AS owner_id,
+                u.email AS owner_email
             FROM proposal p
             JOIN book b ON p.targetbookid = b.id
             JOIN user u ON b.ownerid = u.id
@@ -490,7 +528,8 @@ function getReceivedProposals($user_id)
                 b.typeof, 
                 b.price, 
                 u.name AS interested_name, 
-                u.id AS interested_id
+                u.id AS interested_id,
+                u.email AS interested_email
             FROM proposal p
             JOIN book b ON p.targetbookid = b.id
             JOIN user u ON p.interested = u.id
@@ -585,7 +624,6 @@ function getPendingProposalsCount($user_id)
 }
 
 // Obtener datos de usuarios por id
-
 function getUserById($user_id)
 {
     try {
@@ -681,6 +719,7 @@ function getAllBooks()
         return [];
     }
 }
+
 // Obtener usuarios por rol
 function getUsersByRole($role = 'user')
 {

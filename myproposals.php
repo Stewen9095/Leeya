@@ -25,6 +25,9 @@ if (isset($_SESSION['user_id'])) {
     if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
         header('Location: adminpanel.php');
         exit();
+    } elseif (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'banned') {
+        header('Location: banned.php');
+        exit();
     }
 } else {
     header('Location: index.php');
@@ -78,7 +81,7 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis propuestas</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="img/icon.png" type="image/png">    
+    <link rel="icon" href="img/icon.png" type="image/png">
 </head>
 
 <body>
@@ -297,7 +300,7 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
                         <span style="color:#fff;">Dueño: <?= htmlspecialchars($p['owner_name']) ?></span>
                     </div>
                     <div style="display:flex;flex-direction:column;gap:0.5rem;">
-                        <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($user['email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
+                        <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($p['owner_email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
                             target="_blank">
                             Contactar
                         </a>
@@ -356,7 +359,7 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
                         <span style="color:#fff;">Interesado: <?= htmlspecialchars($p['interested_name']) ?></span>
                     </div>
                     <div style="display:flex;flex-direction:column;gap:0.5rem;">
-                        <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($user['email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
+                        <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($p['interested_email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
                             target="_blank">
                             Contactar
                         </a>

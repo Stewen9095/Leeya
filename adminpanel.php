@@ -1,9 +1,40 @@
 <?php
 
+session_start();
+
 require_once 'auth_functions.php';
 require_once 'database.php';
 
+$is_logged_in = false;
+$user_role = '';
 $pdo = getDBConnection();
+
+
+refreshSessionUser();
+updateExpiredAuctions();
+
+if (isLoggedIn()) {
+
+    if (isset($_SESSION['user_id'])) {
+        $is_logged_in = true;
+        $user_name = htmlspecialchars($_SESSION['user_name'] ?? '');
+        $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'admin');
+    }
+
+}
+
+if (isset($_SESSION['user_id'])) {
+    if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'user') {
+        header('Location: index.php');
+        exit();
+    } elseif ($_SESSION['user_role'] === 'banned') {
+        header('Location: banned.php');
+        exit();
+    }
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -125,7 +156,7 @@ $pdo = getDBConnection();
                 <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
             </a>
             <div class="nav-btns">
-                <a href="adminpanel.php">
+                <a href="explore.php">
                     <h3>EXPLORAR</h3>
                 </a>
                 <a href="userlist.php">
@@ -142,7 +173,7 @@ $pdo = getDBConnection();
         </nav>
     </header>
 
-    <main style="min-height: 70vh; text-align:center; padding-top: 4rem;">
+    <main>
         <h1>Bienvenido a Leeya</h1>
         <p>Panel principal de administrador</p>
                 <div class="panel-content">

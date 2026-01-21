@@ -24,6 +24,9 @@ if (isset($_SESSION['user_id'])) {
     if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
         header('Location: adminpanel.php');
         exit();
+    } elseif (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'banned') {
+        header('Location: banned.php');
+        exit();
     }
 } else {
     header('Location: index.php');
@@ -342,8 +345,7 @@ if (isset($_SESSION['newbook_message'])) {
             border: 1px solid #ccc;
             border-radius: 1vw;
             background-color: #fff;
-            color: #000080;
-
+            color: #000;
             box-shadow: none !important;
             outline: none;
             appearance: none;

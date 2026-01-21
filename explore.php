@@ -17,18 +17,22 @@ if (isLoggedIn()) {
         $is_logged_in = true;
         $user_name = htmlspecialchars($_SESSION['user_name'] ?? '');
         $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
+        $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'admin');
     }
 
-}
-
-if (isset($_SESSION['user_id'])) {
-    if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
-        header('Location: adminpanel.php');
-        exit();
-    }
 } else {
     header('Location: index.php');
     exit();
+}
+
+if (isset($_SESSION['user_id'])) {
+    if (empty($_SESSION['user_role'])) {
+        header('Location: index.php');
+        exit();
+    } elseif (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'banned') {
+        header('Location: banned.php');
+        exit();
+    }
 }
 
 ?>
@@ -59,11 +63,7 @@ if (isset($_SESSION['user_id'])) {
         }
     </style>
 
-    <?php
-    $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
-    $total_pending = $pending_counts['sent'] + $pending_counts['received'];
-    $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
-    ?>
+
 
     <nav>
         <a href="index.php">
@@ -72,6 +72,13 @@ if (isset($_SESSION['user_id'])) {
         <div class="nav-btns">
 
             <?php if ($is_logged_in): ?>
+
+                <?php
+                $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
+                $total_pending = $pending_counts['sent'] + $pending_counts['received'];
+                $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
+                ?>
+
                 <a href="newbook.php">
                     <h3>+</h3>
                 </a>

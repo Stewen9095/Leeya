@@ -302,7 +302,7 @@ $users = getUsersByRole('user');
                                     <td><?= htmlspecialchars($u['signdate']) ?></td>
                                     <td><?= htmlspecialchars(mb_strimwidth($u['lildescription'], 0, 80, '...')) ?></td>
                                     <td>
-                                        <a href="pickeduserAdmin.php?id=<?= $u['id'] ?>" class="btn-view">Ver Perfil</a>    
+                                        <a href="pickeduser.php?id=<?= $u['id'] ?>" class="btn-view">Ver Perfil</a>    
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
