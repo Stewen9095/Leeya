@@ -46,138 +46,385 @@ if (isset($_SESSION['user_id'])) {
     <title>Panel | Leeya</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="img/icon.png" type="image/png">
+
     <style>
-        body {
+        html {
+            background: white;
             margin: 0;
-            font-family: 'HovesDemiBold';
-            background-color: #000;
-            color: #fff;
+            padding: 0;
         }
 
-        header {
-            width: 100%;
-            background: linear-gradient(to bottom, #000 0%, #001aafff 80%);
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'HovesDemiBold';
+            background: white;
         }
 
         nav {
-            display: flex;
-            align-items: center;
+            position: fixed;
+            max-width: 1440px;
+            min-width: 200px;
+            width: fit-content;
+            height: auto;
+            background-color: #64646425;
+            backdrop-filter: blur(8px);
+            display: inline-flex;
             justify-content: center;
-            gap: clamp(1rem, 3vw, 2.5rem);
-            width: 75vw;
-            max-width: 75vw;
-            margin: auto;
-            font-family: 'HovesExpandedBold';
+            align-items: stretch;
             box-sizing: border-box;
+            left: 0;
+            right: 0;
+            margin: auto;
+            border: 1px solid rgba(99, 99, 99, 0.37);
+            border-radius: 1rem;
+            font-size: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            z-index: 5;
         }
-        .iconoimg {
-            height: 3.5rem;
-            width: auto;
-            padding-bottom: 0.5rem;
-        }
-        .nav-btns {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-            background: #000080;
-            border-radius: 2rem;
-            padding: 0.3rem 0.5rem;
-        }
-        .nav-btns a {
+
+        nav a {
+            box-sizing: border-box;
+            margin-inline: auto;
+            inset-inline: 0;
+            width: fit-content;
+            padding: .2rem .5rem;
+            margin: .3rem .3rem .3rem .3rem;
+            border: 1px solid rgba(99, 99, 99, 0.37);
+            backdrop-filter: blur(5px);
+            background-color: #d8d8d888;
+            border-radius: .6rem;
+            color: #333333;
             text-decoration: none;
-            background: #001aafff;
-            color: #fff;
-            font-size: 1.1rem;
-            border-radius: 1.25rem;
-            padding: 0.2rem 1rem;
-            box-shadow: 0 0.125rem 0.5rem #0002;
-            transition: background 0.5s;
-            display: flex;
-            align-items: center;
+            min-width: 140px;
+            overflow: hidden;
+            max-width: 18%;
+            max-height: 30px;
+
+            .content {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+            }
+
         }
 
-        .nav-btns a:hover {
-            background: #000080;
-        }
+        /* Cel */
+        @media (max-width: 750px) {
 
-        .nav-btns h3 {
-            margin: 0;
-            font-size: 1.05rem;
-        }
-        .nav-btns .circle {
-            width: 2.25rem;
-            height: 2.25rem;
-            border-radius: 50%;
-            background: #001aafff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.8s;
-        }
+            nav {
+                position: static;
+                display: flex;
+                margin-top: 30px;
+                flex-direction: column;
+                font-size: 13px;
+                border-radius: 5px;
+                padding: 2px 0;
+                width: 80%;
+                align-items: center;
 
-        .nav-btns .circle:hover {
-            background: #000080;
-        }
+                a {
+                    margin: .1rem;
+                    padding: 2px 10px;
+                    width: 98%;
+                    height: 35px;
+                    border-radius: 5px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: stretch;
+                    max-width: 100%;
+                    min-height: 30px;
+                }
 
-        .nav-btns img {
-            width: 1.6rem;
-            height: 1.6rem;
-            object-fit: contain;
-        }
+            }
 
-        footer {
-            text-align: center;
-            background: linear-gradient(to top, #000 0%, #001aafff 90%);
-            color: #fff;
-            padding: 3rem 1rem 2rem 1rem;
-            font-family: 'HovesMedium';
-            font-size: 1rem;
-        }
-
-        footer img {
-            height: 3rem;
-            display: block;
-            margin: 0 auto 1rem auto;
-        }
-
-        footer p {
-            margin: 0.5rem 0;
         }
     </style>
 </head>
 
+
 <body>
 
-    <header>
-        <nav>
-            <a href="adminpanel.php">
-                <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
-            </a>
-            <div class="nav-btns">
-                <a href="explore.php">
-                    <h3>EXPLORAR</h3>
-                </a>
-                <a href="userlist.php">
-                    <h3>USUARIOS</h3>
-                </a>
-                <a href="adminreports.php">
-                    <h3>REPORTES</h3>
-                </a>
-                <a href="logout.php">
-                    <h3>CERRAR SESIÓN</h3>
-                </a>
-                
-            </div>
-        </nav>
-    </header>
+
+
+
+    <nav>
+
+        <a href="index.php" class="image-logo">
+            <div class="content">LEEYA</div>
+        </a>
+        <a href="index.php" class="image-logo">
+            <div class="content">EXPLORAR</div>
+        </a>
+        <a href="index.php" class="image-logo">
+            <div class="content">USUARIOS</div>
+        </a>
+        <a href="index.php" class="image-logo">
+            <div class="content">REPORTES</div>
+        </a>
+        <a href="index.php" class="image-logo">
+            <div class="content">CERRAR SESIÓN</div>
+        </a>
+
+    </nav>
+
 
     <main>
-        <h1>Bienvenido a Leeya</h1>
-        <p>Panel principal de administrador</p>
-                <div class="panel-content">
-            <div class="tweet-wrapper">
+
+
+        <style>
+            main {
+                max-width: 1440px;
+                min-width: 200px;
+                width: 92%;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                margin: 2.8rem auto 0 auto;
+                padding: 2rem 0 0 0;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .panel1 {
+                width: 82%;
+                height: 150px;
+                margin-top: 50px;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: stretch;
+                justify-content: center;
+            }
+
+            .son11 {
+                flex: 1 0 55%;
+                max-width: 60%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                color: #333333;
+                align-self: center;
+                justify-self: center;
+                gap: 0;
+                overflow: hidden;
+
+                p:first-child {
+                    display: flex;
+                    justify-content: center;
+                    align-items: flex-end;
+                    width: 100%;
+                    font-size: 26px;
+                    text-align: center;
+                    margin: auto;
+                    height: 42%;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+
+                p:last-child {
+                    display: flex;
+                    flex-direction: row;
+                    text-align: center;
+                    width: 100%;
+                    font-size: 18px;
+                    height: 58%;
+                    margin: auto;
+                    box-sizing: border-box;
+                    padding: 0 6% 0 6%;
+                }
+
+            }
+
+            .son12 {
+                flex: 1 0 45%;
+                max-width: 60%;
+                height: 95%;
+                background-color: #C0C0C0;
+                display: flex;
+                justify-content: flex-start;
+                align-self: center;
+                border: 1px solid #64646467;
+                align-items: center;
+                border-radius: .6rem;
+                align-self: center;
+                justify-self: center;
+                box-sizing: border-box;
+
+                .imagekid {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    height: 140%;
+                    width: auto;
+                    margin: 0 6%;
+                    background-color: transparent;
+                }
+            }
+
+            @media(max-width: 750px) {
+
+                main {
+                    flex-direction: column;
+                    margin: 2rem auto 0 auto;
+                    width: 92%;
+                    height: auto;
+                    padding: 0;
+                }
+
+                .panel1 {
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: nowrap;
+                    gap: 2rem;
+                    width: 90%;
+                    height: auto;
+                    margin: auto;
+                    height: auto;
+                }
+
+                .son11 {
+                    flex: 0;
+                    justify-content: center;
+                    width: 100%;
+                    margin: auto;
+                    max-width: 100%;
+
+                    p:first-child {
+                        font-size: 18px;
+                    }
+
+                    p:last-child {
+                        font-size: 14px;
+                        padding: 0;
+                    }
+                }
+
+                .son12 {
+                    flex: 0;
+                    width: 100%;
+                    max-width: 98%;
+                    flex-direction: column;
+                    border-radius: 5px;
+                    padding: 3%;
+                    margin: auto;
+
+                    .imagekid {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: center;
+                        height: auto;
+                        width: 40%;
+                        margin: 0 4%;
+                        background: transparent;
+                    }
+                }
+            }
+        </style>
+
+        <div class="panel1">
+            <div class="son11">
+                <p>BIENVENIDO ADMINISTRADOR</p>
+                <p>Gestión del espacio #1 de acceso a referencias bibliográficas en línea de la Universidad Distrital
+                </p>
+            </div>
+            <div class="son12">
+                <img src="img/libros.png" alt="Libros" class="imagekid">
+            </div>
+        </div>
+
+        <style>
+            .panel2 {
+                max-width: 68%;
+                width: 100%;
+                height: 330px;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: center;
+                align-items: center;
+                margin: 1% auto 0 auto;
+                gap: 3rem;
+            }
+
+            .son21 {
+                height: 90%;
+                width: 48%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .son22 {
+                width: 52%;
+                height: 80%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                video {
+                    height: 85%;
+                    width: auto;
+                }
+            }
+
+
+            @media(max-width: 750px) {
+
+                .panel2 {
+                    display: flex;
+                    flex-wrap: nowrap;
+                    flex-direction: column;
+                    max-width: 90%;
+                    height: auto;
+                    margin-top: 15%;
+                    margin-bottom: 8%;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0;
+                }
+
+                .son21 {
+                    width: 100%;
+                    height: 170px;
+                    margin: 0 0 3.8rem 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    .twitter-tweet {
+                        margin: 0;
+                        padding: 0;
+                        align-self: center;
+                    }
+                }
+
+                .son22 {
+                    width: 100%;
+                    height: auto;
+                    justify-content: center;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+
+                    video {
+                        width: 92%;
+                        height: auto;
+                    }
+                }
+
+            }
+        </style>
+
+        <div class="panel2">
+            <div class="son21">
                 <blockquote class="twitter-tweet">
                     <p lang="en" dir="ltr">Get any book with Leeya!</p>&mdash; readleeya (@readleeya) <a
                         href="https://twitter.com/readleeya/status/1945965007847477482?ref_src=twsrc%5Etfw">July 17,
@@ -186,91 +433,17 @@ if (isset($_SESSION['user_id'])) {
                 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
             </div>
 
-            <video autoplay muted loop playsinline preload="auto" poster="img/icono.png">
-                <source src="vid/udbiblio.mp4" type="video/mp4">
-                Tu navegador no soporta el video HTML5.
-            </video>
+            <div class="son22">
+                <video autoplay muted loop playsinline preload="auto" poster="poster.jpg">
+                    <source src="vid/udbiblio.mp4" type="video/mp4">
+                    Tu navegador no soporta el video HTML5.
+                </video>
+            </div>
 
         </div>
 
-        <style>
-            .panel-content {
-                display: flex;
-                align-items: center;
-                gap: 6rem;
-                width: 80vw;
-                max-width: 80vw;
-                margin: 0 auto;
-                overflow-x: auto;
-                justify-content: center;
-                padding-bottom: 4vw;
-            }
-
-            .tweet-wrapper {
-                width: 30rem;
-                height: auto;
-                box-shadow: 0 5px 8px rgba(255, 255, 255, 0.11);
-                border-radius: 0.5rem;
-                overflow: hidden;
-                display: inline-block;
-                vertical-align: top;
-            }
-
-            .twitter-tweet {
-                margin: 0 !important;
-            }
-
-            video {
-                width: 30rem;
-                max-width: 30rem;
-                border-radius: 0.5rem;
-                height: auto;
-                width: 100%;
-                display: block;
-                box-shadow: 0 5px 8px rgba(255, 255, 255, 0.11);
-            }
-
-            .panel1footer {
-                padding-top: 2rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 4em;
-            }
-
-            .panel1footer img {
-                width: 7rem;
-                height: auto;
-            }
-
-            .shortfooter {
-                font-size: 1.2rem;
-                font-family: 'HovesRegular';
-            }
-
-            .panelfooter2 {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .carrusel-titulo {
-                padding-top: 5rem;
-                font-size: 1.8rem;
-                color: #fff;
-                font-family: 'HovesExpandedDemiBold';
-            }
-        </style>
     </main>
-    
-
-
-    <footer>
-        <img src="img/icono.png" alt="Leeya logo">
-        <p>Leeya: un espacio de acceso a la literatura y contenido bibliográfico dedicado a los estudiantes de la Universidad Distrital Francisco José de Caldas.</p>
-        <p>© 2025 Leeya. Todos los derechos reservados.</p>
-        <p>Un proyecto de la Universidad Distrital Francisco José de Caldas</p>
-    </footer>
 
 </body>
+
 </html>
