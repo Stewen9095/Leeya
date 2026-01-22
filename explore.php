@@ -370,7 +370,7 @@ if (isset($_SESSION['user_id'])) {
             .filtros {
                 width: 92%;
                 padding-top: clamp(3rem, 8vh, 4.2rem);
-                padding-bottom: clamp(3rem, 8vh, 4.2rem);
+                padding-bottom: clamp(1.4rem, 6vh, 2.4rem);
                 box-sizing: border-box;
             }
 
@@ -390,6 +390,11 @@ if (isset($_SESSION['user_id'])) {
                     div:first-child {
                         display: flex;
                         flex: 1 1 400px;
+
+                        input {
+                            height: clamp(2rem, 8vh, 2.4rem);
+                            width: 100%;
+                        }
                     }
 
                     div:nth-child(2) {
@@ -405,7 +410,7 @@ if (isset($_SESSION['user_id'])) {
                             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                             border-radius: clamp(.5rem, 8vh, 1.2rem);
                             padding: 0 2rem 0 1rem;
-                            height: clamp(1.6rem, 8vh, 2.2rem);
+                            height: clamp(2rem, 8vh, 2.4rem);
                         }
                     }
 
@@ -422,7 +427,7 @@ if (isset($_SESSION['user_id'])) {
                             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                             border-radius: clamp(.5rem, 8vh, 1.2rem);
                             background-color: #aaaaaa88;
-                            height: clamp(1.6rem, 8vh, 2.2rem);
+                            height: clamp(2rem, 8vh, 2.4rem);
                         }
                     }
 
@@ -447,6 +452,11 @@ if (isset($_SESSION['user_id'])) {
                         display: flex;
                         flex: 1 1 450px;
                         width: 100%;
+
+                        input {
+                            height: clamp(2rem, 8vh, 2.4rem);
+                            width: 100%;
+                        }
                     }
 
                     div:last-child {
@@ -463,7 +473,7 @@ if (isset($_SESSION['user_id'])) {
                             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                             border-radius: clamp(.5rem, 8vh, 1.2rem);
                             background-color: #aaaaaa88;
-                            height: clamp(1.6rem, 8vh, 2.2rem);
+                            height: clamp(2rem, 8vh, 2.4rem);
                         }
                     }
                 }
@@ -506,7 +516,7 @@ if (isset($_SESSION['user_id'])) {
                         </select>
                     </div>
                     <div>
-                        <button type="submit">Buscar libro</button>
+                        <button type="submit">BUSCAR LIBRO</button>
                     </div>
                 </form>
             </div>
@@ -518,8 +528,7 @@ if (isset($_SESSION['user_id'])) {
                             value="<?= htmlspecialchars($search_user) ?>" placeholder="Buscar usuario por nombre...">
                     </div>
                     <div>
-                        <button type="submit">Buscar
-                            usuario</button>
+                        <button type="submit">BUSCAR USUARIO</button>
                     </div>
                 </form>
             </div>
@@ -528,14 +537,14 @@ if (isset($_SESSION['user_id'])) {
         <style>
             .resulusuarios {
                 width: 100%;
-                background-color: red;
                 box-sizing: border-box;
 
-                >h2{
-                    padding: 0;
+                >h2 {
+                    padding: clamp(.4rem, 4vh, .6rem) 0 clamp(1.4rem, 4vh, 2.2rem) 0;
                     margin: 0;
                     margin: 0 auto;
                     text-align: center;
+                    color: #333333;
                 }
 
                 .bookbox-container {
@@ -561,18 +570,94 @@ if (isset($_SESSION['user_id'])) {
                     flex-direction: column;
                     justify-content: space-between;
                     justify-items: center;
+                    align-items: center;
                     border-radius: clamp(15px, 1.8vw, 22px);
                     align-items: center;
                     align-content: stretch;
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                     justify-items: center;
-                }
-            }
+                    padding: clamp(15px, 1.8vw, 22px);
 
-            .resullibros {
-                width: 100%;
-                background-color: orange;
-                box-sizing: border-box;
+                    .bookbox {
+                        width: 100%;
+                        display: flex;
+                        margin: 0 auto;
+                        justify-content: center;
+                        padding: 0;
+                    }
+
+                    .infolibro {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: clamp(.2rem, 4vh, .4rem);
+
+                        .TituloLibro {
+                            color: #333333;
+                            margin: 0;
+                            padding: 0;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            max-height: 24px;
+                            height: 100%;
+                        }
+
+                        p {
+                            color: #333333;
+                            margin: 0;
+                            padding: 0;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                    }
+
+                    .buttonscaja {
+                        width: 100%;
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        align-items: center;
+                        margin-top: clamp(6px, 1.8vw, 12px);
+                        gap: clamp(.2rem, 4vh, .4rem);
+                        box-sizing: border-box;
+
+                        .boton {
+                            flex: 1 1 200px;
+                            display: flex;
+                            align-items: center;
+                            align-content: center;
+                            justify-content: center;
+                            box-sizing: border-box;
+                            height: clamp(2rem, 8vh, 2.4rem);
+
+                            a {
+                                display: flex;
+                                width: 100%;
+                                text-align: center;
+                                color: #333333;
+                                text-decoration: none;
+                                box-sizing: border-box;
+                                height: 100%;
+                                align-items: center;
+                                justify-content: center;
+                                border: 1px solid rgba(99, 99, 99, 0.37);
+                                backdrop-filter: blur(5px);
+                                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                                border-radius: clamp(.5rem, 8vh, 1.2rem);
+                                background-color: #aaaaaa88;
+
+                            }
+
+                            a:visited {
+                                font-style: none;
+                                color: #333333;
+                                text-decoration: none;
+                            }
+                        }
+                    }
+
+                }
             }
         </style>
 
@@ -582,8 +667,9 @@ if (isset($_SESSION['user_id'])) {
                 <div class="bookbox-container">
                     <?php foreach ($users as $user): ?>
                         <div class="fullbook">
-                            <div class="bookbox">
-                                <svg width="130px" height="130px" viewBox="0 0 24 24" fill="none"
+
+                            <div class="bookbox"> <!-- SVG de usuario -->
+                                <svg width="100px" height="100px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" stroke="#333333">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -597,70 +683,240 @@ if (isset($_SESSION['user_id'])) {
                                     </g>
                                 </svg>
                             </div>
-                            <div class="infolibro">
+
+                            <div class="infolibro"> <!-- Datos del libro y botones -->
                                 <h3 class="TituloLibro"><?= htmlspecialchars($user['name']) ?></h3>
-                                <p><b>Email:</b>
-                                    <?= htmlspecialchars($user['email']) ?></p>
                                 <p><b>Ubicación:</b>
                                     <?= htmlspecialchars($user['location']) ?></p>
-                                <p><b>Descripción:</b>
-                                    <?= htmlspecialchars($user['lildescription']) ?></p>
-                                <div class="AdquirirLibro">
-                                    <a href="pickeduser.php?id=<?= $user['id'] ?>">Ver perfil</a>
+                            </div>
+
+                            <div class="buttonscaja"> <!-- Botones del libro -->
+                                <div class="boton">
+                                    <a href="pickeduser.php?id=<?= $user['id'] ?>">VER PERFIL</a>
                                 </div>
-                                <div class="Contactar">
+                                <div class="boton">
                                     <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($user['email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
                                         target="_blank">
-                                        Contactar
+                                        CONTACTAR
                                     </a>
                                 </div>
                             </div>
+
                         </div>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
         </div>
 
+
+        <style>
+            .resullibros {
+                width: 100%;
+                box-sizing: border-box;
+                margin-top: clamp(1.4rem, 6vh, 2.4rem);
+                margin-bottom: clamp(1.4rem, 6vh, 2.4rem);
+
+                >h2 {
+                    padding: clamp(.4rem, 4vh, .6rem) 0 clamp(1.4rem, 4vh, 2.2rem) 0;
+                    margin: 0;
+                    margin: 0 auto;
+                    text-align: center;
+                    color: #333333;
+                }
+
+                .bookbox-container {
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    background-color: #d8d8d888;
+                    backdrop-filter: blur(8px);
+                    width: 100%;
+                    padding: clamp(.8rem, 2vw, 2.2rem);
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: clamp(.8rem, 4vh, 1.5rem);
+                    border-radius: clamp(1rem, 1.5vw, 2rem);
+                    box-sizing: border-box;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                }
+
+                .fullbook {
+                    flex: 1 1 380px;
+                    background-color: #d8d8d888;
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    box-sizing: border-box;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    justify-items: center;
+                    align-items: center;
+                    border-radius: clamp(15px, 1.8vw, 22px);
+                    align-items: center;
+                    align-content: stretch;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                    justify-items: center;
+                    padding: clamp(15px, 1.8vw, 22px);
+
+                    .bookbox {
+                        width: 90%;
+                        display: flex;
+                        margin: 0 auto;
+                        justify-content: center;
+                        padding: 0;
+                        height: 200px;
+                        border-radius: clamp(15px, 1.8vw, 22px);
+                        border: 1px solid rgba(99, 99, 99, 0.37);
+                        overflow: hidden;
+
+                        img {
+                            width: auto;
+                            height: 100%;
+                        }
+
+                    }
+
+                    .infolibro {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: clamp(.2rem, 4vh, .4rem);
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+
+                        .TituloLibro:first-child {
+                            color: #333333;
+                            margin: 0;
+                            padding: 0;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            margin-top: clamp(.2rem, 2vw, .4rem);
+                            border-radius: clamp(15px, 1.8vw, 22px);
+                            border: 1px solid rgba(99, 99, 99, 0.37);
+                            width: 88%;
+                            background-color: red;
+                            text-align: center;
+                            background-color: #aaaaaa88;
+                        }
+
+                        .TituloLibro:nth-child(2) {
+                            color: #333333;
+                            margin: 0;
+                            padding: 0;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            max-height: 24px;
+                            height: 100%;
+                            width: 92%;
+                            justify-content: center;
+                            margin-top: clamp(.2rem, 4vw, .5rem);
+                            display: flex;
+                        }
+
+                        p {
+                            color: #333333;
+                            margin: 0;
+                            padding: 0;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            max-height: 24px;
+                            height: 100%;
+                        }
+
+                    }
+
+                    .boton {
+                        display: flex;
+                        align-items: center;
+                        align-content: center;
+                        justify-content: center;
+                        box-sizing: border-box;
+                        height: clamp(2rem, 8vh, 2.4rem);
+                        width: 85%;
+                        margin-top: clamp(.6rem, 4vw, 1.2rem);
+
+                        a {
+                            display: flex;
+                            width: 100%;
+                            text-align: center;
+                            color: #333333;
+                            text-decoration: none;
+                            box-sizing: border-box;
+                            height: 100%;
+                            align-items: center;
+                            justify-content: center;
+                            border: 1px solid rgba(99, 99, 99, 0.37);
+                            backdrop-filter: blur(5px);
+                            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                            border-radius: clamp(.5rem, 8vh, 1.2rem);
+                            background-color: #aaaaaa88;
+                        }
+
+                        a:visited {
+                            font-style: none;
+                            color: #333333;
+                            text-decoration: none;
+                        }
+                    }
+
+
+                }
+
+            }
+
+            .mensajenulo {
+                color: #333333;
+            }
+        </style>
+
         <div class="resullibros">
-            <!-- Resultados de libros -->
             <h2>Libros disponibles</h2>
+
             <div class="bookbox-container">
                 <?php if (empty($books)): ?>
-                    <h2>No se encontraron libros disponibles.</h2>
+                    <h2 class="mensajenulo">No se encontraron libros disponibles.</h2>
                 <?php else: ?>
                     <?php foreach ($books as $book): ?>
+
                         <div class="fullbook">
+
                             <div class="bookbox">
-                                <div class="functionsbook">
-                                    <h3 class="statusbook"><?= htmlspecialchars($book['typeof']) ?></h3>
-                                </div>
-                                <div class="imagenbox">
-                                    <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Libro publicado">
-                                </div>
+                                <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Libro publicado">
                             </div>
+
                             <div class="infolibro">
+
+                                <h3 class="TituloLibro">
+                                    <?= htmlspecialchars($book['typeof']) ?>
+                                </h3>
+
                                 <h3 class="TituloLibro"><?= htmlspecialchars($book['name']) ?></h3>
+
+                                <p><b>Publicado por:</b>
+                                    <?= htmlspecialchars($book['owner_name']) ?>
+                                </p>
+
                                 <p><b>Autor:</b>
                                     <?= htmlspecialchars($book['author']) ?></p>
+
                                 <p><b>Género:</b>
                                     <?= htmlspecialchars($book['genre']) ?></p>
-                                <p><b>Editorial:</b>
-                                    <?= htmlspecialchars($book['editorial']) ?></p>
-                                <p><b>Publicado por:</b>
-                                    <?= htmlspecialchars($book['owner_name']) ?></p>
+
                                 <?php if ($book['price'] !== null): ?>
-                                    <h4 class="PrecioLibro">$<?= htmlspecialchars($book['price']) ?></h4>
+                                    <p><b>$
+                                            <?= htmlspecialchars($book['price']) ?>
+                                        </b></p>
                                 <?php elseif ($book['price'] == null): ?>
-                                    <h4 class="PrecioLibro">($) No aplica</h4>
+                                    <p><b>($) No aplica</b></p>
                                 <?php endif; ?>
-                                <div class="AdquirirLibroSolo">
-                                    <?php if ($is_logged_in && $book['ownerid'] != $_SESSION['user_id']): ?>
-                                        <a href="pickedbook.php?id=<?= $book['id'] ?>">Adquirir</a>
-                                    <?php elseif (!$is_logged_in): ?>
-                                        <a href="login.php">Inicia sesión para adquirir</a>
-                                    <?php endif; ?>
-                                </div>
                             </div>
+
+                            <div class="boton">
+                                <?php if ($is_logged_in && $book['ownerid'] != $_SESSION['user_id']): ?>
+                                    <a href="pickedbook.php?id=<?= $book['id'] ?>">ADQUIRIR</a>
+                                <?php elseif (!$is_logged_in): ?>
+                                    <a href="login.php">INICIA SESIÓN</a>
+                                <?php endif; ?>
+                            </div>
+
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
