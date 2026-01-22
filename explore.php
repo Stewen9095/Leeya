@@ -149,7 +149,6 @@ if (isset($_SESSION['user_id'])) {
 <body>
 
     <nav>
-
         <a href="index.php" class="image-logo">
             <div class="content">LEEYA</div>
         </a>
@@ -225,9 +224,7 @@ if (isset($_SESSION['user_id'])) {
             </a>
 
         <?php endif; ?>
-
     </nav>
-
 
     <style>
         .circle1 {
@@ -322,24 +319,46 @@ if (isset($_SESSION['user_id'])) {
                 width: auto;
                 margin: 0 auto;
             }
-
         }
     </style>
 
     </nav>
 
+    <style>
+        main {
+            max-width: 1440px;
+            min-width: 200px;
+            width: 96%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            margin: 2.8rem auto 0 auto;
+            padding: 2rem 0 0 0;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media(max-width: 750px) {
+
+            main {
+                flex-direction: column;
+                margin: 2rem auto 0 auto;
+                width: 92%;
+                height: auto;
+                padding: 0;
+            }
+        }
+    </style>
+
     <main>
 
         <?php
-
         $search = trim($_GET['search'] ?? '');
         $type = trim($_GET['type'] ?? '');
         $search_user = trim($_GET['search_user'] ?? '');
         $exclude_user_id = $is_logged_in ? $_SESSION['user_id'] : null;
-
         // Libros filtrados
         $books = searchBooks($search, $type, $exclude_user_id);
-
         // Usuarios filtrados
         $users = [];
         if ($search_user !== '') {
@@ -347,311 +366,306 @@ if (isset($_SESSION['user_id'])) {
         }
         ?>
 
-        <!-- Barra de filtros -->
-        <div style="max-width:1100px;margin:2vw auto 0 auto;">
-            <form method="get"
-                style="width:100%;margin-bottom:2vw;display:flex;gap:1vw;flex-wrap:wrap;justify-content:center;">
-                <input type="text" name="search" value="<?= htmlspecialchars($search) ?>"
-                    placeholder="Buscar libro por título, autor o género..."
-                    style="flex:2;padding:0.8vw 1vw;border-radius:1vw;border:none;font-size:1.1vw;">
-                <select name="type" style="flex:1;padding:0.8vw 1vw;border-radius:1vw;border:none;font-size:1.1vw;">
-                    <option value="">Todos</option>
-                    <option value="Donacion" <?= $type == 'Donacion' ? 'selected' : ''; ?>>Donación</option>
-                    <option value="Venta" <?= $type == 'Venta' ? 'selected' : ''; ?>>Venta</option>
-                    <option value="Intercambio" <?= $type == 'Intercambio' ? 'selected' : ''; ?>>Intercambio</option>
-                    <option value="Subasta" <?= $type == 'Subasta' ? 'selected' : ''; ?>>Subasta</option>
-                </select>
-                <button type="submit"
-                    style="background:#001aaf;color:#fff;border:none;padding:0.8vw 2vw;border-radius:1vw;font-size:1.1vw;cursor:pointer;">Buscar
-                    libro</button>
-            </form>
-            <form method="get"
-                style="width:100%;margin-bottom:2vw;display:flex;gap:1vw;flex-wrap:wrap;justify-content:center;">
-                <input type="text" name="search_user" value="<?= htmlspecialchars($search_user) ?>"
-                    placeholder="Buscar usuario por nombre..."
-                    style="flex:2;padding:0.8vw 1vw;border-radius:1vw;border:none;font-size:1.1vw;">
-                <button type="submit"
-                    style="background:#001aaf;color:#fff;border:none;padding:0.8vw 2vw;border-radius:1vw;font-size:1.1vw;cursor:pointer;">Buscar
-                    usuario</button>
-            </form>
-        </div>
+        <style>
+            .filtros {
+                width: 92%;
+                padding-top: clamp(3rem, 8vh, 4.2rem);
+                padding-bottom: clamp(3rem, 8vh, 4.2rem);
+                box-sizing: border-box;
+            }
 
-        <!-- Resultados de usuarios -->
-        <?php if (!empty($users)): ?>
-            <h2 style="color:#fff;text-align:center;width:100%;">Usuarios encontrados</h2>
-            <div class="bookbox-container">
-                <?php foreach ($users as $user): ?>
-                    <div class="fullbook">
-                        <div class="bookbox" style="background:#eaeaea;display:flex;align-items:center;justify-content:center;">
-                            <img src="img/user.png" alt="Usuario"
-                                style="width:60px;height:60px;border-radius:50%;background:#fff;">
-                        </div>
-                        <div class="infolibro">
-                            <h3 class="TituloLibro"><?= htmlspecialchars($user['name']) ?></h3>
-                            <p style="font-size:0.95vw;color:#555;margin:0 0 0.5vw 0;"><b>Email:</b>
-                                <?= htmlspecialchars($user['email']) ?></p>
-                            <p style="font-size:0.95vw;color:#555;margin:0 0 0.5vw 0;"><b>Ubicación:</b>
-                                <?= htmlspecialchars($user['location']) ?></p>
-                            <p style="font-size:0.95vw;color:#555;margin:0 0 0.5vw 0;"><b>Descripción:</b>
-                                <?= htmlspecialchars($user['lildescription']) ?></p>
-                            <div class="AdquirirLibro">
-                                <a href="pickeduser.php?id=<?= $user['id'] ?>">Ver perfil</a>
-                            </div>
-                            <div class="Contactar">
-                                <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($user['email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
-                                    target="_blank">
-                                    Contactar
-                                </a>
-                            </div>
-                        </div>
+            .filtrolibros {
+                width: 100%;
+                box-sizing: border-box;
+                margin-bottom: clamp(.8rem, 3vh, 1.4rem);
+
+                form {
+                    width: 100%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    flex-direction: row;
+                    box-sizing: border-box;
+                    gap: clamp(.6rem, 4vh, 1rem);
+
+                    div:first-child {
+                        display: flex;
+                        flex: 1 1 400px;
+                    }
+
+                    div:nth-child(2) {
+                        display: flex;
+                        flex: 1 1 400px;
+
+                        select {
+                            width: 100%;
+                            font-size: clamp(.8rem, 2vh, 1.2rem);
+                            font-family: 'HovesDemiBold';
+                            color: #333333;
+                            border: 1px solid rgba(99, 99, 99, 0.37);
+                            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                            border-radius: clamp(.5rem, 8vh, 1.2rem);
+                            padding: 0 2rem 0 1rem;
+                            height: clamp(1.6rem, 8vh, 2.2rem);
+                        }
+                    }
+
+                    div:last-child {
+                        flex: 1 1 180px;
+                        display: flex;
+
+                        button {
+                            width: 100%;
+                            font-size: clamp(.8rem, 2vh, 1.2rem);
+                            font-family: 'HovesDemiBold';
+                            color: #333333;
+                            border: 1px solid rgba(99, 99, 99, 0.37);
+                            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                            border-radius: clamp(.5rem, 8vh, 1.2rem);
+                            background-color: #aaaaaa88;
+                            height: clamp(1.6rem, 8vh, 2.2rem);
+                        }
+                    }
+
+                }
+
+            }
+
+            .filtrousuarios {
+                width: 100%;
+                box-sizing: border-box;
+                gap: clamp(.6rem, 4vh, 1rem);
+
+                form {
+                    width: 100%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    flex-direction: row;
+                    box-sizing: border-box;
+                    gap: clamp(.6rem, 4vh, 1rem);
+
+                    div:first-child {
+                        display: flex;
+                        flex: 1 1 450px;
+                        width: 100%;
+                    }
+
+                    div:last-child {
+                        display: flex;
+                        flex: 1 1 450px;
+                        width: 100%;
+
+                        button {
+                            width: 100%;
+                            font-size: clamp(.8rem, 2vh, 1.2rem);
+                            font-family: 'HovesDemiBold';
+                            color: #333333;
+                            border: 1px solid rgba(99, 99, 99, 0.37);
+                            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                            border-radius: clamp(.5rem, 8vh, 1.2rem);
+                            background-color: #aaaaaa88;
+                            height: clamp(1.6rem, 8vh, 2.2rem);
+                        }
+                    }
+                }
+
+            }
+
+            .form-control {
+                width: 100%;
+                height: clamp(1.6rem, 8vh, 2.2rem);
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                border-radius: clamp(.5rem, 8vh, 1.2rem);
+                background-color: #d8d8d888;
+                backdrop-filter: blur(5px);
+                box-sizing: border-box;
+                padding: 0 2rem 0 1rem;
+                text-overflow: ellipsis;
+                font-family: 'HovesDemiBold';
+                color: #333333;
+                font-size: clamp(.8rem, 2vh, 1.2rem);
+            }
+        </style>
+
+        <div class="filtros">
+
+            <div class="filtrolibros">
+                <form method="get">
+                    <div>
+                        <input class="form-control" type="text" name="search" value="<?= htmlspecialchars($search) ?>"
+                            placeholder="Buscar libro por título, autor o género...">
                     </div>
-                <?php endforeach; ?>
+                    <div>
+                        <select name="type">
+                            <option value="">Todos</option>
+                            <option value="Donacion" <?= $type == 'Donacion' ? 'selected' : ''; ?>>Donación</option>
+                            <option value="Venta" <?= $type == 'Venta' ? 'selected' : ''; ?>>Venta</option>
+                            <option value="Intercambio" <?= $type == 'Intercambio' ? 'selected' : ''; ?>>Intercambio
+                            </option>
+                            <option value="Subasta" <?= $type == 'Subasta' ? 'selected' : ''; ?>>Subasta</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit">Buscar libro</button>
+                    </div>
+                </form>
             </div>
-        <?php endif; ?>
 
-        <!-- Resultados de libros -->
-        <h2 style="color:#fff;text-align:center;width:100%;">Libros disponibles</h2>
-        <div class="bookbox-container">
-            <?php if (empty($books)): ?>
-                <h2 style="color:#fff;text-align:center;width:100%;">No se encontraron libros disponibles.</h2>
-            <?php else: ?>
-                <?php foreach ($books as $book): ?>
-                    <div class="fullbook">
-                        <div class="bookbox">
-                            <div class="functionsbook">
-                                <h3 class="statusbook"><?= htmlspecialchars($book['typeof']) ?></h3>
-                            </div>
-                            <div class="imagenbox">
-                                <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Libro publicado">
-                            </div>
-                        </div>
-                        <div class="infolibro">
-                            <h3 class="TituloLibro"><?= htmlspecialchars($book['name']) ?></h3>
-                            <p style="font-size:0.95vw;color:black;margin:0 0 0.3vw 0;"><b>Autor:</b>
-                                <?= htmlspecialchars($book['author']) ?></p>
-                            <p style="font-size:0.95vw;color:#555;margin:0 0 0.3vw 0;"><b>Género:</b>
-                                <?= htmlspecialchars($book['genre']) ?></p>
-                            <p style="font-size:0.95vw;color:#555;margin:0 0 0.3vw 0;"><b>Editorial:</b>
-                                <?= htmlspecialchars($book['editorial']) ?></p>
-                            <p style="font-size:0.95vw;color:#555;margin:0 0 0.3vw 0;"><b>Publicado por:</b>
-                                <?= htmlspecialchars($book['owner_name']) ?></p>
-                            <?php if ($book['price'] !== null): ?>
-                                <h4 class="PrecioLibro">$<?= htmlspecialchars($book['price']) ?></h4>
-                            <?php elseif ($book['price'] == null): ?>
-                                <h4 class="PrecioLibro">($) No aplica</h4>
-                            <?php endif; ?>
-                            <div class="AdquirirLibroSolo">
-                                <?php if ($is_logged_in && $book['ownerid'] != $_SESSION['user_id']): ?>
-                                    <a href="pickedbook.php?id=<?= $book['id'] ?>">Adquirir</a>
-                                <?php elseif (!$is_logged_in): ?>
-                                    <a href="login.php">Inicia sesión para adquirir</a>
-                                <?php endif; ?>
-                            </div>
-                        </div>
+            <div class="filtrousuarios">
+                <form method="get">
+                    <div>
+                        <input class="form-control" type="text" name="search_user"
+                            value="<?= htmlspecialchars($search_user) ?>" placeholder="Buscar usuario por nombre...">
                     </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                    <div>
+                        <button type="submit">Buscar
+                            usuario</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <style>
-            .bookbox-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 2.2vw;
-                justify-content: center;
-                align-items: stretch;
+            .resulusuarios {
                 width: 100%;
-                padding-top: 2vw;
-                padding-bottom: 4vw;
+                background-color: red;
                 box-sizing: border-box;
+
+                >h2{
+                    padding: 0;
+                    margin: 0;
+                    margin: 0 auto;
+                    text-align: center;
+                }
+
+                .bookbox-container {
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    background-color: #d8d8d888;
+                    backdrop-filter: blur(8px);
+                    width: 100%;
+                    padding: clamp(.8rem, 2vw, 2.2rem);
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: clamp(.8rem, 4vh, 1.5rem);
+                    border-radius: clamp(1rem, 1.5vw, 2rem);
+                    box-sizing: border-box;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                }
+
+                .fullbook {
+                    flex: 1 1 380px;
+                    background-color: #d8d8d888;
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    box-sizing: border-box;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    justify-items: center;
+                    border-radius: clamp(15px, 1.8vw, 22px);
+                    align-items: center;
+                    align-content: stretch;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                    justify-items: center;
+                }
             }
 
-            .PrecioLibro {
-                margin: 0 0 0.2vw 0;
-                min-height: 1.5em;
-                color: #222;
-                font-size: 1vw;
-                top: 0;
-            }
-
-            .fullbook {
-                background: #fff;
-                border-radius: 1vw;
-                box-shadow: 0 0.5vw 2vw rgba(0, 0, 0, 0.08);
-                width: 20.5vw;
-                min-width: 180px;
-                max-width: 98vw;
-                display: flex;
-                flex-direction: column;
-                align-items: stretch;
-                min-height: 32vw;
-                margin-bottom: 2vw;
-                overflow: hidden;
-            }
-
-            .bookbox {
+            .resullibros {
                 width: 100%;
-                aspect-ratio: 1/1.2;
-                border-radius: 1vw;
-                background: linear-gradient(to bottom,
-                        #ffffff 0%,
-                        #ebebebff 95%);
-                position: relative;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .imagenbox {
-                width: 80%;
-                height: 80%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: auto;
-            }
-
-            .imagenbox img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                border-radius: 1vw;
-            }
-
-            .infolibro {
-                padding: 0.6vw 2vw 0.2vw 2vw;
-                width: 100%;
-                flex: 1 1 auto;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: flex-start;
+                background-color: orange;
                 box-sizing: border-box;
-                gap: 0;
-            }
-
-            .functionsbook {
-                background-color: #000080;
-                position: absolute;
-                top: 1.2rem;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-                width: 55%;
-                height: 12%;
-                border-radius: 1rem;
-            }
-
-
-            .functionsbook img {
-                width: 1.5rem;
-            }
-
-            .statusbook {
-                font-size: 1rem;
-                color: white;
-            }
-
-            .PrecioLibro {
-                margin: 0;
-                padding: 0;
-            }
-
-            .TituloLibro {
-                font-size: 1.2vw;
-                font-family: "HovesMedium";
-                font-weight: bold;
-                margin: 0 0 0.2vw 0;
-                width: 100%;
-                height: 20%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                margin-top: 0.2rem;
-                color: black;
-            }
-
-            .AdquirirLibro {
-                margin-top: 0.8vw;
-                width: 100%;
-                top: 0;
-                display: flex;
-                justify-content: flex-end;
-            }
-
-            .AdquirirLibro a {
-                text-decoration: none;
-                color: #fff;
-                background-color: #000080;
-                padding: 0.4vw 1vw;
-                border-radius: 0.5vw;
-                transition: background 0.8s;
-                font-size: 1vw;
-                margin-bottom: 0.4vw;
-                font-family: "HovesDemiBold";
-            }
-
-            .AdquirirLibro a:hover {
-                background-color: #fff;
-                color: #000080;
-            }
-
-            .AdquirirLibroSolo {
-                margin-top: 0.8vw;
-                width: 100%;
-                top: 0;
-                display: flex;
-                justify-content: flex-end;
-            }
-
-            .AdquirirLibroSolo a {
-                text-decoration: none;
-                color: #fff;
-                background-color: #000080;
-                padding: 0.4vw 1vw;
-                border-radius: 0.5vw;
-                transition: background 0.8s;
-                font-size: 1vw;
-                margin-bottom: 1.8vw;
-                font-family: "HovesDemiBold";
-            }
-
-            .AdquirirLibroSolo a:hover {
-                background-color: #fff;
-                color: #000080;
-            }
-
-            .Contactar {
-                margin-top: 0.8vw;
-                width: 100%;
-                top: 0;
-                display: flex;
-                justify-content: flex-end;
-            }
-
-            .Contactar a {
-                text-decoration: none;
-                color: #fff;
-                background-color: #000080;
-                padding: 0.4vw 1vw;
-                border-radius: 0.5vw;
-                transition: background 0.8s;
-                font-size: 1vw;
-                margin-bottom: 1.8vw;
-                font-family: "HovesDemiBold";
-            }
-
-            .Contactar a:hover {
-                background-color: #fff;
-                color: #000080;
-            }
-
-            h2 {
-                margin-top: 3.5rem;
-                margin-bottom: 1rem;
             }
         </style>
+
+        <div class="resulusuarios">
+            <?php if (!empty($users)): ?>
+                <h2>Usuarios encontrados</h2>
+                <div class="bookbox-container">
+                    <?php foreach ($users as $user): ?>
+                        <div class="fullbook">
+                            <div class="bookbox">
+                                <svg width="130px" height="130px" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" stroke="#333333">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                                            stroke="#333333" stroke-width="2.136" stroke-linecap="round"
+                                            stroke-linejoin="round"></path>
+                                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="#333333"
+                                            stroke-width="2.136" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="infolibro">
+                                <h3 class="TituloLibro"><?= htmlspecialchars($user['name']) ?></h3>
+                                <p><b>Email:</b>
+                                    <?= htmlspecialchars($user['email']) ?></p>
+                                <p><b>Ubicación:</b>
+                                    <?= htmlspecialchars($user['location']) ?></p>
+                                <p><b>Descripción:</b>
+                                    <?= htmlspecialchars($user['lildescription']) ?></p>
+                                <div class="AdquirirLibro">
+                                    <a href="pickeduser.php?id=<?= $user['id'] ?>">Ver perfil</a>
+                                </div>
+                                <div class="Contactar">
+                                    <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($user['email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
+                                        target="_blank">
+                                        Contactar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="resullibros">
+            <!-- Resultados de libros -->
+            <h2>Libros disponibles</h2>
+            <div class="bookbox-container">
+                <?php if (empty($books)): ?>
+                    <h2>No se encontraron libros disponibles.</h2>
+                <?php else: ?>
+                    <?php foreach ($books as $book): ?>
+                        <div class="fullbook">
+                            <div class="bookbox">
+                                <div class="functionsbook">
+                                    <h3 class="statusbook"><?= htmlspecialchars($book['typeof']) ?></h3>
+                                </div>
+                                <div class="imagenbox">
+                                    <img src="<?= htmlspecialchars($book['bookpic']) ?>" alt="Libro publicado">
+                                </div>
+                            </div>
+                            <div class="infolibro">
+                                <h3 class="TituloLibro"><?= htmlspecialchars($book['name']) ?></h3>
+                                <p><b>Autor:</b>
+                                    <?= htmlspecialchars($book['author']) ?></p>
+                                <p><b>Género:</b>
+                                    <?= htmlspecialchars($book['genre']) ?></p>
+                                <p><b>Editorial:</b>
+                                    <?= htmlspecialchars($book['editorial']) ?></p>
+                                <p><b>Publicado por:</b>
+                                    <?= htmlspecialchars($book['owner_name']) ?></p>
+                                <?php if ($book['price'] !== null): ?>
+                                    <h4 class="PrecioLibro">$<?= htmlspecialchars($book['price']) ?></h4>
+                                <?php elseif ($book['price'] == null): ?>
+                                    <h4 class="PrecioLibro">($) No aplica</h4>
+                                <?php endif; ?>
+                                <div class="AdquirirLibroSolo">
+                                    <?php if ($is_logged_in && $book['ownerid'] != $_SESSION['user_id']): ?>
+                                        <a href="pickedbook.php?id=<?= $book['id'] ?>">Adquirir</a>
+                                    <?php elseif (!$is_logged_in): ?>
+                                        <a href="login.php">Inicia sesión para adquirir</a>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </div>
 
     </main>
 
