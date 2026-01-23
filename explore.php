@@ -744,7 +744,7 @@ if (isset($_SESSION['user_id'])) {
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                     justify-items: center;
                     padding: clamp(15px, 1.8vw, 22px);
-                    min-width: 0;
+                    max-width: 100%;
 
                     .bookbox {
                         width: 90%;
