@@ -338,16 +338,6 @@ if (isset($_SESSION['user_id'])) {
             align-items: center;
         }
 
-        @media(max-width: 750px) {
-
-            main {
-                flex-direction: column;
-                margin: 2rem auto 0 auto;
-                width: 92%;
-                height: auto;
-                padding: 0;
-            }
-        }
     </style>
 
     <main>
@@ -739,7 +729,7 @@ if (isset($_SESSION['user_id'])) {
                 }
 
                 .fullbook {
-                    flex: 1 1 380px;
+                    flex: 1 1 320px;
                     background-color: #d8d8d888;
                     border: 1px solid rgba(99, 99, 99, 0.37);
                     box-sizing: border-box;
@@ -750,10 +740,11 @@ if (isset($_SESSION['user_id'])) {
                     align-items: center;
                     border-radius: clamp(15px, 1.8vw, 22px);
                     align-items: center;
-                    align-content: stretch;
+                    align-content: center;
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                     justify-items: center;
                     padding: clamp(15px, 1.8vw, 22px);
+                    max-width: 100%;
 
                     .bookbox {
                         width: 90%;
@@ -765,6 +756,7 @@ if (isset($_SESSION['user_id'])) {
                         border-radius: clamp(15px, 1.8vw, 22px);
                         border: 1px solid rgba(99, 99, 99, 0.37);
                         overflow: hidden;
+                        box-sizing: border-box;
 
                         img {
                             width: auto;

@@ -368,7 +368,7 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
 
         <style>
             .cabecera {
-                width: 100%;
+                width: 92%;
                 margin-top: clamp(1.4rem, 3vw, 2.5rem);
                 color: #333333;
                 text-align: justify;
@@ -377,7 +377,7 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
             }
 
             .prophice {
-                width: 100%;
+                width: 95%;
                 display: flex;
                 flex-wrap: wrap;
                 gap: clamp(.8rem, 4vh, 1.5rem);
@@ -396,6 +396,7 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
                 justify-content: space-between;
                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                 background-color: #64646425;
+                max-width: 100%;
             }
 
             .box1item {
@@ -588,7 +589,7 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
 
         <style>
             .proprecibi {
-                width: 100%;
+                width: 95%;
                 display: flex;
                 flex-wrap: wrap;
                 gap: clamp(.8rem, 4vh, 1.5rem);
