@@ -686,7 +686,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                 }
 
                 .datosedicion {
-                    padding: clamp(.6rem, 6vh, 1.2rem) clamp(1rem, 10vh, 1.8rem) clamp(.4rem, 2vh, .8rem) clamp(1rem, 10vh, 1.8rem);
+                    padding: clamp(.6rem, 6vh, 1.2rem) clamp(.6rem, 6vh, 1.2rem) clamp(.4rem, 2vh, .8rem) clamp(.6rem, 6vh, 1.2rem);
                     width: 100%;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -1026,7 +1026,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                             <div class="form-group">
                                 <?php if ($book['typeof'] === 'Venta' || $book['typeof'] === 'Subasta'): ?>
                                     <label>Precio:</label>
-                                    <input type="number" name="price" min="0" step="any"
+                                    <input class="form-control" type="number" name="price" min="0" step="any"
                                         value="<?= htmlspecialchars($book['price']) ?>">
                                 <?php endif; ?>
                             </div>
