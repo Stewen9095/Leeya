@@ -479,6 +479,7 @@ function getSentProposals($user_id)
 {
     try {
         $pdo = getDBConnection();
+        $week_ago = date('Y-m-d', strtotime('-7 days'));
         $stmt = $pdo->prepare("
             SELECT 
                 p.*, 
@@ -497,6 +498,7 @@ function getSentProposals($user_id)
             JOIN user u ON b.ownerid = u.id
             WHERE 
                 p.interested = ?
+                AND DATE(p.proposaldate) >= ?
                 AND (
                     b.status = 1
                     OR (b.status = 0 AND p.status = 'Finalizada')
@@ -505,7 +507,7 @@ function getSentProposals($user_id)
                 AND (p.status = 'En proceso' OR p.status = 'Finalizada' OR p.status = 'Rechazada')
             ORDER BY p.id DESC
         ");
-        $stmt->execute([$user_id]);
+        $stmt->execute([$user_id, $week_ago]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         error_log("Error al obtener propuestas enviadas: " . $e->getMessage());
@@ -518,6 +520,7 @@ function getReceivedProposals($user_id)
 {
     try {
         $pdo = getDBConnection();
+        $week_ago = date('Y-m-d', strtotime('-7 days'));
         $stmt = $pdo->prepare("
             SELECT 
                 p.*, 
@@ -535,6 +538,7 @@ function getReceivedProposals($user_id)
             JOIN user u ON p.interested = u.id
             WHERE 
                 b.ownerid = ?
+                AND DATE(p.proposaldate) >= ?
                 AND (
                     b.status = 1
                     OR (b.status = 0 AND p.status = 'Finalizada')
@@ -542,7 +546,7 @@ function getReceivedProposals($user_id)
                 AND (p.status = 'En proceso' OR p.status = 'Finalizada' OR p.status = 'Rechazada')
             ORDER BY p.id DESC
         ");
-        $stmt->execute([$user_id]);
+        $stmt->execute([$user_id, $week_ago]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         error_log("Error al obtener propuestas recibidas: " . $e->getMessage());
@@ -578,6 +582,24 @@ function finalizeProposal($proposal_id)
     } catch (PDOException $e) {
         error_log("Error al finalizar propuesta: " . $e->getMessage());
         return false;
+    }
+}
+
+// Cancelar automáticamente propuestas antiguas (más de 7 días sin actualizar)
+function cancelOldProposals()
+{
+    try {
+        $pdo = getDBConnection();
+        $week_ago = date('Y-m-d', strtotime('-7 days'));
+        $stmt = $pdo->prepare("
+            UPDATE proposal 
+            SET status = 'Cancelada' 
+            WHERE status = 'En proceso' 
+            AND DATE(proposaldate) < ?
+        ");
+        $stmt->execute([$week_ago]);
+    } catch (PDOException $e) {
+        error_log("Error al cancelar propuestas antiguas: " . $e->getMessage());
     }
 }
 

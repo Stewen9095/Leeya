@@ -10,6 +10,7 @@ $user_role = '';
 
 refreshSessionUser();
 updateExpiredAuctions();
+cancelOldProposals();
 
 if (isLoggedIn()) {
 
@@ -71,6 +72,10 @@ if (isset($_SESSION['action_message'])) {
 $sent_proposals = getSentProposals($_SESSION['user_id']);
 $received_proposals = getReceivedProposals($_SESSION['user_id']);
 
+$pending_counts = getPendingProposalsCount($_SESSION['user_id']);
+$total_pending = $pending_counts['sent'] + $pending_counts['received'];
+$badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
+
 ?>
 
 <!DOCTYPE html>
@@ -86,323 +91,594 @@ $received_proposals = getReceivedProposals($_SESSION['user_id']);
 
 <body>
 
-    <header>
 
-        <?php
-        $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
-        $total_pending = $pending_counts['sent'] + $pending_counts['received'];
-        $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
-        ?>
+    <style>
+        html {
+            background: white;
+            margin: 0;
+            padding: 0;
+        }
 
-        <nav>
-            <a href="index.php">
-                <img src="img/icono.png" class="iconoimg" alt="Leeya icono">
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'HovesDemiBold';
+            background: white;
+        }
+
+        nav {
+            position: fixed;
+            max-width: 1440px;
+            min-width: 200px;
+            width: fit-content;
+            height: auto;
+            background-color: #64646425;
+            backdrop-filter: blur(8px);
+            display: inline-flex;
+            justify-content: center;
+            align-items: stretch;
+            box-sizing: border-box;
+            left: 0;
+            right: 0;
+            margin: auto;
+            border: 1px solid rgba(99, 99, 99, 0.37);
+            border-radius: 1rem;
+            font-size: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        nav a {
+            box-sizing: border-box;
+            margin-inline: auto;
+            inset-inline: 0;
+            width: fit-content;
+            padding: .2rem .5rem;
+            margin: .3rem .3rem .3rem .3rem;
+            border: 1px solid rgba(99, 99, 99, 0.37);
+            backdrop-filter: blur(5px);
+            background-color: #d8d8d888;
+            border-radius: .6rem;
+            color: #333333;
+            text-decoration: none;
+            min-width: 140px;
+            overflow: hidden;
+            max-width: 18%;
+            max-height: 30px;
+
+            .content {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+            }
+
+        }
+
+        /* Cel */
+        @media (max-width: 750px) {
+
+            nav {
+                position: static;
+                display: flex;
+                margin-top: 30px;
+                flex-direction: column;
+                font-size: 13px;
+                border-radius: 5px;
+                padding: 2px 0;
+                width: 80%;
+                align-items: center;
+
+                a {
+                    margin: .1rem;
+                    padding: 2px 10px;
+                    width: 98%;
+                    height: 35px;
+                    border-radius: 5px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: stretch;
+                    max-width: 100%;
+                    min-height: 30px;
+                }
+
+            }
+
+        }
+    </style>
+
+
+    <nav>
+
+        <a href="index.php" class="image-logo">
+            <div class="content">LEEYA</div>
+        </a>
+
+        <?php if ($is_logged_in):
+
+            $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
+            $total_pending = $pending_counts['sent'] + $pending_counts['received'];
+            $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
+            ?>
+
+            <a href="explore.php">
+                <div class="content">EXPLORAR</div>
             </a>
-            <div class="nav-btns">
 
-                <a href="explore.php">
-                    <h3>EXPLORAR</h3>
-                </a>
+            <a href="newbook.php" class="plus">
+                <div class="content">+</div>
+            </a>
 
-                <?php if ($is_logged_in): ?>
-                    <a href="newbook.php">
-                        <h3>+</h3>
-                    </a>
+        <?php elseif (!$is_logged_in): ?>
 
+            <a href="login.php">
+                <div class="content">INICIAR SESIÓN</div>
+            </a>
 
-                <?php elseif (!$is_logged_in): ?>
+        <?php endif; ?>
 
-                    <a href="login.php">
-                        <h3>INICIAR SESIÓN</h3>
-                    </a>
+        <?php if ($is_logged_in): ?>
 
-                <?php endif; ?>
+            <a class="circle2" href="user.php">
+                <svg class="esuve2" width="256px" height="256px" viewBox="0 0 28.00 28.00" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" stroke="#333333" stroke-width="0.14">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#e6e6e6"
+                        stroke-width="2.632">
+                        <path clip-rule="evenodd"
+                            d="M13.9991 2C10.6405 2 7.88924 4.6739 7.88924 8.00723C7.88924 10.1497 9.02582 12.0197 10.7297 13.0825C5.95609 14.5248 2.41965 19.0144 2.00617 24.0771C1.91662 25.1735 2.81571 26 3.81688 26H24.1831C25.1843 26 26.0834 25.1735 25.9938 24.0771C25.5803 19.014 22.0433 14.524 17.2691 13.0821C18.9726 12.0193 20.109 10.1494 20.109 8.00723C20.109 4.6739 17.3577 2 13.9991 2ZM9.74071 8.00723C9.74071 5.72598 11.6315 3.84838 13.9991 3.84838C16.3667 3.84838 18.2575 5.72598 18.2575 8.00723C18.2575 10.2885 16.3667 12.1661 13.9991 12.1661C11.6315 12.1661 9.74071 10.2885 9.74071 8.00723ZM4.95086 24.1516C4.36361 24.1516 3.89887 23.6462 4.01091 23.0697C4.94115 18.2837 9.09806 14.4476 14 14.4476C18.902 14.4476 23.0589 18.2837 23.9891 23.0697C24.1011 23.6462 23.6364 24.1516 23.0492 24.1516H4.95086Z"
+                            fill="#333333" fill-rule="evenodd"></path>
+                    </g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path clip-rule="evenodd"
+                            d="M13.9991 2C10.6405 2 7.88924 4.6739 7.88924 8.00723C7.88924 10.1497 9.02582 12.0197 10.7297 13.0825C5.95609 14.5248 2.41965 19.0144 2.00617 24.0771C1.91662 25.1735 2.81571 26 3.81688 26H24.1831C25.1843 26 26.0834 25.1735 25.9938 24.0771C25.5803 19.014 22.0433 14.524 17.2691 13.0821C18.9726 12.0193 20.109 10.1494 20.109 8.00723C20.109 4.6739 17.3577 2 13.9991 2ZM9.74071 8.00723C9.74071 5.72598 11.6315 3.84838 13.9991 3.84838C16.3667 3.84838 18.2575 5.72598 18.2575 8.00723C18.2575 10.2885 16.3667 12.1661 13.9991 12.1661C11.6315 12.1661 9.74071 10.2885 9.74071 8.00723ZM4.95086 24.1516C4.36361 24.1516 3.89887 23.6462 4.01091 23.0697C4.94115 18.2837 9.09806 14.4476 14 14.4476C18.902 14.4476 23.0589 18.2837 23.9891 23.0697C24.1011 23.6462 23.6364 24.1516 23.0492 24.1516H4.95086Z"
+                            fill="#333333" fill-rule="evenodd"></path>
+                    </g>
+                </svg>
+            </a>
 
-                <?php if ($is_logged_in): ?>
+            <style>
+                .circle1 {
+                    min-width: 25px;
+                    max-width: 30px;
+                    width: 100%;
+                    height: auto;
+                    padding: 0;
+                    display: flex;
+                    position: relative;
+                    align-items: center;
+                    justify-content: center;
+                    border: none;
+                    background-color: #d8d8d888;
+                    border: 1px solid rgba(99, 99, 99, 0.37);
 
-                    <a class="circle" href="myproposals.php" style="position:relative;">
-                        <img src="img/noti.png" alt="Notificación" class="noti-icon">
-                        <?php if ($badge_text): ?>
-                            <span style="
-                                position:absolute;
-                                top:-0.3rem; right:-0.3rem;
-                                background:#ff2d55;
-                                color:#fff;
-                                font-size:0.85rem;
-                                font-family:'HovesExpandedBold';
-                                border-radius:1rem;
-                                padding:0.15rem 0.5rem;
-                                min-width:1.5rem;
-                                text-align:center;
-                                box-shadow:0 0 0.2rem #0005;
-                                z-index:2;
-                            "><?= $badge_text ?></span>
-                        <?php endif; ?>
-                    </a>
-
-                    <a class="circle" href="user.php">
-                        <img src="img/user.png" alt="Usuario" class="user">
-                    </a>
-
-                <?php endif; ?>
-
-                <style>
-                    html {
-                        font-size: 15px;
-                    }
-
-                    body {
-                        margin: 0;
-                        font-family: 'HovesDemiBoldItalic';
-                        background: #000;
-                    }
-
-                    header {
-                        background: transparent;
-                        box-shadow: none;
-                    }
-
-                    nav {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        gap: clamp(1rem, 3vw, 2.5rem);
-                        width: 75vw;
-                        max-width: 75vw;
-                        min-width: 18rem;
-                        margin-left: auto;
-                        margin-right: auto;
-                        padding: 3.2rem 0rem 2.8rem 0rem;
-                        font-family: 'HovesExpandedBold';
-                        box-sizing: border-box;
-                    }
-
-                    .iconoimg {
-                        height: 3.5rem;
+                    .esuve {
+                        height: 100%;
                         width: auto;
-                        margin-right: -1.5rem;
-                        padding-bottom: 0.5rem;
+                        max-height: 100%;
                     }
 
-                    .nav-btns {
-                        display: flex;
-                        gap: 0.5rem;
-                        align-items: center;
-                        background: #000080;
-                        border-radius: 2rem;
-                        padding: 0.3rem 0.5rem;
+                    .numnoti {
+                        position: absolute;
+                        margin: auto;
+                        padding: 3px 1px 0 0;
+                        color: #202020;
+                        font-size: clamp(.4rem, 1.2vh, .6rem);
                     }
+                }
 
-                    .nav-btns a {
-                        text-decoration: none;
-                        background: #001aafff;
-                        color: #fff;
-                        font-size: 1.1rem;
-                        border-radius: 1.25rem;
-                        padding: 0.2rem 1rem;
-                        box-shadow: 0 0.125rem 0.5rem #0002;
-                        transition: background 0.5s;
-                        display: flex;
-                        align-items: center;
+                .circle2 {
+                    min-width: 25px;
+                    max-width: 30px;
+                    width: 100%;
+                    height: auto;
+                    padding: 0;
+                    display: flex;
+                    position: relative;
+                    align-items: center;
+                    justify-content: center;
+                    border: none;
+                    background-color: #d8d8d888;
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+
+                    .esuve2 {
+                        height: 88%;
+                        width: auto;
+                        max-height: 100%;
                     }
+                }
 
-                    .nav-btns a:hover {
-                        background: #000080;
-                    }
+                /* Cel */
+                @media (max-width: 750px) {
 
-                    .nav-btns h3 {
-                        margin: 0;
-                        display: inline;
-                        font-size: 1.05rem;
-                    }
-
-                    .nav-btns .circle {
-                        width: 2.25rem;
-                        height: 2.25rem;
-                        border-radius: 50%;
-                        background: #001aafff;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        box-sizing: border-box;
-                        transition: background 0.8s;
-                        cursor: pointer;
-                    }
-
-                    .nav-btns img {
-                        width: 1.75rem;
-                        height: 1.75rem;
-                        border-radius: 50%;
-                    }
-
-                    .nav-btns .noti-icon {
-                        width: 1.73rem !important;
-                        height: auto !important;
-                        object-fit: contain;
-                        display: block;
-                    }
-
-                    .nav-btns .user {
-                        width: 1.73rem !important;
-                        height: auto !important;
-                        object-fit: contain;
-                        display: block;
-                    }
-
-                    .nav-btns .circle {
-                        width: 2.25rem;
-                        height: 2.25rem;
-                        border-radius: 50%;
-                        background: #001aafff;
+                    .circle1 {
+                        height: auto;
+                        min-width: 97%;
+                        position: relative;
+                        padding: 0;
+                        border: none;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        box-sizing: border-box;
+                        border: 1px solid rgba(99, 99, 99, 0.37);
+                        background-color: #d8d8d881;
+                        border-radius: 5px;
                     }
 
-                    .nav-btns .circle img {
-                        width: 1.3rem;
-                        height: 1.3rem;
-                        object-fit: contain;
-                        display: block;
-                        margin: -0.1rem;
+                    .circle1 .esuve1 {
+                        max-width: 8%;
                     }
 
-                    .nav-btns .circle:hover {
-                        background: #000080;
+                    .circle2 {
+                        min-width: 97%;
+                        width: auto;
+                        position: relative;
+                        padding: 0;
+                        border: none;
+                        display: flex;
+                        background-color: transparent;
+                        align-items: center;
+                        justify-content: center;
+                        border: 1px solid rgba(99, 99, 99, 0.37);
+                        background-color: #d8d8d881;
+                        border-radius: 5px;
+
                     }
-                </style>
 
-            </div>
-        </nav>
-    </header>
+                    .circle2 .esuve2 {
+                        max-width: 8%;
+                        width: auto;
+                        margin: 0 auto;
+                    }
 
-    <?php if ($action_message): ?>
-        <div class="success-message" style="max-width:700px;margin:1rem auto;"><?= htmlspecialchars($action_message) ?>
+                }
+            </style>
+
+
+        <?php endif; ?>
+
+    </nav>
+
+
+    <style>
+        main {
+            max-width: 1440px;
+            min-width: 200px;
+            width: 96%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            margin: 2.8rem auto 0 auto;
+            padding: 2rem 0 0 0;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+
+    <main>
+
+        <div>
+            <?php if ($action_message): ?>
+                <div class="success-message"><?= htmlspecialchars($action_message) ?>
+                </div>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
 
-    <div style="max-width:700px;margin:2rem auto;">
-        <h2 style="color:#fff;">Propuestas que hice</h2>
-        <?php if (empty($sent_proposals)): ?>
-            <div class="error-message">No has realizado propuestas.</div>
-        <?php else: ?>
-            <?php foreach ($sent_proposals as $p): ?>
-                <div
-                    style="background:#001aafff;border-radius:1rem;padding:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:1.5rem;">
-                    <img src="<?= htmlspecialchars($p['bookpic']) ?>" alt="Libro"
-                        style="width:70px;height:100px;border-radius:1rem;">
-                    <div style="flex:1;">
-                        <b><?= htmlspecialchars($p['book_name']) ?></b> (<?= htmlspecialchars($p['author']) ?>)<br>
-                        <span style="color:#fff;">Tipo: <?= htmlspecialchars($p['typeof']) ?> | Precio:
-                            <?= $p['price'] !== null ? '$' . htmlspecialchars($p['price']) : 'N/A' ?></span><br>
-                        <span style="color:#fff;">Estado: <?= htmlspecialchars($p['status']) ?></span><br>
-                        <span style="color:#fff;">Dueño: <?= htmlspecialchars($p['owner_name']) ?></span>
+
+        <style>
+            .cabecera {
+                width: 100%;
+                margin-top: clamp(1.4rem, 3vw, 2.5rem);
+                color: #333333;
+                text-align: justify;
+                font-size: clamp(1.4rem, 8vh, 1.8px);
+                border-bottom: 1px solid rgba(99, 99, 99, 0.37);
+            }
+
+            .prophice {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: clamp(.8rem, 4vh, 1.5rem);
+            }
+
+            .proposal-item {
+                border-radius: clamp(8px, 1.8vw, 14px);
+                flex: 1 1 280px;
+                display: flex;
+                flex-direction: column;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                backdrop-filter: blur(8px);
+                box-sizing: border-box;
+                padding: clamp(.8rem, 4vh, 1.5rem);
+                align-items: stretch;
+                justify-content: space-between;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                background-color: #64646425;
+            }
+
+            .box1item {
+                width: 100%;
+                height: 200px;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                overflow: hidden;
+                border-radius: clamp(8px, 1.8vw, 14px);
+                box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+
+                img {
+                    height: 100%;
+                    width: auto;
+                }
+            }
+
+            .proposal-info {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                justify-content: center;
+                margin-top: clamp(.5rem, 3vh, 1rem);
+                margin-bottom: clamp(.5rem, 3vh, 1.2rem);
+
+                h3 {
+                    width: 100%;
+                    display: flex;
+                    align-items: flex-start;
+                    justify-content: center;
+                    color: #333333;
+                    margin: 0;
+                    padding: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    height: 24px;
+                    border-bottom: 1px solid rgba(99, 99, 99, 0.37);
+                    margin-bottom: clamp(.6rem, 4vh, 1.2rem);
+                }
+
+                p {
+                    width: 95%;
+                    display: flex;
+                    margin: 0 auto;
+                    padding: 0;
+                    color: #333333;
+                }
+            }
+
+            .proposal-actions {
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+                box-sizing: border-box;
+                gap: clamp(.4rem, 4vh, .8rem);
+
+                .botonaccion {
+                    flex: 1 1 250px;
+                    width: 100%;
+                    font-size: clamp(.7rem, 6vh, .9rem);
+                    font-family: 'HovesDemiBold';
+                    color: #333333;
+                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+                    border-radius: clamp(.5rem, 8vh, 1.2rem);
+                    background-color: #aaaaaa88;
+                    height: clamp(2rem, 8vh, 2.2rem);
+                    box-sizing: border-box;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-decoration: none;
+
+                    button {
+                        text-decoration: none;
+                        width: 100%;
+                        height: 100%;
+                        font-size: clamp(.7rem, 6vh, .9rem);
+                        font-family: 'HovesDemiBold';
+                        color: #333333;
+                        border-radius: clamp(.5rem, 8vh, 1.2rem);
+                        border: none;
+                        cursor: pointer;
+                        background-color: #aaaaaa00;
+                    }
+                }
+            }
+
+            .error-message {
+                background: rgba(255, 238, 238, 0.64);
+                color: #c53030af;
+                backdrop-filter: blur(5px);
+                padding: 0.2rem 1.5rem 0.2rem 1.5rem;
+                box-sizing: border-box;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                border: 1px solid #fed7d7;
+            }
+
+            .success-message {
+                background: rgba(200, 215, 255, 0.64);
+                color: #0819b6af;
+                backdrop-filter: blur(5px);
+                padding: 0.2rem 1.5rem 0.2rem 1.5rem;
+                box-sizing: border-box;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                border: 1px solid #d3dbff;
+                margin-top: clamp(2rem, 10vh, 3.8rem);
+            }
+        </style>
+
+
+        <h2 class="cabecera">Propuestas que hice</h2>
+
+        <section class="prophice">
+
+            <?php if (empty($sent_proposals)): ?>
+                <div class="error-message">No has realizado propuestas.</div>
+            <?php else: ?>
+                <?php foreach ($sent_proposals as $p): ?>
+                    <div class="proposal-item">
+
+                        <div class="box1item">
+                            <img src="<?= htmlspecialchars($p['bookpic']) ?>" alt="Libro publicado">
+                        </div>
+
+                        <div class="proposal-info">
+
+                            <h3><?= htmlspecialchars($p['book_name']) ?></h3>
+                            <p class="author"><strong>Autor: </strong> <?= htmlspecialchars($p['author']) ?></p>
+
+                            <p class="detail-item"><strong>Tipo: </strong> <?= htmlspecialchars($p['typeof']) ?></p>
+
+                            <p class="detail-item"><strong>Precio: </strong>
+                                <?= $p['price'] !== null ? '$' . htmlspecialchars($p['price']) : 'N/A' ?></p>
+
+                            <p class="detail-item"><strong>Estado de propuesta: </strong> <?= htmlspecialchars($p['status']) ?>
+                            </p>
+
+                            <p class="detail-item"><strong>Dueñ@: </strong> <?= htmlspecialchars($p['owner_name']) ?></p>
+
+                            <?php if ($p['typeof'] === 'Venta' && $p['money'] !== null): ?>
+                                <div class="proposal-amount">
+                                    <p><strong>Monto ofrecido: </strong> $<?= htmlspecialchars($p['money']) ?></p>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($p['typeof'] === 'Intercambio'): ?>
+                                <?php
+                                $exchange_books = getExchangeBooks($p['id']);
+                                if ($exchange_books):
+                                    ?>
+                                    <div class="proposal-exchange">
+                                        <p><strong>Libros ofrecidos: </strong></p>
+                                        <ul>
+                                            <?php foreach ($exchange_books as $eb): ?>
+                                                <li class="exchange-book">
+                                                    <p>- <?= htmlspecialchars($eb['name']) ?> - <?= htmlspecialchars($eb['author']) ?></p>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                        </div>
+
+                        <div class="proposal-actions">
+                            <a class="botonaccion"
+                                href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($p['owner_email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
+                                target="_blank" class="btn-contact">CONTACTAR</a>
+                            <a class="botonaccion" href="pickeduser.php?id=<?= $p['owner_id'] ?>" class="btn-profile">PERFIL DE
+                                DUEÑ@</a>
+                            <a class="botonaccion" href="pickedbook.php?id=<?= $p['book_id'] ?>" class="btn-view">VER
+                                PUBLICACIÓN</a>
+                            <?php if ($p['status'] === 'En proceso'): ?>
+                                <form class="botonaccion" method="post">
+                                    <input type="hidden" name="cancel_proposal" value="<?= $p['id'] ?>">
+                                    <button type="submit" class="btn-cancel"
+                                        onclick="return confirm('¿Cancelar esta propuesta?');">CANCELAR</button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+
                     </div>
-                    <div style="display:flex;flex-direction:column;gap:0.5rem;">
-                        <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($p['owner_email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
-                            target="_blank">
-                            Contactar
-                        </a>
-                        <a href="pickeduser.php?id=<?= $p['owner_id'] ?>">Perfil del dueño</a>
-                        <a href="pickedbook.php?id=<?= $p['book_id'] ?>">Ver publicación</a>
-                        <?php if ($p['status'] === 'En proceso'): ?>
-                            <form method="post" style="margin:0;">
-                                <input type="hidden" name="cancel_proposal" value="<?= $p['id'] ?>">
-                                <button type="submit" class="btn-cancel"
-                                    onclick="return confirm('¿Cancelar esta propuesta?');">Cancelar</button>
-                            </form>
-                        <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </section>
+
+
+        <style>
+            .proprecibi {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: clamp(.8rem, 4vh, 1.5rem);
+                margin-bottom: clamp(1rem, 6vh, 1.8rem);
+            }
+
+            .exchange-book {
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        </style>
+
+        <h2 class="cabecera">Propuestas que recibí</h2>
+
+        <section class="proprecibi">
+
+            <?php if (empty($received_proposals)): ?>
+                <div class="error-message">No has recibido propuestas.</div>
+            <?php else: ?>
+                <?php foreach ($received_proposals as $p): ?>
+                    <div class="proposal-item">
+                        <div class="box1item">
+                            <img src="<?= htmlspecialchars($p['bookpic']) ?>" alt="Libro publicado">
+                        </div>
+
+                        <div class="proposal-info">
+                            <h3><?= htmlspecialchars($p['book_name']) ?></h3>
+                            <p class="author"><?= htmlspecialchars($p['author']) ?></p>
+
+                            <p class="detail-item"><strong>Tipo: </strong> <?= htmlspecialchars($p['typeof']) ?></p>
+
+                            <p class="detail-item"><strong>Precio: </strong>
+                                <?= $p['price'] !== null ? '$' . htmlspecialchars($p['price']) : 'N/A' ?></p>
+                            <p class="detail-item"><strong>Estado de propuesta: </strong> <?= htmlspecialchars($p['status']) ?>
+                            </p>
+
+                            <p class="detail-item"><strong>Interesad@: </strong>
+                                <?= htmlspecialchars($p['interested_name']) ?></p>
+
+
+                            <?php if ($p['typeof'] === 'Venta' && $p['money'] !== null): ?>
+                                <div class="proposal-amount">
+                                    <p><strong>Monto ofrecido: </strong> $<?= htmlspecialchars($p['money']) ?></p>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($p['typeof'] === 'Intercambio'): ?>
+                                <?php
+                                $exchange_books = getExchangeBooks($p['id']);
+                                if ($exchange_books):
+                                    ?>
+                                    <div class="proposal-exchange">
+                                        <p><strong>Libros ofrecidos: </strong></p>
+                                        <ul>
+                                            <?php foreach ($exchange_books as $eb): ?>
+                                                <li class="exchange-book">
+                                                    <p>- <?= htmlspecialchars($eb['name']) ?> - <?= htmlspecialchars($eb['author']) ?></p>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="proposal-actions">
+                            <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($p['interested_email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
+                                target="_blank" class="botonaccion">CONTACTAR</a>
+                            <a href="pickeduser.php?id=<?= $p['interested_id'] ?>" class="botonaccion">PERFIL DEL INTERESADO</a>
+                            <a href="pickedbook.php?id=<?= $p['book_id'] ?>" class="botonaccion">VER PUBLICACIÓN</a>
+                            <?php if ($p['status'] === 'En proceso'): ?>
+                                <form method="post" class="botonaccion">
+                                    <input type="hidden" name="accept_proposal" value="<?= $p['id'] ?>">
+                                    <button type="submit" class="btn-save"
+                                        onclick="return confirm('¿Aceptar esta propuesta?');">ACEPTAR</button>
+                                </form>
+                                <form method="post" class="botonaccion">
+                                    <input type="hidden" name="reject_proposal" value="<?= $p['id'] ?>">
+                                    <button type="submit" class="btn-cancel"
+                                        onclick="return confirm('¿Rechazar esta propuesta?');">RECHAZAR</button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
                     </div>
-                </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </section>
 
-                <?php if ($p['typeof'] === 'Venta' && $p['money'] !== null): ?>
-                    <span style="color:#ffd700;">Monto ofrecido: $<?= htmlspecialchars($p['money']) ?></span><br>
-                <?php endif; ?>
-
-                <?php if ($p['typeof'] === 'Intercambio'): ?>
-                    <?php
-                    $exchange_books = getExchangeBooks($p['id']);
-                    if ($exchange_books):
-                        ?>
-                        <span style="color:#ffd700;">Libros ofrecidos:</span>
-                        <ul style="margin:0.3rem 0 0 0.5rem;padding:0;">
-                            <?php foreach ($exchange_books as $eb): ?>
-                                <li>
-                                    <img src="<?= htmlspecialchars($eb['bookpic']) ?>" alt="Libro"
-                                        style="width:30px;height:40px;border-radius:0.3rem;vertical-align:middle;">
-                                    <b><?= htmlspecialchars($eb['name']) ?></b> (<?= htmlspecialchars($eb['author']) ?>)
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endif; ?>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
-
-    <div style="max-width:700px;margin:2rem auto;">
-        <h2 style="color:#fff;">Propuestas que recibí</h2>
-        <?php if (empty($received_proposals)): ?>
-            <div class="error-message">No has recibido propuestas.</div>
-        <?php else: ?>
-            <?php foreach ($received_proposals as $p): ?>
-                <div
-                    style="background:#000080;border-radius:1rem;padding:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:1.5rem;">
-                    <img src="<?= htmlspecialchars($p['bookpic']) ?>" alt="Libro"
-                        style="width:70px;height:100px;border-radius:1rem;"></img>
-                    <div style="flex:1;">
-                        <b><?= htmlspecialchars($p['book_name']) ?></b> (<?= htmlspecialchars($p['author']) ?>)<br>
-                        <span style="color:#fff;">Tipo: <?= htmlspecialchars($p['typeof']) ?> | Precio:
-                            <?= $p['price'] !== null ? '$' . htmlspecialchars($p['price']) : 'N/A' ?></span><br>
-                        <span style="color:#fff;">Estado: <?= htmlspecialchars($p['status']) ?></span><br>
-                        <span style="color:#fff;">Interesado: <?= htmlspecialchars($p['interested_name']) ?></span>
-                    </div>
-                    <div style="display:flex;flex-direction:column;gap:0.5rem;">
-                        <a href="https://outlook.office.com/mail/deeplink/compose?to=<?= urlencode($p['interested_email']) ?>&subject=Consulta&body=Hola,%20estoy%20interesado%20en%20el%20libro"
-                            target="_blank">
-                            Contactar
-                        </a>
-                        <a href="pickeduser.php?id=<?= $p['interested_id'] ?>">Perfil del interesado</a>
-                        <a href="pickedbook.php?id=<?= $p['book_id'] ?>">Ver publicación</a>
-                        <?php if ($p['status'] === 'En proceso'): ?>
-                            <form method="post" style="margin:0;">
-                                <input type="hidden" name="accept_proposal" value="<?= $p['id'] ?>">
-                                <button type="submit" class="btn-save"
-                                    onclick="return confirm('¿Aceptar esta propuesta?');">Aceptar</button>
-                            </form>
-                            <form method="post" style="margin:0;">
-                                <input type="hidden" name="reject_proposal" value="<?= $p['id'] ?>">
-                                <button type="submit" class="btn-cancel"
-                                    onclick="return confirm('¿Rechazar esta propuesta?');">Rechazar</button>
-                            </form>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <?php if ($p['typeof'] === 'Venta' && $p['money'] !== null): ?>
-                    <span style="color:#ffd700;">Monto ofrecido: $<?= htmlspecialchars($p['money']) ?></span><br>
-                <?php endif; ?>
-
-                <?php if ($p['typeof'] === 'Intercambio'): ?>
-                    <?php
-                    $exchange_books = getExchangeBooks($p['id']);
-                    if ($exchange_books):
-                        ?>
-                        <span style="color:#ffd700;">Libros ofrecidos:</span>
-                        <ul style="margin:0.3rem 0 0 0.5rem;padding:0;">
-                            <?php foreach ($exchange_books as $eb): ?>
-                                <li>
-                                    <img src="<?= htmlspecialchars($eb['bookpic']) ?>" alt="Libro"
-                                        style="width:30px;height:40px;border-radius:0.3rem;vertical-align:middle;">
-                                    <b><?= htmlspecialchars($eb['name']) ?></b> (<?= htmlspecialchars($eb['author']) ?>)
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endif; ?>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
+    </main>
 
 </body>
 
