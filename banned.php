@@ -63,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
             margin: 0;
             padding: 0;
             font-family: 'HovesDemiBold';
-            background: beige;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -71,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
         }
 
         .ban-container {
-            background-color: #64646425;
+            background-color: #0808303f;
             backdrop-filter: blur(8px);
             border: 1px solid rgba(99, 99, 99, 0.37);
             border-radius: 10px;
@@ -83,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
 
         .ban-container h1 {
             margin-top: 0;
-            color: #333333;
+            color: #15152e;
         }
 
         .ban-container p {
@@ -137,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
 
 <body>
     <div class="ban-container">
-        <h1>⛔ Cuenta Banneada</h1>
+        <h1>Cuenta banneada</h1>
         <p>Lo sentimos, tu cuenta ha sido suspendida y no tienes acceso a la plataforma.</p>
         <p>Si crees que esto es un error, por favor contáctanos a través del correo de soporte.</p>
         

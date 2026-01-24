@@ -39,7 +39,7 @@ $users = getAllUsersForAdmin();
             min-width: 200px;
             width: fit-content;
             height: auto;
-            background-color: #64646425;
+            background-color: #08083069;
             backdrop-filter: blur(8px);
             display: inline-flex;
             justify-content: center;
@@ -63,7 +63,7 @@ $users = getAllUsersForAdmin();
             width: fit-content;
             padding: .2rem .5rem;
             margin: .3rem .3rem .3rem .3rem;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
             backdrop-filter: blur(5px);
             background-color: #d8d8d888;
             border-radius: .6rem;
@@ -202,16 +202,17 @@ $users = getAllUsersForAdmin();
         }
 
         .btn-view {
-            background: #0d1fc5fd;
-            color: #fff;
+            background-color: #08083069;
+            color: #333333;
+            border: 1px solid rgba(99, 99, 99, 0.37);
             padding: 0.5rem 1rem;
-            border: none;
             border-radius: 0.5rem;
             cursor: pointer;
             text-decoration: none;
             font-size: 0.9rem;
             transition: background 0.3s;
             display: inline-block;
+            box-sizing: border-box;
         }
 
         .btn-view:hover {
@@ -239,7 +240,7 @@ $users = getAllUsersForAdmin();
             text-decoration: none;
             border: 1px solid rgba(99, 99, 99, 0.37);
             backdrop-filter: blur(5px);
-            background-color: #d8d8d888;
+            background-color: #08083069;
             border-radius: .6rem;
             color: #333333;
             padding: 0.2rem 1rem;

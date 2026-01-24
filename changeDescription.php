@@ -180,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 padding: 0 0 0 0;
                 margin: 0;
                 transition: 5s;
-                color: #333333;
+                color: #15152e;
                 box-sizing: border-box;
             }
 
@@ -277,14 +277,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                     padding: 0;
                     display: block;
                     font-size: 16px;
-                    color: #333333;
+                    color: #15152e;
                 }
 
                 h1 {
                     margin: 0;
                     padding: 0;
                     font-size: 26px;
-                    color: #333333;
+                    color: #15152e;
                 }
             }
 
@@ -367,7 +367,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
 
             .auth-button {
                 width: 58%;
-                background-color: #ffffff57;
+                background-color: #08083069;
                 backdrop-filter: blur(5px);
                 padding: 2%;
                 border: none;

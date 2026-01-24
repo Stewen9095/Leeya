@@ -19,7 +19,6 @@
             margin: 0;
             padding: 0;
             font-family: 'HovesDemiBold';
-            background: beige;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -27,12 +26,12 @@
         }
 
         .ban-container {
-            background-color: #64646425;
+            background-color: #0808303f;
             backdrop-filter: blur(8px);
             border: 1px solid rgba(99, 99, 99, 0.37);
             border-radius: 10px;
             padding: 2rem;
-            width: 84%;
+            width: 90%;
             text-align: left;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.12);
             margin: clamp(1.5rem, 4vh, 2.5rem);
@@ -40,7 +39,7 @@
 
         .ban-container h1 {
             margin-top: 0;
-            color: #333333;
+            color: #15152e;
             text-align: center;
             margin-bottom: 2rem;
         }
@@ -162,7 +161,7 @@
         <p style="margin-top: 2rem; font-size: 0.9rem; color: #555555;"><strong>Nota:</strong> El incumplimiento de estas condiciones puede resultar en la suspensión o eliminación permanente de tu cuenta. Gracias por ser parte de nuestra comunidad responsable.</p>
 
         <div class="back-btn">
-            <a href="index.php">Volver al inicio</a>
+            <a href="index.php">VOLVER AL INICIO</a>
         </div>
     </div>
 </body>

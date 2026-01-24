@@ -161,7 +161,7 @@ if (isset($_SESSION['ban_message'])) {
             min-width: 200px;
             width: fit-content;
             height: auto;
-            background-color: #64646425;
+            background-color: #08083069;
             backdrop-filter: blur(8px);
             display: inline-flex;
             justify-content: center;
@@ -185,7 +185,7 @@ if (isset($_SESSION['ban_message'])) {
             width: fit-content;
             padding: .2rem .5rem;
             margin: .3rem .3rem .3rem .3rem;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
             backdrop-filter: blur(5px);
             background-color: #d8d8d888;
             border-radius: .6rem;
@@ -332,7 +332,7 @@ if (isset($_SESSION['ban_message'])) {
         justify-content: center;
         border: none;
         background-color: #d8d8d888;
-        border: 1px solid rgba(99, 99, 99, 0.37);
+        border: 1px solid rgba(99, 99, 99, 0.6);
 
         .esuve {
             height: 100%;
@@ -361,7 +361,7 @@ if (isset($_SESSION['ban_message'])) {
         justify-content: center;
         border: none;
         background-color: #d8d8d888;
-        border: 1px solid rgba(99, 99, 99, 0.37);
+        border: 1px solid rgba(99, 99, 99, 0.6);
 
         .esuve2 {
             height: 88%;
@@ -538,7 +538,7 @@ if (isset($_SESSION['ban_message'])) {
                     margin: clamp(1.6rem, 5vh, 2.6rem) auto;
                     padding: 0;
                     text-align: center;
-                    color: #333333;
+                    color: #15152e;
                 }
 
                 .resenaslista {
@@ -619,7 +619,7 @@ if (isset($_SESSION['ban_message'])) {
                             border: 1px solid rgba(99, 99, 99, 0.37);
                             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                             border-radius: clamp(.5rem, 8vh, 1.2rem);
-                            background-color: #aaaaaa88;
+                            background-color: #08083069;
                         }
 
                     }
@@ -640,7 +640,7 @@ if (isset($_SESSION['ban_message'])) {
                     margin: 0 0 clamp(1rem, 3vh, 1.6rem) 0;
                     padding: 0;
                     text-align: center;
-                    color: #333333;
+                    color: #15152e;
                 }
 
                 form {
@@ -699,7 +699,7 @@ if (isset($_SESSION['ban_message'])) {
                         border: 1px solid rgba(99, 99, 99, 0.37);
                         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                         border-radius: clamp(.5rem, 8vh, 1.2rem);
-                        background-color: #aaaaaa88;
+                        background-color: #08083069;
                     }
                 }
             }
@@ -718,7 +718,7 @@ if (isset($_SESSION['ban_message'])) {
                     margin: 0 0 clamp(1rem, 3vh, 1.6rem) 0;
                     padding: 0;
                     text-align: center;
-                    color: #333333;
+                    color: #15152e;
                 }
 
                 .admin-info {
@@ -749,7 +749,7 @@ if (isset($_SESSION['ban_message'])) {
                             border: 1px solid rgba(99, 99, 99, 0.37);
                             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                             border-radius: clamp(.5rem, 8vh, 1.2rem);
-                            background-color: #aaaaaa88;
+                            background-color: #08083069;
                         }
                     }
                 }

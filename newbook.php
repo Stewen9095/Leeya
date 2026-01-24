@@ -105,7 +105,7 @@ if (isset($_SESSION['newbook_message'])) {
             min-width: 200px;
             width: fit-content;
             height: auto;
-            background-color: #64646425;
+            background-color: #08083069;
             backdrop-filter: blur(8px);
             display: inline-flex;
             justify-content: center;
@@ -129,7 +129,7 @@ if (isset($_SESSION['newbook_message'])) {
             width: fit-content;
             padding: .2rem .5rem;
             margin: .3rem .3rem .3rem .3rem;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
             backdrop-filter: blur(5px);
             background-color: #d8d8d888;
             border-radius: .6rem;
@@ -275,7 +275,7 @@ if (isset($_SESSION['newbook_message'])) {
                     justify-content: center;
                     border: none;
                     background-color: #d8d8d888;
-                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    border: 1px solid rgba(99, 99, 99, 0.6);
 
                     .esuve {
                         height: 100%;
@@ -304,7 +304,7 @@ if (isset($_SESSION['newbook_message'])) {
                     justify-content: center;
                     border: none;
                     background-color: #d8d8d888;
-                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    border: 1px solid rgba(99, 99, 99, 0.6);
 
                     .esuve2 {
                         height: 88%;
@@ -472,6 +472,7 @@ if (isset($_SESSION['newbook_message'])) {
                     padding: 0;
                     width: 90%;
                     border-bottom: 1px solid rgba(99, 99, 99, 0.37);
+                    color: #15152e;
                 }
             }
 
@@ -596,7 +597,7 @@ if (isset($_SESSION['newbook_message'])) {
                     flex: 1 1 150px;
 
                     max-width: 100%;
-                    background-color: #d8d8d888;
+                    background-color: #08083069;
                     backdrop-filter: blur(5px);
                     padding: 1%;
                     border: none;

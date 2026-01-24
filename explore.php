@@ -68,7 +68,7 @@ if (isset($_SESSION['user_id'])) {
             min-width: 200px;
             width: fit-content;
             height: auto;
-            background-color: #64646425;
+            background-color: #08083069;
             backdrop-filter: blur(8px);
             display: inline-flex;
             justify-content: center;
@@ -92,7 +92,7 @@ if (isset($_SESSION['user_id'])) {
             width: fit-content;
             padding: .2rem .5rem;
             margin: .3rem .3rem .3rem .3rem;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
             backdrop-filter: blur(5px);
             background-color: #d8d8d888;
             border-radius: .6rem;
@@ -239,7 +239,7 @@ if (isset($_SESSION['user_id'])) {
             justify-content: center;
             border: none;
             background-color: #d8d8d888;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
 
             .esuve {
                 height: 100%;
@@ -268,7 +268,7 @@ if (isset($_SESSION['user_id'])) {
             justify-content: center;
             border: none;
             background-color: #d8d8d888;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
 
             .esuve2 {
                 height: 88%;
@@ -413,7 +413,7 @@ if (isset($_SESSION['user_id'])) {
                             border: 1px solid rgba(99, 99, 99, 0.37);
                             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                             border-radius: clamp(.5rem, 8vh, 1.2rem);
-                            background-color: #aaaaaa88;
+                            background-color: #08083069;
                             height: clamp(2rem, 8vh, 2.4rem);
                         }
                     }
@@ -443,6 +443,7 @@ if (isset($_SESSION['user_id'])) {
                         input {
                             height: clamp(2rem, 8vh, 2.4rem);
                             width: 100%;
+                            
                         }
                     }
 
@@ -459,7 +460,7 @@ if (isset($_SESSION['user_id'])) {
                             border: 1px solid rgba(99, 99, 99, 0.37);
                             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                             border-radius: clamp(.5rem, 8vh, 1.2rem);
-                            background-color: #aaaaaa88;
+                            background-color: #08083069;
                             height: clamp(2rem, 8vh, 2.4rem);
                         }
                     }
@@ -531,7 +532,7 @@ if (isset($_SESSION['user_id'])) {
                     margin: 0;
                     margin: 0 auto;
                     text-align: center;
-                    color: #333333;
+                    color: #15152e;
                 }
 
                 .bookbox-container {
@@ -632,7 +633,7 @@ if (isset($_SESSION['user_id'])) {
                                 backdrop-filter: blur(5px);
                                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                                 border-radius: clamp(.5rem, 8vh, 1.2rem);
-                                background-color: #aaaaaa88;
+                                background-color: #08083069;
 
                             }
 
@@ -708,7 +709,7 @@ if (isset($_SESSION['user_id'])) {
                     margin: 0;
                     margin: 0 auto;
                     text-align: center;
-                    color: #333333;
+                    color: #15152e;
                 }
 
                 .bookbox-container {
@@ -783,7 +784,7 @@ if (isset($_SESSION['user_id'])) {
                             width: 88%;
                             background-color: red;
                             text-align: center;
-                            background-color: #aaaaaa88;
+                            background-color: #08083031;
                         }
 
                         .TituloLibro:nth-child(2) {
@@ -836,7 +837,7 @@ if (isset($_SESSION['user_id'])) {
                             backdrop-filter: blur(5px);
                             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                             border-radius: clamp(.5rem, 8vh, 1.2rem);
-                            background-color: #aaaaaa88;
+                            background-color: #08083069;
                         }
 
                         a:visited {
@@ -845,7 +846,6 @@ if (isset($_SESSION['user_id'])) {
                             text-decoration: none;
                         }
                     }
-
 
                 }
 

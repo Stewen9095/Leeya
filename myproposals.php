@@ -112,7 +112,7 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
             min-width: 200px;
             width: fit-content;
             height: auto;
-            background-color: #64646425;
+            background-color: #08083069;
             backdrop-filter: blur(8px);
             display: inline-flex;
             justify-content: center;
@@ -136,7 +136,7 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
             width: fit-content;
             padding: .2rem .5rem;
             margin: .3rem .3rem .3rem .3rem;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
             backdrop-filter: blur(5px);
             background-color: #d8d8d888;
             border-radius: .6rem;
@@ -251,7 +251,7 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
                     justify-content: center;
                     border: none;
                     background-color: #d8d8d888;
-                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    border: 1px solid rgba(99, 99, 99, 0.6);
 
                     .esuve {
                         height: 100%;
@@ -280,7 +280,7 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
                     justify-content: center;
                     border: none;
                     background-color: #d8d8d888;
-                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    border: 1px solid rgba(99, 99, 99, 0.6);
 
                     .esuve2 {
                         height: 88%;
@@ -370,7 +370,7 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
             .cabecera {
                 width: 92%;
                 margin-top: clamp(1.4rem, 3vw, 2.5rem);
-                color: #333333;
+                color: #15152e;
                 text-align: justify;
                 font-size: clamp(1.4rem, 8vh, 1.8px);
                 border-bottom: 1px solid rgba(99, 99, 99, 0.37);
@@ -428,7 +428,7 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
                     display: flex;
                     align-items: flex-start;
                     justify-content: center;
-                    color: #333333;
+                    color: #333333  ;
                     margin: 0;
                     padding: 0;
                     overflow: hidden;
@@ -463,7 +463,7 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
                     border: 1px solid rgba(99, 99, 99, 0.37);
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                     border-radius: clamp(.5rem, 8vh, 1.2rem);
-                    background-color: #aaaaaa88;
+                    background-color: #08083069;
                     height: clamp(2rem, 8vh, 2.2rem);
                     box-sizing: border-box;
                     display: flex;
@@ -481,7 +481,7 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
                         border-radius: clamp(.5rem, 8vh, 1.2rem);
                         border: none;
                         cursor: pointer;
-                        background-color: #aaaaaa00;
+                        background-color: #08083012;
                     }
                 }
             }

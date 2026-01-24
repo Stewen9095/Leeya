@@ -235,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
             min-width: 200px;
             width: fit-content;
             height: auto;
-            background-color: #64646425;
+            background-color: #08083069;
             backdrop-filter: blur(8px);
             display: inline-flex;
             justify-content: center;
@@ -259,7 +259,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
             width: fit-content;
             padding: .2rem .5rem;
             margin: .3rem .3rem .3rem .3rem;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
             backdrop-filter: blur(5px);
             background-color: #d8d8d888;
             border-radius: .6rem;
@@ -406,7 +406,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
             justify-content: center;
             border: none;
             background-color: #d8d8d888;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
 
             .esuve {
                 height: 100%;
@@ -435,7 +435,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
             justify-content: center;
             border: none;
             background-color: #d8d8d888;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
 
             .esuve2 {
                 height: 88%;
@@ -623,7 +623,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                     color: #333333;
                     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
                     cursor: pointer;
-                    background-color: #d8d8d888;
+                    background-color: #08083069;
                 }
             }
 
@@ -643,7 +643,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                     color: #333333;
                     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
                     cursor: pointer;
-                    background-color: #d8d8d888;
+                    background-color: #08083069;
                 }
             }
     </style>

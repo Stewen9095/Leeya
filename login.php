@@ -190,7 +190,7 @@ if (isset($_SESSION['user_id'])) {
                 padding: 0 0 0 0;
                 margin: 0;
                 transition: 5s;
-                color: #333333;
+                color: #15152e;
                 box-sizing: border-box;
             }
 
@@ -233,7 +233,7 @@ if (isset($_SESSION['user_id'])) {
                     <svg width="25" height="25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
-                    Volver al inico
+                    VOLVER AL INICIO
                 </a>
             </div>
 
@@ -287,14 +287,14 @@ if (isset($_SESSION['user_id'])) {
                     padding: 0;
                     display: block;
                     font-size: 16px;
-                    color: #333333;
+                    color: #15152e;
                 }
 
                 h1 {
                     margin: 0;
                     padding: 0;
                     font-size: 26px;
-                    color: #333333;
+                    color: #15152e;
                 }
             }
 
@@ -391,7 +391,7 @@ if (isset($_SESSION['user_id'])) {
 
             .auth-button {
                 width: 58%;
-                background-color: #ffffff57;
+                background-color: #08083069;
                 backdrop-filter: blur(5px);
                 padding: 2%;
                 border: none;
@@ -409,7 +409,7 @@ if (isset($_SESSION['user_id'])) {
 
                 a {
                     text-decoration: none;
-                    color: #080830;
+                    color: #15152e;
                     transition: 3s;
                 }
             }
