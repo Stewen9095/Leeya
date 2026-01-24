@@ -577,6 +577,12 @@ if (isset($_SESSION['user_id'])) {
                     <p>¿No tienes cuenta? <a href="signup.php">REGISTRATE AQUÍ</a></p>
                 </div>
 
+                <div class="auth-links">
+                    <p>¿Olvidaste tu contraseña? <a href="signup.php"><a href="mailto:leeyasoporte@outlook.com">ESCRIBE
+                                A
+                                SOPORTE (leeyasoporte@outlook.com)</a></p>
+                </div>
+
             </div>
         </div>
 
