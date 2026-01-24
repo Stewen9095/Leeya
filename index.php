@@ -18,7 +18,6 @@ if (isLoggedIn()) {
         $user_name = htmlspecialchars($_SESSION['user_name'] ?? '');
         $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
     }
-
 }
 
 if (isset($_SESSION['user_id'])) {
@@ -66,7 +65,7 @@ if (isset($_SESSION['user_id'])) {
             min-width: 200px;
             width: fit-content;
             height: auto;
-            background-color: #64646425;
+            background-color: #08083069;
             backdrop-filter: blur(8px);
             display: inline-flex;
             justify-content: center;
@@ -90,7 +89,7 @@ if (isset($_SESSION['user_id'])) {
             width: fit-content;
             padding: .2rem .5rem;
             margin: .3rem .3rem .3rem .3rem;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
             backdrop-filter: blur(5px);
             background-color: #d8d8d888;
             border-radius: .6rem;
@@ -227,7 +226,7 @@ if (isset($_SESSION['user_id'])) {
                     justify-content: center;
                     border: none;
                     background-color: #d8d8d888;
-                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    border: 1px solid rgba(99, 99, 99, 0.6);
 
                     .esuve {
                         height: 100%;
@@ -256,7 +255,7 @@ if (isset($_SESSION['user_id'])) {
                     justify-content: center;
                     border: none;
                     background-color: #d8d8d888;
-                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    border: 1px solid rgba(99, 99, 99, 0.6);
 
                     .esuve2 {
                         height: 88%;
@@ -367,6 +366,7 @@ if (isset($_SESSION['user_id'])) {
                     height: 42%;
                     padding: 0;
                     box-sizing: border-box;
+                    color: #15152e;
                 }
 
                 p:last-child {
@@ -387,7 +387,7 @@ if (isset($_SESSION['user_id'])) {
                 flex: 1 0 45%;
                 max-width: 60%;
                 height: 95%;
-                background-color: #C0C0C0;
+                background-color: #08083069;
                 display: flex;
                 justify-content: flex-start;
                 align-self: center;
@@ -593,12 +593,11 @@ if (isset($_SESSION['user_id'])) {
             .header-container {
                 margin-top: clamp(.6rem, 1.8vh, 2.2rem);
                 margin-bottom: 1.5rem;
-                color: #333333;
 
                 h1 {
                     padding: 0;
                     margin: 0;
-                    color: #333333;
+                    color: #15152e;
                     font-size: clamp(1.2rem, 1.8vw, 1.8rem);
                 }
             }
@@ -640,7 +639,7 @@ if (isset($_SESSION['user_id'])) {
             }
 
             .statusbook {
-                background-color: #d8d8d888;
+                background-color: #08083033;
                 border: 1px solid rgba(99, 99, 99, 0.37);
                 width: clamp(8rem, 10vw, 5vw);
                 text-align: center;
@@ -704,6 +703,7 @@ if (isset($_SESSION['user_id'])) {
                 margin: clamp(.4rem, 2.6vh, 1.6rem) 0 clamp(1rem, 4vh, 3rem) 0;
                 border: 1px solid rgba(99, 99, 99, 0.37);
                 justify-items: center;
+                background-color: #08083069;
 
                 a {
                     text-decoration: none;
@@ -717,7 +717,6 @@ if (isset($_SESSION['user_id'])) {
                 }
             }
         </style>
-
 
         <?php
         $latest_books = getLatestBooks(4, $is_logged_in ? $_SESSION['user_id'] : null);
@@ -790,9 +789,9 @@ if (isset($_SESSION['user_id'])) {
             width: 100%;
             justify-content: center;
             align-items: center;
-            background-color: #c0c0c039;
+            background-color: #08083069;
             backdrop-filter: blur(10px);
-            border: 1px solid #9D9D9D;
+            border: 1px solid #808080;
             margin: .8rem auto 30px auto;
             padding: 20px;
             box-sizing: border-box;

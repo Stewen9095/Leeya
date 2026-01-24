@@ -70,7 +70,7 @@ if (isset($_SESSION['user_id'])) {
             min-width: 200px;
             width: fit-content;
             height: auto;
-            background-color: #64646425;
+            background-color: #08083069;
             backdrop-filter: blur(8px);
             display: inline-flex;
             justify-content: center;
@@ -94,7 +94,7 @@ if (isset($_SESSION['user_id'])) {
             width: fit-content;
             padding: .2rem .5rem;
             margin: .3rem .3rem .3rem .3rem;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
             backdrop-filter: blur(5px);
             background-color: #d8d8d888;
             border-radius: .6rem;
@@ -212,8 +212,8 @@ if (isset($_SESSION['user_id'])) {
                     align-items: center;
                     justify-content: center;
                     border: none;
-                    background-color: #64646425;
-                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    background-color: #d8d8d888;
+                    border: 1px solid rgba(99, 99, 99, 0.6);
 
 
                     .numnoti {
@@ -242,8 +242,8 @@ if (isset($_SESSION['user_id'])) {
                     align-items: center;
                     justify-content: center;
                     border: none;
-                    background-color: #64646425;
-                    border: 1px solid rgba(99, 99, 99, 0.37);
+                    background-color: #d8d8d888;
+                    border: 1px solid rgba(99, 99, 99, 0.6);
 
 
                     .esuve2 {
@@ -389,6 +389,7 @@ if (isset($_SESSION['user_id'])) {
                     font-size: 28px;
                     width: 100%;
                     text-align: left;
+                    color: #15152e;
                 }
 
                 p {
@@ -420,7 +421,7 @@ if (isset($_SESSION['user_id'])) {
                 gap: 0.8rem;
                 border-radius: 10px;
                 border: 1px solid rgba(99, 99, 99, 0.37);
-                background-color: #d8d8d888;
+                background-color: #08083069;
                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                 padding: 2rem;
                 box-sizing: border-box;
@@ -509,7 +510,7 @@ if (isset($_SESSION['user_id'])) {
                     justify-content: flex-start;
                     border-radius: 10px;
                     border: 1px solid rgba(99, 99, 99, 0.37);
-                    background-color: #d8d8d888;
+                    background-color: #08083069;
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                     margin: 0;
                     box-sizing: border-box;
@@ -617,7 +618,7 @@ if (isset($_SESSION['user_id'])) {
                     padding: 0;
                     margin: 0;
                     font-size: clamp(1.2rem, 2vw, 1.6rem);
-                    color: #333333;
+                    color: #15152e;
                 }
             }
 
@@ -655,7 +656,7 @@ if (isset($_SESSION['user_id'])) {
             }
 
             .statusbook {
-                background-color: #d8d8d888;
+                background-color: #08083033;
                 border: 1px solid rgba(99, 99, 99, 0.37);
                 width: clamp(8rem, 10vw, 5vw);
                 text-align: center;
@@ -716,6 +717,7 @@ if (isset($_SESSION['user_id'])) {
                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                 margin: clamp(.4rem, 2.6vh, 1.6rem) 0 clamp(1rem, 4vh, 3rem) 0;
                 border: 1px solid rgba(99, 99, 99, 0.37);
+                background-color: #08083069;
 
                 a {
                     text-decoration: none;

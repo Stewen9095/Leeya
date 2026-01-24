@@ -17,6 +17,9 @@ if (isLoggedIn()) {
         $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
     }
 
+} else {
+    header('Location: index.php');
+    exit();
 }
 
 if (isset($_SESSION['user_id'])) {
@@ -139,6 +142,11 @@ if ($book['typeof'] === 'Intercambio' && $is_logged_in) {
 // Obtener información del propietario del libro
 $book_owner = getUserById($book['ownerid']);
 
+// Si el propietario está banneado y el usuario no es admin, redirigir
+if ($book_owner && $book_owner['userrole'] === 'banned' && !isAdmin()) {
+    header('Location: index.php');
+    exit();
+}
 
 $nombredueno = $book_owner["name"];
 
@@ -227,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
             min-width: 200px;
             width: fit-content;
             height: auto;
-            background-color: #64646425;
+            background-color: #08083069;
             backdrop-filter: blur(8px);
             display: inline-flex;
             justify-content: center;
@@ -251,7 +259,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
             width: fit-content;
             padding: .2rem .5rem;
             margin: .3rem .3rem .3rem .3rem;
-            border: 1px solid rgba(99, 99, 99, 0.37);
+            border: 1px solid rgba(99, 99, 99, 0.6);
             backdrop-filter: blur(5px);
             background-color: #d8d8d888;
             border-radius: .6rem;
@@ -308,35 +316,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
 <body>
 
     <nav>
-
         <a href="index.php" class="image-logo">
             <div class="content">LEEYA</div>
         </a>
 
-        <a href="explore.php">
-            <div class="content">EXPLORAR</div>
-        </a>
-
-        <?php if ($is_logged_in):
+        <?php if ($is_logged_in && $_SESSION['user_role'] === 'user'):
 
             $pending_counts = getPendingProposalsCount($_SESSION['user_id']);
             $total_pending = $pending_counts['sent'] + $pending_counts['received'];
             $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending : '');
             ?>
 
+            <a href="explore.php">
+                <div class="content">EXPLORAR</div>
+            </a>
+
             <a href="newbook.php" class="plus">
                 <div class="content">+</div>
             </a>
-
-        <?php elseif (!$is_logged_in): ?>
-
-            <a href="login.php">
-                <div class="content">INICIAR SESIÓN</div>
-            </a>
-
-        <?php endif; ?>
-
-        <?php if ($is_logged_in): ?>
 
             <a class="circle1" href="myproposals.php">
                 <svg class="esuve1" width="256px" height="256px" viewBox="0 0 24.00 24.00" fill="none"
@@ -381,107 +378,116 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                 </svg>
             </a>
 
-            <style>
-                .circle1 {
-                    min-width: 25px;
-                    max-width: 30px;
-                    width: 100%;
-                    height: auto;
-                    padding: 0;
-                    display: flex;
-                    position: relative;
-                    align-items: center;
-                    justify-content: center;
-                    border: none;
-                    background-color: #d8d8d888;
-                    border: 1px solid rgba(99, 99, 99, 0.37);
+        <?php elseif ($is_logged_in && $_SESSION['user_role'] === 'admin'): ?>
 
-
-                    .numnoti {
-                        position: absolute;
-                        margin: auto;
-                        padding: 3px 0 0 0;
-                        color: #202020;
-                        font-size: clamp(.4rem, 1.2vh, .6rem);
-                    }
-
-
-                    .esuve {
-                        height: 100%;
-                        width: auto;
-                        max-height: 100%;
-                    }
-                }
-
-                .circle2 {
-                    min-width: 25px;
-                    max-width: 30px;
-                    width: 100%;
-                    height: auto;
-                    padding: 0;
-                    display: flex;
-                    position: relative;
-                    align-items: center;
-                    justify-content: center;
-                    border: none;
-                    background-color: #d8d8d888;
-                    border: 1px solid rgba(99, 99, 99, 0.37);
-
-                    .esuve2 {
-                        height: 88%;
-                        width: auto;
-                        max-height: 100%;
-                    }
-                }
-
-                /* Cel */
-                @media (max-width: 750px) {
-
-                    .circle1 {
-                        height: auto;
-                        min-width: 97%;
-                        position: relative;
-                        padding: 0;
-                        border: none;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        border: 1px solid rgba(99, 99, 99, 0.37);
-                        background-color: #d8d8d881;
-                        border-radius: 5px;
-                    }
-
-                    .circle1 .esuve1 {
-                        max-width: 8%;
-                    }
-
-                    .circle2 {
-                        min-width: 97%;
-                        width: auto;
-                        position: relative;
-                        padding: 0;
-                        border: none;
-                        display: flex;
-                        background-color: transparent;
-                        align-items: center;
-                        justify-content: center;
-                        border: 1px solid rgba(99, 99, 99, 0.37);
-                        background-color: #d8d8d881;
-                        border-radius: 5px;
-
-                    }
-
-                    .circle2 .esuve2 {
-                        max-width: 8%;
-                        width: auto;
-                        margin: 0 auto;
-                    }
-
-                }
-            </style>
-
+            <a href="userlist.php" class="image-logo">
+                <div class="content">USUARIOS</div>
+            </a>
+            <a href="reports.php" class="image-logo">
+                <div class="content">REPORTES</div>
+            </a>
+            <a href="logout.php" class="image-logo">
+                <div class="content">CERRAR SESIÓN</div>
+            </a>
 
         <?php endif; ?>
+    </nav>
+
+    <style>
+        .circle1 {
+            min-width: 25px;
+            max-width: 30px;
+            width: 100%;
+            height: auto;
+            padding: 0;
+            display: flex;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background-color: #d8d8d888;
+            border: 1px solid rgba(99, 99, 99, 0.6);
+
+            .esuve {
+                height: 100%;
+                width: auto;
+                max-height: 100%;
+            }
+
+            .numnoti {
+                position: absolute;
+                margin: auto;
+                padding: 3px 1px 0 0;
+                color: #202020;
+                font-size: clamp(.4rem, 1.2vh, .6rem);
+            }
+        }
+
+        .circle2 {
+            min-width: 25px;
+            max-width: 30px;
+            width: 100%;
+            height: auto;
+            padding: 0;
+            display: flex;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background-color: #d8d8d888;
+            border: 1px solid rgba(99, 99, 99, 0.6);
+
+            .esuve2 {
+                height: 88%;
+                width: auto;
+                max-height: 100%;
+            }
+        }
+
+        /* Cel */
+        @media (max-width: 750px) {
+
+            .circle1 {
+                height: auto;
+                min-width: 97%;
+                position: relative;
+                padding: 0;
+                border: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                background-color: #d8d8d881;
+                border-radius: 5px;
+            }
+
+            .circle1 .esuve1 {
+                max-width: 8%;
+            }
+
+            .circle2 {
+                min-width: 97%;
+                width: auto;
+                position: relative;
+                padding: 0;
+                border: none;
+                display: flex;
+                background-color: transparent;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                background-color: #d8d8d881;
+                border-radius: 5px;
+
+            }
+
+            .circle2 .esuve2 {
+                max-width: 8%;
+                width: auto;
+                margin: 0 auto;
+            }
+        }
+    </style>
 
     </nav>
 
@@ -617,7 +623,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                     color: #333333;
                     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
                     cursor: pointer;
-                    background-color: #d8d8d888;
+                    background-color: #08083069;
                 }
             }
 
@@ -637,7 +643,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                     color: #333333;
                     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
                     cursor: pointer;
-                    background-color: #d8d8d888;
+                    background-color: #08083069;
                 }
             }
     </style>
@@ -683,7 +689,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                 }
 
                 .datosedicion {
-                    padding: clamp(.6rem, 6vh, 1.2rem) clamp(1rem, 10vh, 1.8rem) clamp(.4rem, 2vh, .8rem) clamp(1rem, 10vh, 1.8rem);
+                    padding: clamp(.6rem, 6vh, 1.2rem) clamp(.6rem, 6vh, 1.2rem) clamp(.4rem, 2vh, .8rem) clamp(.6rem, 6vh, 1.2rem);
                     width: 100%;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -871,8 +877,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                         font-size: clamp(.8rem, 4vh, 1rem);
                     }
 
+                    .formulariomol {
+                        width: 100%;
+                    }
+
                     button,
                     .functions {
+                        width: 100%;
                         padding: 0.4rem 1rem;
                         min-height: 25px;
                         border: 1px solid rgba(99, 99, 99, 0.37);
@@ -1023,7 +1034,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                             <div class="form-group">
                                 <?php if ($book['typeof'] === 'Venta' || $book['typeof'] === 'Subasta'): ?>
                                     <label>Precio:</label>
-                                    <input type="number" name="price" min="0" step="any"
+                                    <input class="form-control" type="number" name="price" min="0" step="any"
                                         value="<?= htmlspecialchars($book['price']) ?>">
                                 <?php endif; ?>
                             </div>
@@ -1134,9 +1145,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_owner && isset($_POST['delete_b
                         <?php endif; ?>
                     <?php elseif (isAdmin() && !$is_owner): ?>
                         <div>
-                            <form method="post">
+                            <form method="post" class="formulariomol">
                                 <input type="hidden" name="admin_delete_book" value="1">
-                                <button type="submit" class="functions btn-cancel"
+                                <button type="submit" class="functions"
                                     onclick="return confirm('¿Seguro que deseas eliminar esta publicación?');">Eliminar
                                     publicación</button>
                             </form>
