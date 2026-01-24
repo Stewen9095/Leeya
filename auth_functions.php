@@ -253,14 +253,14 @@ function getLatestBooks($limit = 4, $exclude_user_id = null)
 {
     try {
         $pdo = getDBConnection();
-        $query = "SELECT * FROM book WHERE status = 1";
+        $query = "SELECT b.* FROM book b JOIN user u ON b.ownerid = u.id WHERE b.status = 1 AND u.userrole != 'banned'";
         if ($exclude_user_id) {
-            $query .= " AND ownerid != ?";
-            $query .= " ORDER BY id DESC LIMIT ?";
+            $query .= " AND b.ownerid != ?";
+            $query .= " ORDER BY b.id DESC LIMIT ?";
             $stmt = $pdo->prepare($query);
             $stmt->execute([$exclude_user_id, $limit]);
         } else {
-            $query .= " ORDER BY id DESC LIMIT ?";
+            $query .= " ORDER BY b.id DESC LIMIT ?";
             $stmt = $pdo->prepare($query);
             $stmt->execute([$limit]);
         }
@@ -277,7 +277,7 @@ function searchBooks($search = '', $type = '', $exclude_user_id = null)
     try {
         $pdo = getDBConnection();
         $params = [];
-        $query = "SELECT b.*, u.name AS owner_name FROM book b JOIN user u ON b.ownerid = u.id WHERE b.status = 1";
+        $query = "SELECT b.*, u.name AS owner_name FROM book b JOIN user u ON b.ownerid = u.id WHERE b.status = 1 AND u.userrole != 'banned'";
 
         if ($exclude_user_id) {
             $query .= " AND b.ownerid != ?";
@@ -331,6 +331,70 @@ function searchUsers($search = '', $exclude_user_id = null)
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         error_log("Error en searchUsers: " . $e->getMessage());
+        return [];
+    }
+}
+
+// Buscar libros para admin (sin filtrar usuarios banneados)
+function searchBooksForAdmin($search = '', $type = '', $exclude_user_id = null)
+{
+    try {
+        $pdo = getDBConnection();
+        $params = [];
+        $query = "SELECT b.*, u.name AS owner_name FROM book b JOIN user u ON b.ownerid = u.id WHERE b.status = 1";
+
+        if ($exclude_user_id) {
+            $query .= " AND b.ownerid != ?";
+            $params[] = $exclude_user_id;
+        }
+
+        if ($type !== '') {
+            $query .= " AND b.typeof = ?";
+            $params[] = $type;
+        }
+
+        if ($search !== '') {
+            $query .= " AND (b.name LIKE ? OR b.author LIKE ? OR b.genre LIKE ?)";
+            $searchParam = '%' . $search . '%';
+            $params[] = $searchParam;
+            $params[] = $searchParam;
+            $params[] = $searchParam;
+        }
+
+        $query .= " ORDER BY b.id DESC";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error en searchBooksForAdmin: " . $e->getMessage());
+        return [];
+    }
+}
+
+// Buscar usuarios para admin (sin filtrar usuarios banneados)
+function searchUsersForAdmin($search = '', $exclude_user_id = null)
+{
+    try {
+        $pdo = getDBConnection();
+        $params = [];
+        $query = "SELECT id, name, email, location, lildescription, userrole FROM user WHERE 1=1";
+
+        if ($exclude_user_id) {
+            $query .= " AND id != ?";
+            $params[] = $exclude_user_id;
+        }
+
+        if ($search !== '') {
+            $query .= " AND name LIKE ?";
+            $params[] = '%' . $search . '%';
+        }
+
+        $query .= " ORDER BY userrole DESC, name ASC";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error en searchUsersForAdmin: " . $e->getMessage());
         return [];
     }
 }
@@ -499,6 +563,7 @@ function getSentProposals($user_id)
             WHERE 
                 p.interested = ?
                 AND DATE(p.proposaldate) >= ?
+                AND u.userrole != 'banned'
                 AND (
                     b.status = 1
                     OR (b.status = 0 AND p.status = 'Finalizada')
@@ -539,6 +604,7 @@ function getReceivedProposals($user_id)
             WHERE 
                 b.ownerid = ?
                 AND DATE(p.proposaldate) >= ?
+                AND u.userrole != 'banned'
                 AND (
                     b.status = 1
                     OR (b.status = 0 AND p.status = 'Finalizada')
@@ -614,10 +680,12 @@ function getPendingProposalsCount($user_id)
             SELECT COUNT(*) 
             FROM proposal p
             JOIN book b ON p.targetbookid = b.id
+            JOIN user u ON b.ownerid = u.id
             WHERE 
                 p.interested = ? 
                 AND p.status = 'En proceso'
                 AND b.status = 1
+                AND u.userrole != 'banned'
         ");
         $stmt1->execute([$user_id]);
         $sent = $stmt1->fetchColumn();
@@ -627,10 +695,12 @@ function getPendingProposalsCount($user_id)
             SELECT COUNT(*) 
             FROM proposal p
             JOIN book b ON p.targetbookid = b.id
+            JOIN user u ON p.interested = u.id
             WHERE 
                 b.ownerid = ? 
                 AND b.status = 1
                 AND (p.status = 'En proceso' OR p.status = 'Finalizada')
+                AND u.userrole != 'banned'
         ");
         $stmt2->execute([$user_id]);
         $received = $stmt2->fetchColumn();
@@ -650,7 +720,7 @@ function getUserById($user_id)
 {
     try {
         $pdo = getDBConnection();
-        $stmt = $pdo->prepare("SELECT id, name, email, location, lildescription, signdate FROM user WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT id, name, email, location, lildescription, signdate, userrole FROM user WHERE id = ?");
         $stmt->execute([$user_id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -730,7 +800,8 @@ function getAllBooks()
         $stmt = $pdo->prepare("
             SELECT 
                 b.*,
-                u.name AS owner_name
+                u.name AS owner_name,
+                u.userrole AS owner_role
             FROM book b
             INNER JOIN user u ON b.ownerid = u.id
             ORDER BY b.id DESC
@@ -757,6 +828,20 @@ function getUsersByRole($role = 'user')
     }
 }
 
+// Obtener usuarios de tipo user y banned para admin
+function getAllUsersForAdmin()
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("SELECT id, name, email, location, lildescription, signdate, userrole FROM user WHERE userrole IN ('user', 'banned') ORDER BY userrole DESC, id DESC");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error al obtener todos los usuarios para admin: " . $e->getMessage());
+        return [];
+    }
+}
+
 // Contar usuarios por rol
 function countUsersByRole($role = 'user')
 {
@@ -769,5 +854,88 @@ function countUsersByRole($role = 'user')
     } catch (PDOException $e) {
         error_log("Error al contar usuarios por rol: " . $e->getMessage());
         return 0;
+    }
+}
+
+// Bannear un usuario (cambiar estado a banned)
+function banUser($user_id)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("UPDATE user SET userrole = 'banned' WHERE id = ?");
+        $result = $stmt->execute([$user_id]);
+        if ($result) {
+            return ['success' => true, 'message' => 'Usuario baneado correctamente.'];
+        } else {
+            return ['success' => false, 'message' => 'No se pudo bannear al usuario.'];
+        }
+    } catch (PDOException $e) {
+        error_log("Error al bannear usuario: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Error de base de datos al bannear usuario.'];
+    }
+}
+
+// Desbannear un usuario (cambiar estado de banned a user)
+function unbanUser($user_id)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("UPDATE user SET userrole = 'user' WHERE id = ?");
+        $result = $stmt->execute([$user_id]);
+        if ($result) {
+            return ['success' => true, 'message' => 'Usuario desbaneado correctamente.'];
+        } else {
+            return ['success' => false, 'message' => 'No se pudo desbannear al usuario.'];
+        }
+    } catch (PDOException $e) {
+        error_log("Error al desbannear usuario: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Error de base de datos al desbannear usuario.'];
+    }
+}
+
+// Obtener todos los reportes no chequeados
+function getUncheckedReports()
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("
+            SELECT 
+                r.id,
+                r.motive,
+                r.description,
+                r.datereport,
+                ur.id AS reporter_id,
+                ur.name AS reporter_name,
+                uu.id AS reported_id,
+                uu.name AS reported_name
+            FROM reports r
+            INNER JOIN user ur ON r.idreporter = ur.id
+            INNER JOIN user uu ON r.idreported = uu.id
+            WHERE r.ischecked = 0
+            ORDER BY r.datereport DESC
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error al obtener reportes no chequeados: " . $e->getMessage());
+        return [];
+    }
+}
+
+// Marcar reporte como chequeado
+function markReportAsChecked($report_id)
+{
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("UPDATE reports SET ischecked = 1 WHERE id = ?");
+        $result = $stmt->execute([$report_id]);
+        if ($result) {
+            return ['success' => true, 'message' => 'Reporte marcado como revisado.'];
+        } else {
+            return ['success' => false, 'message' => 'No se pudo marcar el reporte.'];
+        }
+    } catch (PDOException $e) {
+        error_log("Error al marcar reporte como chequeado: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Error de base de datos.'];
     }
 }

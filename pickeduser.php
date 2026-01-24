@@ -49,14 +49,21 @@ if (!$user) {
     exit();
 }
 
+// Si el usuario está banneado y no es admin, redirigir
+if ($user['userrole'] === 'banned' && $user_role !== 'admin') {
+    header('Location: index.php');
+    exit();
+}
+
 $rates = getUserRates($user_id);
 
 $rate_message = '';
 $rate_error = '';
 $report_message = '';
 $report_error = '';
+$ban_message = '';
 
-// Procesar rate y report solo en POST, luego redirigir
+// Procesar rate, report y ban solo en POST, luego redirigir
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
     if (isset($_POST['rate_user'])) {
         $stars = intval($_POST['stars'] ?? 0);
@@ -82,6 +89,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
         header("Location: pickeduser.php?id=" . $user_id);
         exit();
     }
+    if (isset($_POST['ban_user'])) {
+        if ($user_role === 'admin' && $current_user_id != $user_id) {
+            $result = banUser($user_id);
+            $_SESSION['ban_message'] = $result['message'];
+        }
+        header("Location: pickeduser.php?id=" . $user_id);
+        exit();
+    }
+    if (isset($_POST['unban_user'])) {
+        if ($user_role === 'admin' && $current_user_id != $user_id) {
+            $result = unbanUser($user_id);
+            $_SESSION['ban_message'] = $result['message'];
+        }
+        header("Location: pickeduser.php?id=" . $user_id);
+        exit();
+    }
 }
 
 // Mensajes POST/REDIRECT/GET
@@ -100,6 +123,10 @@ if (isset($_SESSION['report_message'])) {
 if (isset($_SESSION['report_error'])) {
     $report_error = $_SESSION['report_error'];
     unset($_SESSION['report_error']);
+}
+if (isset($_SESSION['ban_message'])) {
+    $ban_message = $_SESSION['ban_message'];
+    unset($_SESSION['ban_message']);
 }
 
 ?>
@@ -376,7 +403,7 @@ if (isset($_SESSION['report_error'])) {
             <?php endforeach; ?>
         <?php endif; ?>
 
-        <?php if ($is_logged_in && $current_user_id != $user_id): ?>
+        <?php if ($is_logged_in && $current_user_id != $user_id && $user_role !== 'admin'): ?>
             <form method="post" style="background:#000080;padding:1rem;border-radius:1rem;margin-top:1.5rem;">
                 <h3 style="color:#fff;">Escribir una reseña</h3>
                 <label for="stars" style="color:#fff;">Estrellas:</label>
@@ -396,37 +423,54 @@ if (isset($_SESSION['report_error'])) {
     </div>
 
     <div style="max-width:900px;margin:2rem auto;">
-        <h2 style="color:#fff;">Reportar usuario</h2>
-        <?php if ($report_message): ?>
-            <div class="success-message"><?= htmlspecialchars($report_message) ?></div>
-        <?php endif; ?>
-        <?php if ($report_error): ?>
-            <div class="error-message"><?= htmlspecialchars($report_error) ?></div>
-        <?php endif; ?>
-        <?php if ($is_logged_in && $current_user_id != $user_id): ?>
-            <form method="post" style="background:#000080;padding:1rem;border-radius:1rem;">
-                <label for="motive" style="color:#fff;">Motivo:</label>
-                <select name="motive" id="motive" required>
-                    <option value="">Selecciona</option>
-                    <option>Estafa o fraude</option>
-                    <option>Producto falso o réplica</option>
-                    <option>Suplantación de identidad</option>
-                    <option>Información o fotos falsas</option>
-                    <option>Lenguaje ofensivo o acoso</option>
-                    <option>Venta de productos prohibidos</option>
-                    <option>Contenido inapropiado o ilegal</option>
-                    <option>Solicitud de datos personales</option>
-                    <option>Phishing o enlaces maliciosos</option>
-                    <option>Incumplimiento en la entrega</option>
-                </select>
-                <br>
-                <label for="report_description" style="color:#fff;">Descripción:</label>
-                <textarea name="report_description" id="report_description" rows="2" required
-                    style="width:100%;"></textarea>
-                <br>
-                <button type="submit" name="report_user" class="btn-cancel" style="margin-top:0.5rem;">Enviar
-                    reporte</button>
-            </form>
+        <?php if ($user_role !== 'admin'): ?>
+            <h2 style="color:#fff;">Reportar usuario</h2>
+            <?php if ($report_message): ?>
+                <div class="success-message"><?= htmlspecialchars($report_message) ?></div>
+            <?php endif; ?>
+            <?php if ($report_error): ?>
+                <div class="error-message"><?= htmlspecialchars($report_error) ?></div>
+            <?php endif; ?>
+            <?php if ($is_logged_in && $current_user_id != $user_id): ?>
+                <form method="post" style="background:#000080;padding:1rem;border-radius:1rem;">
+                    <label for="motive" style="color:#fff;">Motivo:</label>
+                    <select name="motive" id="motive" required>
+                        <option value="">Selecciona</option>
+                        <option>Estafa o fraude</option>
+                        <option>Producto falso o réplica</option>
+                        <option>Suplantación de identidad</option>
+                        <option>Información o fotos falsas</option>
+                        <option>Lenguaje ofensivo o acoso</option>
+                        <option>Venta de productos prohibidos</option>
+                        <option>Contenido inapropiado o ilegal</option>
+                        <option>Solicitud de datos personales</option>
+                        <option>Phishing o enlaces maliciosos</option>
+                        <option>Incumplimiento en la entrega</option>
+                    </select>
+                    <br>
+                    <label for="report_description" style="color:#fff;">Descripción:</label>
+                    <textarea name="report_description" id="report_description" rows="2" required
+                        style="width:100%;"></textarea>
+                    <br>
+                    <button type="submit" name="report_user" class="btn-cancel" style="margin-top:0.5rem;">Enviar
+                        reporte</button>
+                </form>
+            <?php endif; ?>
+        <?php else: ?>
+            <h2 style="color:#fff;">Gestión administrativa</h2>
+            <?php if ($ban_message): ?>
+                <div class="success-message"><?= htmlspecialchars($ban_message) ?></div>
+            <?php endif; ?>
+            <?php if ($current_user_id != $user_id): ?>
+                <form method="post" style="background:#000080;padding:1rem;border-radius:1rem;">
+                    <p style="color:#fff;">Como administrador, puedes gestionar este usuario.</p>
+                    <?php if ($user['userrole'] === 'banned'): ?>
+                        <button type="submit" name="unban_user" class="btn-cancel" style="margin-top:0.5rem;background:#28a745;">Desbannear usuario</button>
+                    <?php else: ?>
+                        <button type="submit" name="ban_user" class="btn-cancel" style="margin-top:0.5rem;background:#d9534f;">Bannear usuario</button>
+                    <?php endif; ?>
+                </form>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
 </body>

@@ -6,7 +6,7 @@ require_once 'database.php';
 $pdo = getDBConnection();
 $view = isset($_GET['view']) ? $_GET['view'] : 'users'; // 'users' or 'books'
 $books = getAllBooks();
-$users = getUsersByRole('user');
+$users = getAllUsersForAdmin();
 ?>
 
 <!DOCTYPE html>
@@ -182,6 +182,25 @@ $users = getUsersByRole('user');
             display: inline-block;
         }
 
+        .status-banned {
+            background-color: #e20808d0;
+            color: #fff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .owner-banned {
+            background: #e20808d0;
+            color: #fff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            display: inline-block;
+            font-weight: bold;
+        }
+
         .btn-view {
             background: #0d1fc5fd;
             color: #fff;
@@ -327,6 +346,7 @@ $users = getUsersByRole('user');
                                 <th>Email</th>
                                 <th>Localidad</th>
                                 <th>Registro</th>
+                                <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -338,6 +358,13 @@ $users = getUsersByRole('user');
                                     <td><?= htmlspecialchars($u['email']) ?></td>
                                     <td><?= htmlspecialchars($u['location']) ?></td>
                                     <td><?= htmlspecialchars($u['signdate']) ?></td>
+                                    <td>
+                                        <?php if ($u['userrole'] === 'banned'): ?>
+                                            <span class="status-banned">BANNEADO</span>
+                                        <?php else: ?>
+                                            <span class="status-active">ACTIVO</span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <a href="pickeduser.php?id=<?= $u['id'] ?>" class="btn-view">VER PERFIL</a>
                                     </td>
@@ -369,7 +396,13 @@ $users = getUsersByRole('user');
                                 <tr>
                                     <td><?= htmlspecialchars($book['id']) ?></td>
                                     <td><?= htmlspecialchars($book['name']) ?></td>
-                                    <td><?= htmlspecialchars($book['owner_name']) ?></td>
+                                    <td>
+                                        <?php if ($book['owner_role'] === 'banned'): ?>
+                                            <span class="owner-banned">DUEÑO BANNEADO</span>
+                                        <?php else: ?>
+                                            <?= htmlspecialchars($book['owner_name']) ?>
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <?php if ($book['status'] == 1): ?>
                                             <span class="status-active">Disponible</span>

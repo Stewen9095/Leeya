@@ -584,15 +584,17 @@ if (isset($_SESSION['newbook_message'])) {
                 width: 88%;
                 display: flex;
                 flex-wrap: wrap;
-                gap: clamp(.6rem, 3vh, 1rem);
+                gap: clamp(.4rem, 3vh, .8rem);
                 margin: 0 auto;
+                margin: clamp(1rem, 10vh, 1.5rem) auto;
 
                 .auth-button {
                     display: flex;
                     align-items: center;
                     align-content: center;
                     justify-content: center;
-                    flex: 1 1 230px;
+                    flex: 1 1 150px;
+
                     max-width: 100%;
                     background-color: #d8d8d888;
                     backdrop-filter: blur(5px);
@@ -680,6 +682,11 @@ if (isset($_SESSION['newbook_message'])) {
                         <label for="monto">Fecha limite</label>
                         <input type="date" id="fecha" name="fecha" placeholder="Fecha limite">
                     </div>
+
+                    <div class="form-buttons">
+                        <button type="submit" class="auth-button">GUARDAR</button>
+                        <button type="reset" class="auth-button">LIMPIAR</button>
+                    </div>
                 </form>
             </div>
 
@@ -693,11 +700,6 @@ if (isset($_SESSION['newbook_message'])) {
 
                 <div class="realpic"> <!-- Reservada para la imagen del libro -->
                     <img src="" alt="Imagen del libro">
-                </div>
-
-                <div class="form-buttons">
-                    <button type="submit" class="auth-button">GUARDAR</button>
-                    <button type="reset" class="auth-button">LIMPIAR</button>
                 </div>
 
                 <div class="messages-back">

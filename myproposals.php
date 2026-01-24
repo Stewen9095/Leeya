@@ -406,6 +406,8 @@ $badge_text = $total_pending > 9 ? '+9' : ($total_pending > 0 ? $total_pending :
                 overflow: hidden;
                 border-radius: clamp(8px, 1.8vw, 14px);
                 box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+                display: flex;
+                justify-content: center;
 
                 img {
                     height: 100%;

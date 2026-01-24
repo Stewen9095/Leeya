@@ -9,7 +9,6 @@ $is_logged_in = false;
 $user_role = '';
 $pdo = getDBConnection();
 
-
 refreshSessionUser();
 updateExpiredAuctions();
 
@@ -33,7 +32,17 @@ if (isset($_SESSION['user_id'])) {
     }
 }
 
+// Procesar acción de marcar reporte como chequeado
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['check_report'])) {
+    $report_id = intval($_POST['report_id'] ?? 0);
+    if ($report_id > 0) {
+        $result = markReportAsChecked($report_id);
+    }
+    header('Location: reports.php');
+    exit();
+}
 
+$reports = getUncheckedReports();
 
 ?>
 
@@ -45,128 +54,186 @@ if (isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel | Leeya</title>
     <link rel="stylesheet" href="style.css">
-</head>
-<style>
-        body {
+
+    <style>
+        html {
+            background: white;
             margin: 0;
-            font-family: 'HovesDemiBold';
-            background-color: #000;
-            color: #fff;
+            padding: 0;
         }
 
-        header {
-            width: 100%;
-            background: linear-gradient(to bottom, #000 0%, #001aafff 80%);
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'HovesDemiBold';
+            background: white;
         }
 
         nav {
-            display: flex;
-            align-items: center;
+            position: fixed;
+            max-width: 1440px;
+            min-width: 200px;
+            width: fit-content;
+            height: auto;
+            background-color: #64646425;
+            backdrop-filter: blur(8px);
+            display: inline-flex;
             justify-content: center;
-            gap: clamp(1rem, 3vw, 2.5rem);
-            width: 75vw;
-            max-width: 75vw;
-            margin: auto;
-            font-family: 'HovesExpandedBold';
+            align-items: stretch;
             box-sizing: border-box;
+            left: 0;
+            right: 0;
+            margin: auto;
+            border: 1px solid rgba(99, 99, 99, 0.37);
+            border-radius: 1rem;
+            font-size: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            z-index: 5;
         }
-        .iconoimg {
-            height: 3.5rem;
-            width: auto;
-            padding-bottom: 0.5rem;
-        }
-        .nav-btns {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-            background: #000080;
-            border-radius: 2rem;
-            padding: 0.3rem 0.5rem;
-        }
-        .nav-btns a {
+
+        nav a {
+            box-sizing: border-box;
+            margin-inline: auto;
+            inset-inline: 0;
+            width: fit-content;
+            padding: .2rem .5rem;
+            margin: .3rem .3rem .3rem .3rem;
+            border: 1px solid rgba(99, 99, 99, 0.37);
+            backdrop-filter: blur(5px);
+            background-color: #d8d8d888;
+            border-radius: .6rem;
+            color: #333333;
             text-decoration: none;
-            background: #001aafff;
-            color: #fff;
-            font-size: 1.1rem;
-            border-radius: 1.25rem;
-            padding: 0.2rem 1rem;
-            box-shadow: 0 0.125rem 0.5rem #0002;
-            transition: background 0.5s;
-            display: flex;
-            align-items: center;
+            min-width: 140px;
+            overflow: hidden;
+            max-width: 18%;
+            max-height: 30px;
+
+            .content {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+            }
+
         }
 
-        .nav-btns a:hover {
-            background: #000080;
-        }
+        /* Cel */
+        @media (max-width: 750px) {
 
-        .nav-btns h3 {
-            margin: 0;
-            font-size: 1.05rem;
-        }
-        .nav-btns .circle {
-            width: 2.25rem;
-            height: 2.25rem;
-            border-radius: 50%;
-            background: #001aafff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.8s;
-        }
+            nav {
+                position: static;
+                display: flex;
+                margin-top: 30px;
+                flex-direction: column;
+                font-size: 13px;
+                border-radius: 5px;
+                padding: 2px 0;
+                width: 80%;
+                align-items: center;
 
-        .nav-btns .circle:hover {
-            background: #000080;
-        }
+                a {
+                    margin: .1rem;
+                    padding: 2px 10px;
+                    width: 98%;
+                    height: 35px;
+                    border-radius: 5px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: stretch;
+                    max-width: 100%;
+                    min-height: 30px;
+                }
 
-        .nav-btns img {
-            width: 1.6rem;
-            height: 1.6rem;
-            object-fit: contain;
-        }
+            }
 
-        footer {
-            text-align: center;
-            background: linear-gradient(to top, #000 0%, #001aafff 90%);
-            color: #fff;
-            padding: 3rem 1rem 2rem 1rem;
-            font-family: 'HovesMedium';
-            font-size: 1rem;
-        }
-
-        footer img {
-            height: 3rem;
-            display: block;
-            margin: 0 auto 1rem auto;
-        }
-
-        footer p {
-            margin: 0.5rem 0;
         }
     </style>
+</head>
+
 <body>
-    <header>
-        <nav>
-            <a href="adminpanel.php">
-                <img src="img/icono.png" alt="Icono" class="iconoimg">
-            </a>
-            <div class="nav-btns">
-                <a href="adminpanel.php">
-                    <h3>EXPLORAR</h3>
-                </a>
-                <a href="userlist.php">
-                    <h3>USUARIOS</h3>
-                </a>
-                <a href="logout.php">
-                    <h3>CERRAR SESION</h3>
-                </a>
-            </div>
-        </nav>
-    </header>
-    <main style="min-height:70vh;display:flex;align-items:center;justify-content:center;">
-        <h1 style="color:#fff;font-family:'HovesExpandedBold';font-size:2rem;">Reportes de Administrador</h1>
-    </main>
+
+    <nav>
+
+        <a href="index.php" class="image-logo">
+            <div class="content">LEEYA</div>
+        </a>
+        <a href="explore.php" class="image-logo">
+            <div class="content">EXPLORAR</div>
+        </a>
+        <a href="userlist.php" class="image-logo">
+            <div class="content">USUARIOS</div>
+        </a>
+        <a href="logout.php" class="image-logo">
+            <div class="content">CERRAR SESIÓN</div>
+        </a>
+
+    </nav>
+
+
+    <style>
+        main {
+            max-width: 1440px;
+            min-width: 200px;
+            width: 92%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            margin: 2.8rem auto 0 auto;
+            padding: 2rem 0 0 0;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+
+    <main>
+        <h1>Reportes de usuarios</h1>
+        
+        <?php if (empty($reports)): ?>
+            <p>No hay reportes pendientes de revisar.</p>
+        <?php else: ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Motivo</th>
+                        <th>Descripción</th>
+                        <th>Fecha</th>
+                        <th>Reporter</th>
+                        <th>Reported</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($reports as $report): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($report['id']) ?></td>
+                            <td><?= htmlspecialchars($report['motive']) ?></td>
+                            <td><?= htmlspecialchars(substr($report['description'], 0, 50)) ?>...</td>
+                            <td><?= htmlspecialchars($report['datereport']) ?></td>
+                            <td>
+                                <a href="pickeduser.php?id=<?= $report['reporter_id'] ?>">
+                                    <?= htmlspecialchars($report['reporter_name']) ?>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="pickeduser.php?id=<?= $report['reported_id'] ?>">
+                                    <?= htmlspecialchars($report['reported_name']) ?>
+                                </a>
+                            </td>
+                            <td>
+                                <form method="post" style="display:inline;">
+                                    <input type="hidden" name="report_id" value="<?= $report['id'] ?>">
+                                    <button type="submit" name="check_report">Marcar como revisado</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+
 </body>
+
 </html>
