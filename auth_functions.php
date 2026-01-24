@@ -729,7 +729,8 @@ function getAllBooks()
         $pdo = getDBConnection();
         $stmt = $pdo->prepare("
             SELECT 
-                *
+                b.*,
+                u.name AS owner_name
             FROM book b
             INNER JOIN user u ON b.ownerid = u.id
             ORDER BY b.id DESC
