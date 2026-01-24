@@ -181,7 +181,7 @@ $reports = getUncheckedReports();
             display: flex;
             flex-direction: column;
             margin: 2.8rem auto 0 auto;
-            padding: 4rem 0 0 0;
+            padding: 3.5rem 0 0 0;
             justify-content: center;
             align-items: center;
         }
@@ -195,44 +195,70 @@ $reports = getUncheckedReports();
             justify-content: center;
             text-align: center;
             color: #333333;
+            overflow: visible;
+        }
 
-            table {
-                width: 100%;
+        .table-container {
+            border-radius: 1rem;
+            padding: 1rem;
+            box-sizing: border-box;
+            overflow-x: auto;
+            overflow-y: auto;
+            width: 100%;
+            margin: clamp(0.5rem, 1.5vw, 1rem);
+            border: 1px solid rgba(99, 99, 99, 0.37);
+            backdrop-filter: blur(5px);
+            background-color: transparent;
+            max-height: 60vh;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        thead {
+            background-color: #64646425;
+            color: #333333;
+            font-weight: bold;
+        }
+
+        th {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            color: #333333;
+            background-color: #d8d8d888;
+        }
+
+        td {
+            padding: 0.6rem 1rem;
+            color: #333333;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+            a {
+                color: #333333;
+                text-decoration: none;
             }
 
-            thead {
-                width: 100%;
-                background-color: #64646425;
+            button {
                 border: 1px solid rgba(99, 99, 99, 0.37);
-                margin-bottom: clamp(5px, 1.5vw, 12px);
+                background-color: #64646425;
+                color: #fff;
+                padding: 0.5rem 1rem;
+                border-radius: 0.5rem;
+                cursor: pointer;
+                font-size: 0.9rem;
+                font-family: "HovesDemiBold";
                 color: #333333;
+                transition: 3s;
             }
 
-            tbody {
-                color: #333333;
+            button:hover {
 
-                a {
-                    color: #111111;
-                    text-decoration: none;
-                }
+                background: rgba(83, 95, 255, 0.34);
 
-                button {
-                    background-color: #64646425;
-                    color: #fff;
-                    padding: 0.5rem 1rem;
-                    border: none;
-                    border-radius: 0.5rem;
-                    cursor: pointer;
-                    text-decoration: none;
-                    font-size: 0.9rem;
-                    transition: background 0.3s;
-                    display: inline-block;
-                    font-family: "HovesDemiBold";
-                    color: #333333;
-                    margin-block: clamp(5px, 1.5vw, 12px);
-                }
             }
-
         }
     </style>
 
@@ -242,45 +268,47 @@ $reports = getUncheckedReports();
             <?php if (empty($reports)): ?>
                 <p>No hay reportes pendientes de revisar.</p>
             <?php else: ?>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Motivo</th>
-                            <th>Descripción</th>
-                            <th>Fecha</th>
-                            <th>Reporter</th>
-                            <th>Reported</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($reports as $report): ?>
+                <div class="table-container">
+                    <table>
+                        <thead>
                             <tr>
-                                <td><?= htmlspecialchars($report['id']) ?></td>
-                                <td><?= htmlspecialchars($report['motive']) ?></td>
-                                <td><?= htmlspecialchars(substr($report['description'], 0, 70)) ?>...</td>
-                                <td><?= htmlspecialchars($report['datereport']) ?></td>
-                                <td>
-                                    <a href="pickeduser.php?id=<?= $report['reporter_id'] ?>">
-                                        <?= htmlspecialchars($report['reporter_name']) ?>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="pickeduser.php?id=<?= $report['reported_id'] ?>">
-                                        <?= htmlspecialchars($report['reported_name']) ?>
-                                    </a>
-                                </td>
-                                <td>
-                                    <form method="post" style="display:inline;">
-                                        <input type="hidden" name="report_id" value="<?= $report['id'] ?>">
-                                        <button type="submit" name="check_report">Marcar como revisado</button>
-                                    </form>
-                                </td>
+                                <th>ID</th>
+                                <th>Motivo</th>
+                                <th>Descripción</th>
+                                <th>Fecha</th>
+                                <th>Reporter</th>
+                                <th>Reported</th>
+                                <th>Acciones</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($reports as $report): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($report['id']) ?></td>
+                                    <td><?= htmlspecialchars($report['motive']) ?></td>
+                                    <td><?= htmlspecialchars(substr($report['description'], 0, 70)) ?>...</td>
+                                    <td><?= htmlspecialchars($report['datereport']) ?></td>
+                                    <td>
+                                        <a href="pickeduser.php?id=<?= $report['reporter_id'] ?>">
+                                            <?= htmlspecialchars($report['reporter_name']) ?>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="pickeduser.php?id=<?= $report['reported_id'] ?>">
+                                            <?= htmlspecialchars($report['reported_name']) ?>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <form method="post" style="display:inline;">
+                                            <input type="hidden" name="report_id" value="<?= $report['id'] ?>">
+                                            <button type="submit" name="check_report">Marcar como revisado</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             <?php endif; ?>
         </div>
     </main>
