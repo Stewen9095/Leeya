@@ -322,8 +322,6 @@ if (isset($_SESSION['user_id'])) {
         }
     </style>
 
-    </nav>
-
     <style>
         main {
             max-width: 1440px;
@@ -337,7 +335,6 @@ if (isset($_SESSION['user_id'])) {
             justify-content: center;
             align-items: center;
         }
-
     </style>
 
     <main>

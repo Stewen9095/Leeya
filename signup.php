@@ -609,6 +609,10 @@ if (isset($_SESSION['user_id'])) {
                 <div class="auth-links">
                     <p>¿Ya tienes una cuenta? <a href="login.php">INICIA SESIÓN</a></p>
                 </div>
+                
+                <div class="auth-links">
+                    <p>Conoce los <a href="signup.php"><a href="conditions.php">TERMINOS DE USO</a></p>
+                </div>
             </div>
         </div>
 

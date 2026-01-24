@@ -54,6 +54,7 @@ $reports = getUncheckedReports();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel | Leeya</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/icon.png" type="image/png">
 
     <style>
         html {
