@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Por favor, completa todos los campos.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'El formato del correo electrónico no es válido.';
+    } elseif (!preg_match('/@udistrital\.edu\.co$/', $email)) {
+        $error = 'Dominio de correo invalido';
     } elseif (strlen($password) < 6) {
         $error = 'La contraseña debe tener al menos 6 caracteres.';
     } elseif ($password !== $cpassword) {
