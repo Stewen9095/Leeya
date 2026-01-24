@@ -176,63 +176,114 @@ $reports = getUncheckedReports();
         main {
             max-width: 1440px;
             min-width: 200px;
-            width: 92%;
+            width: 96%;
             height: auto;
             display: flex;
             flex-direction: column;
             margin: 2.8rem auto 0 auto;
-            padding: 2rem 0 0 0;
+            padding: 4rem 0 0 0;
             justify-content: center;
             align-items: center;
+        }
+
+        .cajareporte {
+            width: 100%;
+            background-color: #d8d8d888;
+            border: 1px solid rgba(99, 99, 99, 0.37);
+            border-radius: clamp(5px, 1.5vw, 12px);
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            color: #333333;
+
+            table {
+                width: 100%;
+            }
+
+            thead {
+                width: 100%;
+                background-color: #64646425;
+                border: 1px solid rgba(99, 99, 99, 0.37);
+                margin-bottom: clamp(5px, 1.5vw, 12px);
+                color: #333333;
+            }
+
+            tbody {
+                color: #333333;
+
+                a {
+                    color: #111111;
+                    text-decoration: none;
+                }
+
+                button {
+                    background-color: #64646425;
+                    color: #fff;
+                    padding: 0.5rem 1rem;
+                    border: none;
+                    border-radius: 0.5rem;
+                    cursor: pointer;
+                    text-decoration: none;
+                    font-size: 0.9rem;
+                    transition: background 0.3s;
+                    display: inline-block;
+                    font-family: "HovesDemiBold";
+                    color: #333333;
+                    margin-block: clamp(5px, 1.5vw, 12px);
+                }
+            }
+
         }
     </style>
 
     <main>
-        <h1>Reportes de usuarios</h1>
-        
-        <?php if (empty($reports)): ?>
-            <p>No hay reportes pendientes de revisar.</p>
-        <?php else: ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Motivo</th>
-                        <th>Descripción</th>
-                        <th>Fecha</th>
-                        <th>Reporter</th>
-                        <th>Reported</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($reports as $report): ?>
+
+        <div class="cajareporte">
+            <?php if (empty($reports)): ?>
+                <p>No hay reportes pendientes de revisar.</p>
+            <?php else: ?>
+                <table>
+                    <thead>
                         <tr>
-                            <td><?= htmlspecialchars($report['id']) ?></td>
-                            <td><?= htmlspecialchars($report['motive']) ?></td>
-                            <td><?= htmlspecialchars(substr($report['description'], 0, 50)) ?>...</td>
-                            <td><?= htmlspecialchars($report['datereport']) ?></td>
-                            <td>
-                                <a href="pickeduser.php?id=<?= $report['reporter_id'] ?>">
-                                    <?= htmlspecialchars($report['reporter_name']) ?>
-                                </a>
-                            </td>
-                            <td>
-                                <a href="pickeduser.php?id=<?= $report['reported_id'] ?>">
-                                    <?= htmlspecialchars($report['reported_name']) ?>
-                                </a>
-                            </td>
-                            <td>
-                                <form method="post" style="display:inline;">
-                                    <input type="hidden" name="report_id" value="<?= $report['id'] ?>">
-                                    <button type="submit" name="check_report">Marcar como revisado</button>
-                                </form>
-                            </td>
+                            <th>ID</th>
+                            <th>Motivo</th>
+                            <th>Descripción</th>
+                            <th>Fecha</th>
+                            <th>Reporter</th>
+                            <th>Reported</th>
+                            <th>Acciones</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php endif; ?>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($reports as $report): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($report['id']) ?></td>
+                                <td><?= htmlspecialchars($report['motive']) ?></td>
+                                <td><?= htmlspecialchars(substr($report['description'], 0, 70)) ?>...</td>
+                                <td><?= htmlspecialchars($report['datereport']) ?></td>
+                                <td>
+                                    <a href="pickeduser.php?id=<?= $report['reporter_id'] ?>">
+                                        <?= htmlspecialchars($report['reporter_name']) ?>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="pickeduser.php?id=<?= $report['reported_id'] ?>">
+                                        <?= htmlspecialchars($report['reported_name']) ?>
+                                    </a>
+                                </td>
+                                <td>
+                                    <form method="post" style="display:inline;">
+                                        <input type="hidden" name="report_id" value="<?= $report['id'] ?>">
+                                        <button type="submit" name="check_report">Marcar como revisado</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+        </div>
+    </main>
 
 </body>
 
