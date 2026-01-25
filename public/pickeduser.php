@@ -2,8 +2,8 @@
 
 session_start();
 
-require_once 'auth_functions.php';
-require_once 'database.php';
+require_once __DIR__ . '/../src/auth_functions.php';
+require_once __DIR__ . '/../src/database.php';
 
 $is_logged_in = false;
 $user_role = '';
@@ -750,6 +750,7 @@ if (isset($_SESSION['ban_message'])) {
                             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
                             border-radius: clamp(.5rem, 8vh, 1.2rem);
                             background-color: #08083069;
+                            cursor: pointer;
                         }
                     }
                 }

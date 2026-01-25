@@ -2,8 +2,8 @@
 
 session_start();
 
-require_once 'auth_functions.php';
-require_once 'database.php';
+require_once __DIR__ . '/../src/auth_functions.php';
+require_once __DIR__ . '/../src/database.php';
 
 $is_logged_in = isset($_SESSION['user_id']);
 $user_email = $is_logged_in ? htmlspecialchars($_SESSION['user_email']) : '';
@@ -61,8 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
 
         // Verifica la contraseña actual
         $pdo = getDBConnection();
-        $stmt = $pdo->prepare("SELECT passwd FROM user WHERE id = ?");
-        $stmt->execute([$_SESSION['user_id']]);
+        $stmt = $pdo->prepare(
+            'SELECT "passwd" FROM "user" WHERE "id" = :id'
+        );
+        $stmt->execute(['id' => $_SESSION['user_id']]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$user || !password_verify($current, $user['passwd'])) {

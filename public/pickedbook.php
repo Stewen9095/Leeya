@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once 'auth_functions.php';
-require_once 'database.php';
+require_once __DIR__ . '/../src/auth_functions.php';
+require_once __DIR__ . '/../src/database.php';
 
 $is_logged_in = isset($_SESSION['user_id']);
 $current_user_id = $_SESSION['user_id'] ?? null;
@@ -47,7 +47,7 @@ if (!$book) {
 }
 
 // Si el libro no está disponible, redirige
-if (!$book['status']) {
+if ($book['status'] !== true) {
     header('Location: index.php');
     exit();
 }

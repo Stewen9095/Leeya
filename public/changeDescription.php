@@ -2,8 +2,8 @@
 
 session_start();
 
-require_once 'auth_functions.php';
-require_once 'database.php';
+require_once __DIR__ . '/../src/auth_functions.php';
+require_once __DIR__ . '/../src/database.php';
 
 if (isset($_SESSION['user_id'])) {
     if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {

@@ -1,14 +1,15 @@
 <?php
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_PORT', '5432');
 define('DB_NAME', 'leeya');
+define('DB_USER', 'postgres');
+define('DB_PASS', '123456');
 
 function getDBConnection()
 {
     try {
         $pdo = new PDO(
-            "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
+            "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME,
             DB_USER,
             DB_PASS,
             [
@@ -19,91 +20,73 @@ function getDBConnection()
         );
         return $pdo;
     } catch (PDOException $e) {
-        die("Error de conexión: " . $e->getMessage());
+        die("Error de conexión PostgreSQL: " . $e->getMessage());
     }
 }
 
-
 /*
 
-CREATE DATABASE leeya;
-USE leeya;
-
-
-CREATE TABLE user (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE "user" (
+    id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     passwd VARCHAR(255) NOT NULL,
-    signdate DATE DEFAULT CURRENT_TIMESTAMP,
+    signdate DATE DEFAULT CURRENT_DATE,
     location VARCHAR(255) NOT NULL,
     lildescription VARCHAR(255) DEFAULT '',
     userrole VARCHAR(100) DEFAULT 'user'
 );
 
-
 CREATE TABLE book (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    ownerid INT, -- Quien es el dueno del libro
-    name VARCHAR(255), -- ☻
-    author VARCHAR(255), -- ☻
-    genre VARCHAR(100), -- ☻
-    editorial VARCHAR(255), -- ☻
-    description TEXT, -- ☻
-    qstatus NUMERIC, -- De 0 a 5 estrellas como se encuentra el libro
-    bookpic VARCHAR(500), -- ☻ Link de la imagen
-    typeof VARCHAR(50), -- Si es una venta, donacion, intercambio o subasta
-    status BOOLEAN, -- Si esta disponible o no
-    price NUMERIC(10, 2), -- precio para el caso de venta o subasta
-    limdate DATE, -- En caso de ser subasta se impone una fecha limite
-    FOREIGN KEY (ownerid) REFERENCES user(id)
+    id SERIAL PRIMARY KEY,
+    ownerid INT REFERENCES "user"(id) ON DELETE SET NULL,
+    name VARCHAR(255),
+    author VARCHAR(255),
+    genre VARCHAR(100),
+    editorial VARCHAR(255),
+    description TEXT,
+    qstatus NUMERIC,
+    bookpic VARCHAR(500),
+    typeof VARCHAR(50),
+    status BOOLEAN,
+    price NUMERIC(10,2),
+    limdate DATE
 );
-
 
 CREATE TABLE proposal (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    interested INT,
-    targetbookid INT,
-    money NUMERIC(10, 2),
-    status VARCHAR(50), -- En proceso / Finalizada / Cancelada / Rechazada
-    proposaldate DATE,
-    FOREIGN KEY (interested) REFERENCES user(id),
-    FOREIGN KEY (targetbookid) REFERENCES book(id)
+    id SERIAL PRIMARY KEY,
+    interested INT REFERENCES "user"(id) ON DELETE CASCADE,
+    targetbookid INT REFERENCES book(id) ON DELETE CASCADE,
+    money NUMERIC(10,2),
+    status VARCHAR(50),
+    proposaldate DATE DEFAULT CURRENT_DATE
 );
 
-
--- Libros ofrecidos en una propuesta de intercambio
 CREATE TABLE proposal_book (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    bookid INT,
-    proposalid INT,
-    FOREIGN KEY (bookid) REFERENCES book(id),
-    FOREIGN KEY (proposalid) REFERENCES proposal(id)
+    id SERIAL PRIMARY KEY,
+    bookid INT REFERENCES book(id) ON DELETE CASCADE,
+    proposalid INT REFERENCES proposal(id) ON DELETE CASCADE
 );
-
 
 CREATE TABLE rate (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    rater INT,
-    ratee INT,
-    rating NUMERIC, -- Calificacion de un usuario x otro usuario
+    id SERIAL PRIMARY KEY,
+    rater INT REFERENCES "user"(id) ON DELETE CASCADE,
+    ratee INT REFERENCES "user"(id) ON DELETE CASCADE,
+    rating NUMERIC,
     commentary VARCHAR(500),
-    ratedate DATE,
-    FOREIGN KEY (rater) REFERENCES user(id),
-    FOREIGN KEY (ratee) REFERENCES user(id)
+    ratedate DATE DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE reports (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    idreporter INT,
-    idreported INT,
+    id SERIAL PRIMARY KEY,
+    idreporter INT REFERENCES "user"(id) ON DELETE CASCADE,
+    idreported INT REFERENCES "user"(id) ON DELETE CASCADE,
     motive VARCHAR(255),
     description TEXT,
-    datereport DATE,
-    ischecked BOOlEAN, -- Si el administrador ya reviso dicho reporte
-    FOREIGN KEY (idreporter) REFERENCES user(id),
-    FOREIGN KEY (idreported) REFERENCES user(id)
+    datereport DATE DEFAULT CURRENT_DATE,
+    ischecked BOOLEAN DEFAULT FALSE
 );
+
 
 INSERT INTO user (
     name,

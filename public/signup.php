@@ -2,7 +2,7 @@
 
 session_start();
 
-require_once 'auth_functions.php';
+require_once __DIR__ . '/../src/auth_functions.php';
 
 $error = '';
 $success = '';

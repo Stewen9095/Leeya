@@ -1,7 +1,7 @@
 <?php
 
-require_once 'auth_functions.php';
-require_once 'database.php';
+require_once __DIR__ . '/../src/auth_functions.php';
+require_once __DIR__ . '/../src/database.php';
 
 $pdo = getDBConnection();
 $view = isset($_GET['view']) ? $_GET['view'] : 'users'; // 'users' or 'books'

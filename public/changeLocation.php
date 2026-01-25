@@ -2,8 +2,8 @@
 
 session_start();
 
-require_once 'auth_functions.php';
-require_once 'database.php';
+require_once __DIR__ . '/../src/auth_functions.php';
+require_once __DIR__ . '/../src/database.php';
 
 $is_logged_in = isset($_SESSION['user_id']);
 $user_email = $is_logged_in ? htmlspecialchars($_SESSION['user_email']) : '';
