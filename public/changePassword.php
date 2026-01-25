@@ -1,96 +1,102 @@
 <?php
+
 session_start();
 
-require_once 'auth_functions.php';
-require_once 'database.php';
+require_once __DIR__ . '/../src/auth_functions.php';
+require_once __DIR__ . '/../src/database.php';
 
-$error = '';
+$is_logged_in = isset($_SESSION['user_id']);
+$user_email = $is_logged_in ? htmlspecialchars($_SESSION['user_email']) : '';
+$user_first_name = $is_logged_in && isset($_SESSION['user_name']) ? htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]) : '';
 
-if (!isset($_SESSION['login_attempts'])) {
-    $_SESSION['login_attempts'] = 0;
-    $_SESSION['last_attempt_time'] = time();
+$is_logged_in = false;
+$user_role = '';
+
+$message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
+$error = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
+
+if (isset($_SESSION['success_message'])) {
+    unset($_SESSION['success_message']);
+}
+if (isset($_SESSION['error_message'])) {
+    unset($_SESSION['error_message']);
 }
 
-$bloqueado = false;
-$tiempo_bloqueo = 60; // 1 minuto
-$max_intentos = 10;
+refreshSessionUser();
 
-if ($_SESSION['login_attempts'] >= $max_intentos) {
-    $elapsed = time() - $_SESSION['last_attempt_time'];
-    if ($elapsed < $tiempo_bloqueo) {
-        $bloqueado = true;
-        $tiempo_restante = $tiempo_bloqueo - $elapsed;
-        $error = 'Demasiados intentos fallidos. Por favor, espera ' . $tiempo_restante . ' segundos.';
-    } else {
-        $_SESSION['login_attempts'] = 0;
-        $_SESSION['last_attempt_time'] = time();
+if (isLoggedIn()) {
+
+    if (isset($_SESSION['user_id'])) {
+        $is_logged_in = true;
+        $user_name = htmlspecialchars($_SESSION['user_name'] ?? '');
+        $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
     }
+
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email'] ?? '');
-    $password = $_POST['password'] ?? '';
-
-    if ($bloqueado) {
-        $error = 'Demasiados intentos fallidos. Intenta de nuevo en ' . ($tiempo_bloqueo - (time() - $_SESSION['last_attempt_time'])) . ' segundos.';
-    } elseif (empty($email) || empty($password)) {
-        $error = 'Por favor completa todos los campos.';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = 'El formato del email no es válido.';
-    } elseif (!userExists($email)) {
-        $error = 'No existe una cuenta con este email.';
-    } else {
-        $result = loginUser($email, $password);
-
-        if ($result['success']) {
-            $_SESSION['login_attempts'] = 0;
-            $_SESSION['last_attempt_time'] = time();
-
-            if (isset($result['user'])) {
-                $_SESSION['user_id'] = $result['user']['id'];
-                $_SESSION['user_name'] = $result['user']['name'];
-                $_SESSION['user_email'] = $result['user']['email'];
-                $_SESSION['user_role'] = $result['user']['role'];
-
-                if ($result['user']['role'] === 'admin') {
-                    header('Location: adminpanel.php');
-                    exit();
-                } else {
-                    header('Location: index.php');
-                    exit();
-                }
-            }
-        } else {
-            $_SESSION['login_attempts']++;
-            $_SESSION['last_attempt_time'] = time();
-            $error = $result['message'] ?? 'Credenciales incorrectas.';
-        }
-    }
-}
-
-// Si ya hay sesión activa, redirigir según rol
 if (isset($_SESSION['user_id'])) {
     if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
         header('Location: adminpanel.php');
         exit();
+    } elseif (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'banned') {
+        header('Location: banned.php');
+        exit();
+    }
+} else {
+    header('Location: index.php');
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
+    $current = $_POST['current_password'] ?? '';
+    $new = $_POST['new_password'] ?? '';
+    $confirm = $_POST['confirm_password'] ?? '';
+
+    if (empty($current) || empty($new) || empty($confirm)) {
+        $error = 'Completa todos los campos.';
+    } elseif ($new !== $confirm) {
+        $error = 'Las contraseñas nuevas no coinciden.';
     } else {
-        header('Location: index.php');
+
+
+        // Verifica la contraseña actual
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare(
+            'SELECT "passwd" FROM "user" WHERE "id" = :id'
+        );
+        $stmt->execute(['id' => $_SESSION['user_id']]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user || !password_verify($current, $user['passwd'])) {
+            $_SESSION['error_message'] = 'La contraseña actual es incorrecta.';
+        } else {
+            $result = changeUserPassword($_SESSION['user_id'], $new);
+            if ($result['success']) {
+                $_SESSION['success_message'] = $result['message'];
+            } else {
+                $_SESSION['error_message'] = $result['message'];
+            }
+        }
+
+        header('Location: changePassword.php');
         exit();
     }
 }
 
 ?>
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de sesión</title>
-    <link rel="icon" href="img/icon.png">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cambio de contraseña</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="img/icon.png" type="image/png">
+
     <style>
         html {
             margin: 0;
@@ -126,7 +132,6 @@ if (isset($_SESSION['user_id'])) {
             max-width: 100dvw;
             height: auto;
             opacity: 55%;
-            z-index: -4;
         }
 
         @media (max-width: 750px) {
@@ -151,7 +156,9 @@ if (isset($_SESSION['user_id'])) {
 </head>
 
 <body>
-    <img src="img/background2.png" class="background">
+
+    <img src="img/background.png" class="background">
+
     <main>
 
         <style>
@@ -223,36 +230,37 @@ if (isset($_SESSION['user_id'])) {
                     width: 90%;
                     font-size: 10px;
                 }
+
+
             }
         </style>
 
         <div class="getback">
 
             <div class="getbackson1">
-                <a href="index.php" class="getbackson">
+                <a href="user.php" class="getbackson">
                     <svg width="25" height="25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
-                    VOLVER AL INICIO
+                    VOLVER A MI PERFIL
                 </a>
             </div>
 
             <div class="getbackson2">
-                <?php if (!empty($_SESSION['message'])): ?>
+                <?php if ($message): ?>
                     <div class="success-message">
-                        <?php echo htmlspecialchars($_SESSION['message']); ?>
+                        <?= htmlspecialchars($message) ?>
                     </div>
-                    <?php unset($_SESSION['message']); ?>
                 <?php endif; ?>
-
                 <?php if ($error): ?>
                     <div class="error-message">
-                        <?php echo htmlspecialchars($error); ?>
+                        <?= htmlspecialchars($error) ?>
                     </div>
                 <?php endif; ?>
             </div>
 
         </div>
+
 
         <style>
             .auth-container {
@@ -390,7 +398,7 @@ if (isset($_SESSION['user_id'])) {
             }
 
             .auth-button {
-                width: 58%;
+                width: 68%;
                 background-color: #08083069;
                 backdrop-filter: blur(5px);
                 padding: 2%;
@@ -403,24 +411,6 @@ if (isset($_SESSION['user_id'])) {
                 font-size: 16px;
                 cursor: pointer;
             }
-
-            .auth-links {
-                color: #333333;
-
-                a {
-                    text-decoration: none;
-                    color: #15152e;
-                    transition: 3s;
-                }
-            }
-
-            a:hover {
-                color: #000000;
-            }
-
-
-
-
 
             @media (max-width: 750px) {
                 .auth-card {
@@ -512,7 +502,7 @@ if (isset($_SESSION['user_id'])) {
 
                 .auth-button {
                     width: 90%;
-                    background-color: #ffffff57;
+                    background-color: #08083069;
                     backdrop-filter: blur(5px);
                     padding: 2%;
                     border: none;
@@ -524,31 +514,26 @@ if (isset($_SESSION['user_id'])) {
                     font-size: 20px;
                     cursor: pointer;
                 }
-
-
-
             }
         </style>
+
 
         <div class="auth-container">
 
             <div class="auth-card">
+
                 <div class="auth-header">
-                    <h1>Inicio de sesión</h1>
-                    <p>Accede a tu cuenta de Leeya</p>
+                    <h1 class="titulo">Cambiar contraseña</h1>
+                    <p>Actualiza la contraseña de tu cuenta Leeya</p>
                 </div>
 
-                <form method="POST" action="" class="formulario">
+                <form method="post" autocomplete="off" class="formulario">
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">Contraseña</label>
+                        <label for="current_password">Contraseña actual</label>
                         <div class="password-container">
-                            <input type="password" id="password" name="password" class="form-control" required>
-                            <button type="button" class="toggle-password" onclick="togglePassword('password')">
+                            <input type="password" id="current_password" name="current_password" class="form-control"
+                                required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('current_password')">
                                 <svg class="eye-icon" width="18" height="18" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -559,34 +544,58 @@ if (isset($_SESSION['user_id'])) {
                                 </svg>
                             </button>
                         </div>
-
                     </div>
 
-                    <script>
-                        function togglePassword(inputId) {
-                            const input = document.getElementById(inputId);
-                            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-                            input.setAttribute('type', type);
-                        }
-                    </script>
+                    <div class="form-group">
+                        <label for="new_password">Nueva contraseña</label>
+                        <div class="password-container">
+                            <input type="password" id="new_password" name="new_password" class="form-control" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('new_password')">
+                                <svg class="eye-icon" width="18" height="18" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
 
-                    <button type="submit" class="auth-button">INICIAR SESIÓN</button>
+                    <div class="form-group">
+                        <label for="confirm_password">Confirmar nueva contraseña</label>
+                        <div class="password-container">
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control"
+                                required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('confirm_password')">
+                                <svg class="eye-icon" width="18" height="18" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="auth-button">CAMBIAR CONTRASEÑA</button>
+
                 </form>
-
-                <div class="auth-links">
-                    <p>¿No tienes cuenta? <a href="signup.php">REGISTRATE AQUÍ</a></p>
-                </div>
-
-                <div class="auth-links">
-                    <p>¿Olvidaste tu contraseña? <a href="signup.php"><a href="mailto:leeyasoporte@outlook.com">ESCRIBE
-                                A
-                                SOPORTE (leeyasoporte@outlook.com)</a></p>
-                </div>
-
             </div>
         </div>
 
     </main>
+
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+        }
+    </script>
 
 </body>
 

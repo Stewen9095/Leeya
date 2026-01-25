@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once 'auth_functions.php';
-require_once 'database.php';
+require_once __DIR__ . '/../src/auth_functions.php';
+require_once __DIR__ . '/../src/database.php';
 
 $is_logged_in = false;
 $user_role = '';
@@ -16,7 +16,6 @@ if (isLoggedIn()) {
         $is_logged_in = true;
         $user_name = htmlspecialchars($_SESSION['user_name'] ?? '');
         $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
-        $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'admin');
     }
 
 } else {
@@ -344,8 +343,13 @@ if (isset($_SESSION['user_id'])) {
         $type = trim($_GET['type'] ?? '');
         $search_user = trim($_GET['search_user'] ?? '');
         $exclude_user_id = $is_logged_in ? $_SESSION['user_id'] : null;
+
+        // Obtener el rol del usuario actual (asumiendo que lo tienes en la sesión)
+        $current_user_role = $is_logged_in ? ($_SESSION['user_role'] ?? 'user') : 'user';
+
         // Libros filtrados
-        $books = searchBooks($search, $type, $exclude_user_id);
+        $books = searchBooks($search, $type, $exclude_user_id, $current_user_role);
+
         // Usuarios filtrados
         $users = [];
         if ($search_user !== '') {
@@ -443,7 +447,7 @@ if (isset($_SESSION['user_id'])) {
                         input {
                             height: clamp(2rem, 8vh, 2.4rem);
                             width: 100%;
-                            
+
                         }
                     }
 

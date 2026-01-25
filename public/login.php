@@ -1,83 +1,96 @@
 <?php
-
 session_start();
 
-require_once 'auth_functions.php';
-require_once 'database.php';
+require_once __DIR__ . '/../src/auth_functions.php';
+require_once __DIR__ . '/../src/database.php';
 
+$error = '';
+
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+    $_SESSION['last_attempt_time'] = time();
+}
+
+$bloqueado = false;
+$tiempo_bloqueo = 60; // 1 minuto
+$max_intentos = 10;
+
+if ($_SESSION['login_attempts'] >= $max_intentos) {
+    $elapsed = time() - $_SESSION['last_attempt_time'];
+    if ($elapsed < $tiempo_bloqueo) {
+        $bloqueado = true;
+        $tiempo_restante = $tiempo_bloqueo - $elapsed;
+        $error = 'Demasiados intentos fallidos. Por favor, espera ' . $tiempo_restante . ' segundos.';
+    } else {
+        $_SESSION['login_attempts'] = 0;
+        $_SESSION['last_attempt_time'] = time();
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    if ($bloqueado) {
+        $error = 'Demasiados intentos fallidos. Intenta de nuevo en ' . ($tiempo_bloqueo - (time() - $_SESSION['last_attempt_time'])) . ' segundos.';
+    } elseif (empty($email) || empty($password)) {
+        $error = 'Por favor completa todos los campos.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = 'El formato del email no es válido.';
+    } elseif (!userExists($email)) {
+        $error = 'No existe una cuenta con este email.';
+    } else {
+        $result = loginUser($email, $password);
+
+        if ($result['success']) {
+            $_SESSION['login_attempts'] = 0;
+            $_SESSION['last_attempt_time'] = time();
+
+            if (isset($result['user'])) {
+                $_SESSION['user_id'] = $result['user']['id'];
+                $_SESSION['user_name'] = $result['user']['name'];
+                $_SESSION['user_email'] = $result['user']['email'];
+                $_SESSION['user_role'] = $result['user']['role'];
+
+                if ($result['user']['role'] === 'admin') {
+                    header('Location: adminpanel.php');
+                    exit();
+                } else {
+                    header('Location: index.php');
+                    exit();
+                }
+            }
+        } else {
+            $_SESSION['login_attempts']++;
+            $_SESSION['last_attempt_time'] = time();
+            $error = $result['message'] ?? 'Credenciales incorrectas.';
+        }
+    }
+}
+
+// Si ya hay sesión activa, redirigir según rol
 if (isset($_SESSION['user_id'])) {
     if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
         header('Location: adminpanel.php');
         exit();
-    } elseif (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'banned') {
-        header('Location: banned.php');
+    } else {
+        header('Location: index.php');
         exit();
     }
-} else {
-    header('Location: index.php');
-    exit();
-}
-
-$is_logged_in = false;
-$user_role = '';
-
-refreshSessionUser();
-
-if (isLoggedIn()) {
-
-    if (isset($_SESSION['user_id'])) {
-        $is_logged_in = true;
-        $user_name = htmlspecialchars($_SESSION['user_name'] ?? '');
-        $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
-    }
-
-}
-
-$message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
-$error = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
-
-if (isset($_SESSION['success_message'])) {
-    unset($_SESSION['success_message']);
-}
-if (isset($_SESSION['error_message'])) {
-    unset($_SESSION['error_message']);
-}
-
-$current_description = htmlspecialchars(explode(' ', $_SESSION['user_description'])[0]);
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
-    $new_description = $_POST['new_description'] ?? '';
-
-    if (empty($new_description)) {
-        $error = 'Completa todos los campos.';
-    } else {
-        $result = changeUserDescription($_SESSION['user_id'], $new_description);
-        $_SESSION['user_description'] = $new_description;
-        if ($result['success']) {
-            $_SESSION['success_message'] = $result['message'];
-        } else {
-            $error = $result['message'];
-        }
-    }
-
-    header('Location: changeDescription.php');
-    exit();
 }
 
 ?>
 
+
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cambiar descripcion</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="img/icon.png" type="image/png">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesión</title>
+    <link rel="icon" href="img/icon.png">
+    <link rel="stylesheet" href="style.css">
     <style>
         html {
             margin: 0;
@@ -113,6 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             max-width: 100dvw;
             height: auto;
             opacity: 55%;
+            z-index: -4;
         }
 
         @media (max-width: 750px) {
@@ -134,14 +148,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             margin: 0 auto;
         }
     </style>
-
 </head>
 
 <body>
-
     <img src="img/background2.png" class="background">
-
-
     <main>
 
         <style>
@@ -153,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 align-items: center;
                 justify-content: space-between;
                 margin: 0 auto;
-                padding: 3.2% 0 3.2% 0;
+                padding: 3.2% 0 2% 0;
             }
 
             .getbackson1 {
@@ -213,31 +223,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                     width: 90%;
                     font-size: 10px;
                 }
-
             }
         </style>
-
 
         <div class="getback">
 
             <div class="getbackson1">
-                <a href="user.php" class="getbackson">
+                <a href="index.php" class="getbackson">
                     <svg width="25" height="25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
-                    VOLVER A MI PERFIL
+                    VOLVER AL INICIO
                 </a>
             </div>
 
             <div class="getbackson2">
-                <?php if ($message): ?>
+                <?php if (!empty($_SESSION['message'])): ?>
                     <div class="success-message">
-                        <?= htmlspecialchars($message) ?>
+                        <?php echo htmlspecialchars($_SESSION['message']); ?>
                     </div>
+                    <?php unset($_SESSION['message']); ?>
                 <?php endif; ?>
+
                 <?php if ($error): ?>
                     <div class="error-message">
-                        <?= htmlspecialchars($error) ?>
+                        <?php echo htmlspecialchars($error); ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -259,7 +269,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 border-radius: .8rem;
                 border: 1px solid rgba(99, 99, 99, 0.66);
                 backdrop-filter: blur(38px);
-                width: 60%;
+                width: 42%;
                 padding: 2.5rem 3rem 3.5rem 3rem;
             }
 
@@ -306,21 +316,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 flex-direction: column;
                 flex-wrap: nowrap;
                 align-items: center;
-                justify-content: start;
-                text-overflow: ellipsis;
-                height: auto;
-                padding-top: clamp(.2rem, .5vh, 2.2rem);
-                max-height: 120px;
-
-                box-sizing: border-box;
+                justify-content: center;
 
                 label {
                     text-align: start;
                     align-self: flex-start;
                     color: #303030;
                     margin: 0 0 5px 10px;
-                    text-overflow: ellipsis;
-                    overflow: auto;
                 }
             }
 
@@ -341,6 +343,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 padding: 0 2rem 0 1rem;
                 font-family: 'HovesDemiBold';
                 color: #333333;
+            }
+
+            .toggle-password {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: #666;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                width: 20px;
+                height: 20px;
+                transition: color 0.2s;
+            }
+
+            .toggle-password:hover {
+                color: #333;
             }
 
             .error-message {
@@ -380,6 +404,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 cursor: pointer;
             }
 
+            .auth-links {
+                color: #333333;
+
+                a {
+                    text-decoration: none;
+                    color: #15152e;
+                    transition: 3s;
+                }
+            }
+
+            a:hover {
+                color: #000000;
+            }
+
+
+
+
+
             @media (max-width: 750px) {
                 .auth-card {
                     box-sizing: border-box;
@@ -398,7 +440,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                     flex-wrap: nowrap;
                     align-items: center;
                     justify-content: space-between;
-                    margin: 2% auto 5% auto;
+                    margin: 2% auto 14% auto;
 
                     p {
                         margin: 0;
@@ -482,41 +524,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                     font-size: 20px;
                     cursor: pointer;
                 }
+
+
+
             }
         </style>
 
-
         <div class="auth-container">
+
             <div class="auth-card">
                 <div class="auth-header">
-                    <h1 class="titulo">Modifica tu descripcion</h1>
-                    <p>Cuéntanos más de ti</p>
+                    <h1>Inicio de sesión</h1>
+                    <p>Accede a tu cuenta de Leeya</p>
                 </div>
-                <form method="post" autocomplete="off">
+
+                <form method="POST" action="" class="formulario">
                     <div class="form-group">
-                        <label class="infouser">Tu descripcion actual es: <?php
-                        if ($current_description == '') {
-                            ?>
-                                <p>Aun no cuentas con una descripcion</p>
-                                <?php
-                        } else {
-                            ?>
-                                <?php echo htmlspecialchars($_SESSION['user_description']); ?>
-                                <?php
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <div class="password-container">
+                            <input type="password" id="password" name="password" class="form-control" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('password')">
+                                <svg class="eye-icon" width="18" height="18" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <script>
+                        function togglePassword(inputId) {
+                            const input = document.getElementById(inputId);
+                            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                            input.setAttribute('type', type);
                         }
-                        ?>
-                        </label>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="new_password">Nueva descripcion</label>
-                        <input type="text" id="new_description" name="new_description" class="form-control" required>
-                    </div>
+                    </script>
 
-
-                    <button type="submit" class="auth-button">CAMBIAR DESCRIPCIÓN</button>
-
+                    <button type="submit" class="auth-button">INICIAR SESIÓN</button>
                 </form>
+
+                <div class="auth-links">
+                    <p>¿No tienes cuenta? <a href="signup.php">REGISTRATE AQUÍ</a></p>
+                </div>
+
+                <div class="auth-links">
+                    <p>¿Olvidaste tu contraseña? <a href="signup.php"><a href="mailto:leeyasoporte@outlook.com">ESCRIBE
+                                A
+                                SOPORTE (leeyasoporte@outlook.com)</a></p>
+                </div>
+
             </div>
         </div>
 

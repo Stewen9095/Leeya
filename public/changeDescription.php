@@ -2,37 +2,8 @@
 
 session_start();
 
-require_once 'auth_functions.php';
-require_once 'database.php';
-
-$is_logged_in = isset($_SESSION['user_id']);
-$user_email = $is_logged_in ? htmlspecialchars($_SESSION['user_email']) : '';
-$user_first_name = $is_logged_in && isset($_SESSION['user_name']) ? htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]) : '';
-
-$is_logged_in = false;
-$user_role = '';
-
-$message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
-$error = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
-
-if (isset($_SESSION['success_message'])) {
-    unset($_SESSION['success_message']);
-}
-if (isset($_SESSION['error_message'])) {
-    unset($_SESSION['error_message']);
-}
-
-refreshSessionUser();
-
-if (isLoggedIn()) {
-
-    if (isset($_SESSION['user_id'])) {
-        $is_logged_in = true;
-        $user_name = htmlspecialchars($_SESSION['user_name'] ?? '');
-        $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
-    }
-
-}
+require_once __DIR__ . '/../src/auth_functions.php';
+require_once __DIR__ . '/../src/database.php';
 
 if (isset($_SESSION['user_id'])) {
     if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
@@ -47,38 +18,50 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
-    $current = $_POST['current_password'] ?? '';
-    $new = $_POST['new_password'] ?? '';
-    $confirm = $_POST['confirm_password'] ?? '';
+$is_logged_in = false;
+$user_role = '';
 
-    if (empty($current) || empty($new) || empty($confirm)) {
-        $error = 'Completa todos los campos.';
-    } elseif ($new !== $confirm) {
-        $error = 'Las contraseñas nuevas no coinciden.';
-    } else {
+refreshSessionUser();
 
+if (isLoggedIn()) {
 
-        // Verifica la contraseña actual
-        $pdo = getDBConnection();
-        $stmt = $pdo->prepare("SELECT passwd FROM user WHERE id = ?");
-        $stmt->execute([$_SESSION['user_id']]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$user || !password_verify($current, $user['passwd'])) {
-            $_SESSION['error_message'] = 'La contraseña actual es incorrecta.';
-        } else {
-            $result = changeUserPassword($_SESSION['user_id'], $new);
-            if ($result['success']) {
-                $_SESSION['success_message'] = $result['message'];
-            } else {
-                $_SESSION['error_message'] = $result['message'];
-            }
-        }
-
-        header('Location: changePassword.php');
-        exit();
+    if (isset($_SESSION['user_id'])) {
+        $is_logged_in = true;
+        $user_name = htmlspecialchars($_SESSION['user_name'] ?? '');
+        $user_role = htmlspecialchars($_SESSION['user_role'] ?? 'user');
     }
+
+}
+
+$message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
+$error = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
+
+if (isset($_SESSION['success_message'])) {
+    unset($_SESSION['success_message']);
+}
+if (isset($_SESSION['error_message'])) {
+    unset($_SESSION['error_message']);
+}
+
+$current_description = htmlspecialchars(explode(' ', $_SESSION['user_description'])[0]);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
+    $new_description = $_POST['new_description'] ?? '';
+
+    if (empty($new_description)) {
+        $error = 'Completa todos los campos.';
+    } else {
+        $result = changeUserDescription($_SESSION['user_id'], $new_description);
+        $_SESSION['user_description'] = $new_description;
+        if ($result['success']) {
+            $_SESSION['success_message'] = $result['message'];
+        } else {
+            $error = $result['message'];
+        }
+    }
+
+    header('Location: changeDescription.php');
+    exit();
 }
 
 ?>
@@ -89,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cambio de contraseña</title>
+    <title>Cambiar descripcion</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
@@ -151,11 +134,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             margin: 0 auto;
         }
     </style>
+
 </head>
 
 <body>
 
-    <img src="img/background.png" class="background">
+    <img src="img/background2.png" class="background">
+
 
     <main>
 
@@ -168,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 align-items: center;
                 justify-content: space-between;
                 margin: 0 auto;
-                padding: 3.2% 0 2% 0;
+                padding: 3.2% 0 3.2% 0;
             }
 
             .getbackson1 {
@@ -229,9 +214,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                     font-size: 10px;
                 }
 
-
             }
         </style>
+
 
         <div class="getback">
 
@@ -259,7 +244,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
 
         </div>
 
-
         <style>
             .auth-container {
                 width: 100%;
@@ -275,7 +259,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 border-radius: .8rem;
                 border: 1px solid rgba(99, 99, 99, 0.66);
                 backdrop-filter: blur(38px);
-                width: 42%;
+                width: 60%;
                 padding: 2.5rem 3rem 3.5rem 3rem;
             }
 
@@ -322,13 +306,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 flex-direction: column;
                 flex-wrap: nowrap;
                 align-items: center;
-                justify-content: center;
+                justify-content: start;
+                text-overflow: ellipsis;
+                height: auto;
+                padding-top: clamp(.2rem, .5vh, 2.2rem);
+                max-height: 120px;
+
+                box-sizing: border-box;
 
                 label {
                     text-align: start;
                     align-self: flex-start;
                     color: #303030;
                     margin: 0 0 5px 10px;
+                    text-overflow: ellipsis;
+                    overflow: auto;
                 }
             }
 
@@ -349,28 +341,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                 padding: 0 2rem 0 1rem;
                 font-family: 'HovesDemiBold';
                 color: #333333;
-            }
-
-            .toggle-password {
-                position: absolute;
-                right: 12px;
-                top: 50%;
-                transform: translateY(-50%);
-                background: none;
-                border: none;
-                cursor: pointer;
-                color: #666;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 0;
-                width: 20px;
-                height: 20px;
-                transition: color 0.2s;
-            }
-
-            .toggle-password:hover {
-                color: #333;
             }
 
             .error-message {
@@ -396,7 +366,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
             }
 
             .auth-button {
-                width: 68%;
+                width: 58%;
                 background-color: #08083069;
                 backdrop-filter: blur(5px);
                 padding: 2%;
@@ -428,7 +398,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
                     flex-wrap: nowrap;
                     align-items: center;
                     justify-content: space-between;
-                    margin: 2% auto 14% auto;
+                    margin: 2% auto 5% auto;
 
                     p {
                         margin: 0;
@@ -500,7 +470,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
 
                 .auth-button {
                     width: 90%;
-                    background-color: #08083069;
+                    background-color: #ffffff57;
                     backdrop-filter: blur(5px);
                     padding: 2%;
                     border: none;
@@ -517,83 +487,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_logged_in) {
 
 
         <div class="auth-container">
-
             <div class="auth-card">
-
                 <div class="auth-header">
-                    <h1 class="titulo">Cambiar contraseña</h1>
-                    <p>Actualiza la contraseña de tu cuenta Leeya</p>
+                    <h1 class="titulo">Modifica tu descripcion</h1>
+                    <p>Cuéntanos más de ti</p>
                 </div>
-
-                <form method="post" autocomplete="off" class="formulario">
+                <form method="post" autocomplete="off">
                     <div class="form-group">
-                        <label for="current_password">Contraseña actual</label>
-                        <div class="password-container">
-                            <input type="password" id="current_password" name="current_password" class="form-control"
-                                required>
-                            <button type="button" class="toggle-password" onclick="togglePassword('current_password')">
-                                <svg class="eye-icon" width="18" height="18" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                    </path>
-                                </svg>
-                            </button>
-                        </div>
+                        <label class="infouser">Tu descripcion actual es: <?php
+                        if ($current_description == '') {
+                            ?>
+                                <p>Aun no cuentas con una descripcion</p>
+                                <?php
+                        } else {
+                            ?>
+                                <?php echo htmlspecialchars($_SESSION['user_description']); ?>
+                                <?php
+                        }
+                        ?>
+                        </label>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="new_password">Nueva descripcion</label>
+                        <input type="text" id="new_description" name="new_description" class="form-control" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="new_password">Nueva contraseña</label>
-                        <div class="password-container">
-                            <input type="password" id="new_password" name="new_password" class="form-control" required>
-                            <button type="button" class="toggle-password" onclick="togglePassword('new_password')">
-                                <svg class="eye-icon" width="18" height="18" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                    </path>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="confirm_password">Confirmar nueva contraseña</label>
-                        <div class="password-container">
-                            <input type="password" id="confirm_password" name="confirm_password" class="form-control"
-                                required>
-                            <button type="button" class="toggle-password" onclick="togglePassword('confirm_password')">
-                                <svg class="eye-icon" width="18" height="18" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                    </path>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="auth-button">CAMBIAR CONTRASEÑA</button>
+                    <button type="submit" class="auth-button">CAMBIAR DESCRIPCIÓN</button>
 
                 </form>
             </div>
         </div>
 
     </main>
-
-    <script>
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-            input.setAttribute('type', type);
-        }
-    </script>
 
 </body>
 
