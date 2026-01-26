@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Evitar listar directorios
+    Options -Indexes
+
+    # Forzar UTF-8
+    AddDefaultCharset UTF-8
+
+    # Redirigir todo a public/index.php si no existe archivo
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+</IfModule>

@@ -1,28 +1,33 @@
 <?php
-define('DB_HOST', 'localhost');
-define('DB_PORT', '5432');
-define('DB_NAME', 'leeya');
-define('DB_USER', 'postgres');
-define('DB_PASS', '123456');
+
 
 function getDBConnection()
 {
     try {
+        $dsn = "pgsql:host=ep-cold-butterfly-ahobygm6-pooler.c-3.us-east-1.aws.neon.tech;
+                port=5432;
+                dbname=neondb;
+                sslmode=require;
+                options=endpoint=ep-cold-butterfly-ahobygm6";
+
         $pdo = new PDO(
-            "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME,
-            DB_USER,
-            DB_PASS,
+            $dsn,
+            "neondb_owner",
+            "npg_IFW6ybC4zgte",
             [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES => false,
             ]
         );
+
         return $pdo;
+
     } catch (PDOException $e) {
-        die("Error de conexión PostgreSQL: " . $e->getMessage());
+        die("ERROR POSTGRES: " . $e->getMessage());
     }
 }
+
 
 /*
 
