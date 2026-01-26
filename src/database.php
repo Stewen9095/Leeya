@@ -1,19 +1,20 @@
 <?php
 
-
 function getDBConnection()
 {
     try {
-        $dsn = "pgsql:host=ep-cold-butterfly-ahobygm6-pooler.c-3.us-east-1.aws.neon.tech;
-                port=5432;
-                dbname=neondb;
-                sslmode=require;
-                options=endpoint=ep-cold-butterfly-ahobygm6";
+        $host = getenv('DB_HOST');
+        $port = getenv('DB_PORT') ?: 5432;
+        $dbname = getenv('DB_NAME');
+        $user = getenv('DB_USER');
+        $pass = getenv('DB_PASS');
+
+        $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
 
         $pdo = new PDO(
             $dsn,
-            "neondb_owner",
-            "npg_IFW6ybC4zgte",
+            $user,
+            $pass,
             [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -27,7 +28,6 @@ function getDBConnection()
         die("ERROR POSTGRES: " . $e->getMessage());
     }
 }
-
 
 /*
 
